@@ -8,7 +8,7 @@ import PatientComp from "../components/organisms/PatientComp";
 const index = () => {
   const [AllPatients, setAllPatients] = useState([]);
   useEffect(() => {
-    fetch("https://1297-103-84-238-243.ngrok.io/api/v1/patient")
+    fetch("https://a648-122-177-113-128.ngrok.io/api/v1/patient")
       .then(async (response) => {
         const res = await response.json();
         setAllPatients(res.data)

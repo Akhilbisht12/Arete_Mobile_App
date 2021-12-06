@@ -7,15 +7,29 @@ import {
   Modal,
   Alert,
   Pressable,
+  Picker,
 } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { Button, Text, Radio } from "react-native-ui-kitten";
+import { Button, Text, Radio, RadioGroup, Input } from "react-native-ui-kitten";
+import axios from 'axios'
 
 const { width, height } = Dimensions.get("window");
 
 const PatientEntry = ({ route }) => {
   const [showAction, setShowAction] = useState(false);
+  const [isAdmission, setisAdmission] = useState(0);
+  const [selectedAdmPkg, setSelectedAdmPkg] = useState(0);
+
   const data = route.params.data;
+  const handlePostOPDRecommSubmit = () =>{
+    axios.post('https://147d-103-84-238-243.ngrok.io/api/v1/patient/admissions/add', {
+      patientID : data._id,
+      admissionPackage : selectedAdmPkg
+    })
+    .then((res)=>{
+      console.log(res)
+      Alert.alert(res.data.message)
+    })
+  }
   return (
     <View style={Styles.main}>
       <View style={Styles.spaceBetween}>
@@ -30,23 +44,57 @@ const PatientEntry = ({ route }) => {
             </Text>
             <Text category="h6">{data.date}</Text>
           </View>
-          <View>
+          <View style={{ padding: 10 }}>
             <Text>Doctor Recommendations</Text>
-            <View>
-              <Radio status="basic" {...basicRadioState}>
-                Basic
-              </Radio>
+            <View style={{ backgroundColor: "lightyellow", padding: 10 }}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Text>Admission Advised ?</Text>
+                <View>
+                  <RadioGroup
+                    selectedIndex={isAdmission}
+                    onChange={(index) => setisAdmission(index)}
+                    style={{ flexDirection: "row" }}
+                  >
+                    <Radio style={{ marginHorizontal: 10 }}>Yes</Radio>
+                    <Radio style={{ marginHorizontal: 10 }}>No</Radio>
+                  </RadioGroup>
+                </View>
+              </View>
+
+              <View style={{ display: isAdmission == 0 ? "flex" : "none" }}>
+                <Text>Select admission Package</Text>
+                <Picker
+                  selectedValue={selectedAdmPkg}
+                  onValueChange={(itemValue, itemIndex) =>
+                    setSelectedAdmPkg(itemValue)
+                  }
+                >
+                  <Picker.Item label="CABG" value={120000} />
+                  <Picker.Item label="Some other surgery" value={100000} />
+                </Picker>
+                <Text
+                  style={{
+                    padding: 10,
+                    textAlign: "center",
+                    backgroundColor: "lightblue",
+                    borderRadius: 5,
+                    marginVertical: 10,
+                  }}
+                >
+                  {selectedAdmPkg.valueOf(selectedAdmPkg)}
+                </Text>
+              </View>
             </View>
           </View>
         </View>
         <View>
-          <Button
-            onPress={() => {
-              setShowAction(true);
-            }}
-          >
-            Actions
-          </Button>
+          <Button onPress={handlePostOPDRecommSubmit}>Update</Button>
         </View>
       </View>
       <Modal
@@ -60,7 +108,7 @@ const PatientEntry = ({ route }) => {
       >
         <View style={Styles.popup}>
           <View style={Styles.rowSpaceBetween}>
-            <Text>Actions</Text>
+            <Text>Update</Text>
             <Pressable
               style={{ backgroundColor: "pink", padding: 10 }}
               onPress={() => setShowAction(false)}
