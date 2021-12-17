@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet } from "react-native";
-import { Button, Text } from "react-native-ui-kitten";
 import Filter from "../components/molecules/Filter";
 import Search from "../components/molecules/Search";
 import PatientComp from "../components/organisms/PatientComp";
@@ -8,7 +7,7 @@ import PatientComp from "../components/organisms/PatientComp";
 const index = () => {
   const [AllPatients, setAllPatients] = useState([]);
   useEffect(() => {
-    fetch("https://a648-122-177-113-128.ngrok.io/api/v1/patient")
+    fetch("https://451d-103-84-239-249.ngrok.io/api/v1/patient")
       .then(async (response) => {
         const res = await response.json();
         setAllPatients(res.data)

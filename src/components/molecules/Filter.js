@@ -1,15 +1,13 @@
 import React from "react";
-import { View, Text } from "react-native";
-import { Input, Icon } from "react-native-ui-kitten";
+import { View, Text, TextInput } from "react-native";
 
 const Filter = () => {
   const [value, setValue] = React.useState("");
 
   return (
-    <Input
+    <TextInput
       placeholder="Filters"
       value={value}
-      accessoryRight={props=><Icon {...props} name='eye'/>}
       onChangeText={(nextValue) => setValue(nextValue)}
     />
   );

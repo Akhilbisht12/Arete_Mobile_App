@@ -1,16 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
-  Touchable,
   Dimensions,
   Modal,
   Alert,
   Pressable,
   Picker,
+  Text,
+  TabBarIOSItem,
+  ScrollView,
 } from "react-native";
-import { Button, Text, Radio, RadioGroup, Input } from "react-native-ui-kitten";
-import axios from 'axios'
+import axios from "axios";
+import { SERVER_URL } from "../config/variables";
+import LatestSessionComp from "../components/organisms/LatestSessionComp";
+import CreateNewSessionTab from "../components/organisms/CreateNewSessionTab";
+import CreatePETCT from "../components/molecules/CreatePETCT";
+import ImgBox from "../styles/ImgBox";
+import HeadingText from "../styles/HeadingText";
+import { ColumnCenter } from "../styles/FlexView";
+import PatientDetailedView from "../styles/PatientDetailsView";
+import ParaText from "../styles/ParaText";
+import moment from "moment";
+import PatientEntryTabs from "../navigation/PatientEntryTabs";
+import PatientSessionTabs from "../components/organisms/PatientSessionTabs";
 
 const { width, height } = Dimensions.get("window");
 
@@ -20,106 +33,45 @@ const PatientEntry = ({ route }) => {
   const [selectedAdmPkg, setSelectedAdmPkg] = useState(0);
 
   const data = route.params.data;
-  const handlePostOPDRecommSubmit = () =>{
-    axios.post('https://147d-103-84-238-243.ngrok.io/api/v1/patient/admissions/add', {
-      patientID : data._id,
-      admissionPackage : selectedAdmPkg
-    })
-    .then((res)=>{
-      console.log(res)
-      Alert.alert(res.data.message)
-    })
-  }
+
+  const handlePostOPDRecommSubmit = () => {
+    axios
+      .post(`${SERVER_URL}/api/v1/patient/admissions/add`, {
+        patientID: data._id,
+        admissionPackage: selectedAdmPkg,
+      })
+      .then((res) => {
+        console.log(res);
+        Alert.alert(res.data.message);
+      })
+      .catch((err) => console.log(err));
+  };
   return (
-    <View style={Styles.main}>
+    <ScrollView style={Styles.main}>
+      <ColumnCenter style={{ marginTop: 10 }}>
+        <ImgBox circular>
+          <HeadingText>{data.firstName[0].toUpperCase()}</HeadingText>
+        </ImgBox>
+      </ColumnCenter>
       <View style={Styles.spaceBetween}>
         <View>
-          <View style={Styles.nameView}>
-            <Text category="h6">
-              {data.gender} {data.firstName} {data.lastName} {data.age}
-              {data.gender}
-            </Text>
-            <Text category="h6">
-              {data.uhid} {data.stage}
-            </Text>
-            <Text category="h6">{data.date}</Text>
-          </View>
-          <View style={{ padding: 10 }}>
-            <Text>Doctor Recommendations</Text>
-            <View style={{ backgroundColor: "lightyellow", padding: 10 }}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Text>Admission Advised ?</Text>
-                <View>
-                  <RadioGroup
-                    selectedIndex={isAdmission}
-                    onChange={(index) => setisAdmission(index)}
-                    style={{ flexDirection: "row" }}
-                  >
-                    <Radio style={{ marginHorizontal: 10 }}>Yes</Radio>
-                    <Radio style={{ marginHorizontal: 10 }}>No</Radio>
-                  </RadioGroup>
-                </View>
-              </View>
-
-              <View style={{ display: isAdmission == 0 ? "flex" : "none" }}>
-                <Text>Select admission Package</Text>
-                <Picker
-                  selectedValue={selectedAdmPkg}
-                  onValueChange={(itemValue, itemIndex) =>
-                    setSelectedAdmPkg(itemValue)
-                  }
-                >
-                  <Picker.Item label="CABG" value={120000} />
-                  <Picker.Item label="Some other surgery" value={100000} />
-                </Picker>
-                <Text
-                  style={{
-                    padding: 10,
-                    textAlign: "center",
-                    backgroundColor: "lightblue",
-                    borderRadius: 5,
-                    marginVertical: 10,
-                  }}
-                >
-                  {selectedAdmPkg.valueOf(selectedAdmPkg)}
-                </Text>
-              </View>
-            </View>
-          </View>
-        </View>
-        <View>
-          <Button onPress={handlePostOPDRecommSubmit}>Update</Button>
+          <PatientDetailedView>
+            <ParaText category="h6">
+              {data.gender == "M" ? "Mr." : "Mrs./Miss"} {data.firstName}{" "}
+              {data.lastName}
+            </ParaText>
+            <ParaText category="h6">Age: {data.age}</ParaText>
+            <ParaText category="h6">UHID: {data.uhid}</ParaText>
+            <ParaText category="h6">Phone: {data.phone}</ParaText>
+            <ParaText category="h6">Email: {data.email}</ParaText>
+            <ParaText category="h6">
+              DOJ: {moment(data.createdAt).format("dd-MM-YY hh:mm a")}
+            </ParaText>
+          </PatientDetailedView>
+          <PatientSessionTabs patientID={data._id} />
         </View>
       </View>
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={showAction}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setShowAction(!showAction);
-        }}
-      >
-        <View style={Styles.popup}>
-          <View style={Styles.rowSpaceBetween}>
-            <Text>Update</Text>
-            <Pressable
-              style={{ backgroundColor: "pink", padding: 10 }}
-              onPress={() => setShowAction(false)}
-            >
-              <Text>X</Text>
-            </Pressable>
-          </View>
-          <Text>hello</Text>
-        </View>
-      </Modal>
-    </View>
+    </ScrollView>
   );
 };
 

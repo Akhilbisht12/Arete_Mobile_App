@@ -1,12 +1,11 @@
 import React from "react";
-import { View, Text } from "react-native";
-import { Input } from "react-native-ui-kitten";
+import { View, Text, TextInput } from "react-native";
 
 const Search = () => {
   const [value, setValue] = React.useState("");
 
   return (
-    <Input
+    <TextInput
       placeholder="Search with patient name or ID   "
       value={value}
       onChangeText={(nextValue) => setValue(nextValue)}
