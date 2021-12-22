@@ -1,0 +1,7 @@
+const ADVICE_ACTION = {
+    ADD_ADVICE: "ADD_ADVICE",
+    REMOVE_ADVICE: "REMOVE_ADVICE",
+    EDIT_ADVICE: "EDIT_ADVICE",
+  };
+
+  export default ADVICE_ACTION

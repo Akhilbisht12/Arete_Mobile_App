@@ -31,7 +31,7 @@ const SessionHistoryTab = ({ patientID }) => {
                 <Text>status: {item.status}</Text>
                 <Text>stage: {item.stage}</Text>
                 <Text>
-                  Last Activity:{" "}
+                  Last Activity: {item.activity[item.activity.length-1].taskType}
                   {item.activity[item.activity.length - 1].activityType}
                 </Text>
               </View>

@@ -26,7 +26,7 @@ const PatientSessionTabs = ({patientID}) => {
           </Pressable>
         </PatientDetailedView>
       </RowBetween>
-      {IsHistoryActive?<SessionHistoryTab patientID={patientID}/>:<CreateNewSessionTab/>}
+      {IsHistoryActive?<SessionHistoryTab patientID={patientID}/>:<CreateNewSessionTab patientID={patientID}/>}
     </PatientDetailedView>
   );
 };
