@@ -13,6 +13,7 @@ import { services } from "../../config/master";
 import Icon from "react-native-vector-icons/Ionicons";
 import { Row, RowBetween } from "../../styles/FlexView";
 import { DispatchContext } from "../organisms/CreateNewSessionTab";
+import { Picker } from "@react-native-picker/picker";
 
 const { width, height } = Dimensions.get("window");
 
@@ -21,6 +22,8 @@ const Advice = ({ item }) => {
   const [Prescription, setPrescription] = useState([]);
   const [showInput, setShowInput] = useState(true);
   const dispatch = useContext(DispatchContext);
+  const [doctor, setDoctor] = useState("dr-jhon-doe");
+  const [equipment, setEquipment] = useState("equipment_a");
 
   // handle every tick on finding service
   const handleSearchPres = async (text) => {
@@ -52,7 +55,7 @@ const Advice = ({ item }) => {
     <View>
       <View style={{ display: showInput ? "flex" : "none" }}>
         <TextInput
-        placeholder='find service'
+          placeholder="find service"
           value={input}
           onChangeText={(text) => handleSearchPres(text)}
           style={{
@@ -94,14 +97,43 @@ const Advice = ({ item }) => {
       >
         <RowBetween>
           <View>
-          <Text>{service.Service_Name}</Text>
-          <Row>
-          <Text style={styles.badge}>{service.Department_Name}</Text>
-          <Text style={styles.badge}>{service.Department_Type}</Text>
-          </Row>
+            <Text style={{width : 0.6*width}}>{service.Service_Name}</Text>
+            <Row>
+              <Text style={styles.badge}>{service.Department_Name}</Text>
+              <Text style={styles.badge}>{service.Department_Type}</Text>
+            </Row>
           </View>
           <Text>{service.OPD}</Text>
         </RowBetween>
+        <Row
+          style={{
+            display:
+              service.Department_Type == "SURGERY"
+                ? "flex"
+                : "none",
+          }}
+        >
+          <Picker
+            style={{ width: 0.35 * width }}
+            selectedValue={doctor}
+            onValueChange={(itemValue, itemIndex) => setDoctor(itemValue)}
+          >
+            <Picker.Item label="Dr Jhon Doe" value="dr-jhon-doe" />
+            <Picker.Item label="Dr Anna Doe" value="dr-anna-doe" />
+            <Picker.Item label="Dr James Doe" value="dr-james-doe" />
+            <Picker.Item label="Dr Shirley Doe" value="dr-shirley-doe" />
+          </Picker>
+          <Picker
+            style={{ width: 0.35 * width }}
+            selectedValue={doctor}
+            onValueChange={(itemValue, itemIndex) => setDoctor(itemValue)}
+          >
+            <Picker.Item label="equipment_a" value="equipment_a" />
+            <Picker.Item label="equipment_b" value="equipment_b" />
+            <Picker.Item label="equipment_c" value="equipment_c" />
+            <Picker.Item label="equipment_d" value="equipment_d" />
+          </Picker>
+        </Row>
       </View>
 
       {/* <RowBetween style={{ marginVertical: 5 }}>
@@ -186,14 +218,14 @@ const styles = StyleSheet.create({
     marginVertical: 2,
     borderRadius: 5,
   },
-  badge : {
-    backgroundColor : 'blue',
-    color : 'white',
-    paddingVertical : 2,
-    paddingHorizontal : 5,
-    borderRadius : 5,
-    margin : 2
-  }
+  badge: {
+    backgroundColor: "blue",
+    color: "white",
+    paddingVertical: 2,
+    paddingHorizontal: 5,
+    borderRadius: 5,
+    margin: 2,
+  },
 });
 
 export default Advice;

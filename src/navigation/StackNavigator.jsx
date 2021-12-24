@@ -5,6 +5,7 @@ import PatientEntry from "../screens/PatientEntry";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import FindPatientByID from "../screens/FindPatientByID";
 import DetailedSession from "../screens/DetailedSession";
+import QuickPrescriptionUpload from "../screens/QuickPrescriptionUpload";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -14,6 +15,7 @@ const StackNavigator = () => {
       <Stack.Screen name="Home" component={index} />
       <Stack.Screen name="PatientEntry" component={PatientEntry} />
       <Stack.Screen name="DetailedSession" component={DetailedSession} />
+      <Stack.Screen name="QuickPrescriptionUpload" component={QuickPrescriptionUpload} />
     </Stack.Navigator>
   );
 };

@@ -5,8 +5,10 @@ import PatientDetailedView from "../../styles/PatientDetailsView";
 const { width, height } = Dimensions.get("window");
 import SessionHistoryTab from './SessionHistoryTab';
 import CreateNewSessionTab from "./CreateNewSessionTab";
+import { useNavigation } from "@react-navigation/native";
 
 const PatientSessionTabs = ({patientID}) => {
+  const navigation = useNavigation()
   const [IsHistoryActive, setIsHistoryActive] = useState(true);
   return (
     <PatientDetailedView label>
@@ -26,6 +28,11 @@ const PatientSessionTabs = ({patientID}) => {
           </Pressable>
         </PatientDetailedView>
       </RowBetween>
+      <PatientDetailedView style={{backgroundColor : 'lightgray'}}>
+        <Pressable onPress={()=>navigation.navigate('QuickPrescriptionUpload', {patientID})}>
+          <Text style={{textAlign : 'center'}}>Quick Prescription Upload</Text>
+        </Pressable>
+      </PatientDetailedView>
       {IsHistoryActive?<SessionHistoryTab patientID={patientID}/>:<CreateNewSessionTab patientID={patientID}/>}
     </PatientDetailedView>
   );
