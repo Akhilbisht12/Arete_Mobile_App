@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -8,55 +8,33 @@ import {
   ScrollView,
   StyleSheet,
 } from "react-native";
-import { prescription } from "../../config/dummydata";
 import { services } from "../../config/master";
-import Icon from "react-native-vector-icons/Ionicons";
-import { Row, RowBetween } from "../../styles/FlexView";
-import { DispatchContext } from "../organisms/CreateNewSessionTab";
+import { ColumnCenter, ColumnEvenly, Row, RowBetween } from "../../styles/FlexView";
 import { Picker } from "@react-native-picker/picker";
+import { addService, deleteService } from "../../store/actions/adviceAction";
+import { connect } from "react-redux";
+import Icon from "react-native-vector-icons/Ionicons";
 
 const { width, height } = Dimensions.get("window");
 
-const Advice = ({ item }) => {
-  const { input, type, id, service } = item;
+const Advice = ({ item, index, addService, deleteService }) => {
   const [Prescription, setPrescription] = useState([]);
-  const [showInput, setShowInput] = useState(true);
-  const dispatch = useContext(DispatchContext);
   const [doctor, setDoctor] = useState("dr-jhon-doe");
   const [equipment, setEquipment] = useState("equipment_a");
 
   // handle every tick on finding service
   const handleSearchPres = async (text) => {
-    dispatch({
-      type: "EDIT_ADVICE",
-      payload: { input: text, id, type, service: {} },
-    });
     const result = await services.filter((str) => {
       return str.Service_Name.toLowerCase().includes(text.toLowerCase());
     });
     setPrescription(result.slice(0, 100));
   };
 
-  // handle selecting the service
-  const handleSelectService = (serviceItem) => {
-    setShowInput(false);
-    dispatch({
-      type: "EDIT_ADVICE",
-      payload: {
-        input: serviceItem.Service_Name,
-        type,
-        id,
-        service: serviceItem,
-      },
-    });
-  };
-
   return (
     <View>
-      <View style={{ display: showInput ? "flex" : "none" }}>
+      <View style={{ display: item.Service_Name ? "none" : "flex" }}>
         <TextInput
           placeholder="find service"
-          value={input}
           onChangeText={(text) => handleSearchPres(text)}
           style={{
             borderWidth: 1,
@@ -70,24 +48,22 @@ const Advice = ({ item }) => {
         <ScrollView
           style={{ marginVertical: 2, padding: 2, maxHeight: 0.15 * height }}
         >
-          {input.length >= 4
-            ? Prescription.map((item) => {
-                return (
-                  <Pressable
-                    style={styles.service}
-                    key={item.ServiceId}
-                    onPress={() => handleSelectService(item)}
-                  >
-                    <Text>{item.Service_Name}</Text>
-                  </Pressable>
-                );
-              })
-            : null}
+          {Prescription.map((item) => {
+            return (
+              <Pressable
+                style={styles.service}
+                key={item.ServiceId}
+                onPress={() => addService({ newService: item, s_id: index })}
+              >
+                <Text>{item.Service_Name}</Text>
+              </Pressable>
+            );
+          })}
         </ScrollView>
       </View>
       <View
         style={{
-          display: showInput ? "none" : "flex",
+          display: item.Service_Name ? "flex" : "none",
           paddingVertical: 5,
           paddingHorizontal: 10,
           backgroundColor: "lightgray",
@@ -97,20 +73,28 @@ const Advice = ({ item }) => {
       >
         <RowBetween>
           <View>
-            <Text style={{width : 0.6*width}}>{service.Service_Name}</Text>
+            <Text style={{ width: 0.6 * width }}>
+              {item.Service_Name ? item.Service_Name : ""}
+            </Text>
             <Row>
-              <Text style={styles.badge}>{service.Department_Name}</Text>
-              <Text style={styles.badge}>{service.Department_Type}</Text>
+              <Text style={styles.badge}>
+                {item.Department_Name ? item.Department_Name : ""}
+              </Text>
+              <Text style={styles.badge}>
+                {item.Department_Type ? item.Department_Type : ""}
+              </Text>
             </Row>
           </View>
-          <Text>{service.OPD}</Text>
+          <ColumnCenter>
+            <Text>{item.OPD ? item.OPD : ""}</Text>
+            <Pressable style={{marginVertical : 5}} onPress={()=>deleteService({index})}>
+              <Icon name="trash" color='#E02401' size={20} />
+            </Pressable>
+          </ColumnCenter>
         </RowBetween>
         <Row
           style={{
-            display:
-              service.Department_Type == "SURGERY"
-                ? "flex"
-                : "none",
+            display: item.Department_Type == "SURGERY" ? "flex" : "none",
           }}
         >
           <Picker
@@ -135,77 +119,6 @@ const Advice = ({ item }) => {
           </Picker>
         </Row>
       </View>
-
-      {/* <RowBetween style={{ marginVertical: 5 }}>
-        <Pressable
-          onPress={() =>
-            dispatch({
-              type: "EDIT_ADVICE",
-              payload: { input, id, type: "admission" },
-            })
-          }
-        >
-          <Row>
-            {type === "admission" ? (
-              <Icon name="checkbox-outline" size={30} />
-            ) : (
-              <Icon name="square-outline" size={30} />
-            )}
-            <Text>Admission</Text>
-          </Row>
-        </Pressable>
-        <Pressable
-          onPress={() =>
-            dispatch({
-              type: "EDIT_ADVICE",
-              payload: { input, id, type: "diagnosis" },
-            })
-          }
-        >
-          <Row>
-            {type === "diagnosis" ? (
-              <Icon name="checkbox-outline" size={30} />
-            ) : (
-              <Icon name="square-outline" size={30} />
-            )}
-            <Text>Diagnosis</Text>
-          </Row>
-        </Pressable>
-        <Pressable
-          onPress={() =>
-            dispatch({
-              type: "EDIT_ADVICE",
-              payload: { input, id, type: "petct" },
-            })
-          }
-        >
-          <Row>
-            {type === "petct" ? (
-              <Icon name="checkbox-outline" size={30} />
-            ) : (
-              <Icon name="square-outline" size={30} />
-            )}
-            <Text>PETCT</Text>
-          </Row>
-        </Pressable>
-        <Pressable
-          onPress={() =>
-            dispatch({
-              type: "EDIT_ADVICE",
-              payload: { input, id, type: "radiology" },
-            })
-          }
-        >
-          <Row>
-            {type === "radiology" ? (
-              <Icon name="checkbox-outline" size={30} />
-            ) : (
-              <Icon name="square-outline" size={30} />
-            )}
-            <Text>Radiology</Text>
-          </Row>
-        </Pressable>
-      </RowBetween> */}
     </View>
   );
 };
@@ -228,4 +141,17 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Advice;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addService: (item) => dispatch(addService(item)),
+    deleteService: (item)=> dispatch(deleteService(item))
+  };
+};
+
+const mapStateToProps = (state) => {
+  return {
+    advice: state.advice,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Advice);

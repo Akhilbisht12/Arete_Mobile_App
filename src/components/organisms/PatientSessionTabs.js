@@ -23,7 +23,7 @@ const PatientSessionTabs = ({patientID}) => {
         <PatientDetailedView
           style={{ backgroundColor: IsHistoryActive ? "#E4DFDA" : "#C1666B" }}
         >
-          <Pressable onPress={()=>setIsHistoryActive(!IsHistoryActive)} style={{ width: 0.36 * width }}>
+          <Pressable onPress={()=>navigation.navigate('CreateNewSession', {patientID})} style={{ width: 0.36 * width }}>
             <Text>Create New Session</Text>
           </Pressable>
         </PatientDetailedView>

@@ -1,7 +1,13 @@
-const ADVICE_ACTION = {
-    ADD_ADVICE: "ADD_ADVICE",
-    REMOVE_ADVICE: "REMOVE_ADVICE",
-    EDIT_ADVICE: "EDIT_ADVICE",
-  };
-
-  export default ADVICE_ACTION
+export const ADD_ADVICE = "ADD_ADVICE";
+export const REMOVE_ADVICE = "REMOVE_ADVICE";
+export const EDIT_ADVICE = "EDIT_ADVICE";
+export const ADD_WARD_STAY = "ADD_WARD_STAY";
+export const ADD_WARD_BED = "ADD_WARD_BED";
+export const ADD_ICU_STAY = "ADD_ICU_STAY";
+export const ADD_ICU_BED = "ADD_ICU_BED";
+export const EDIT_IPD_PACKAGES = "EDIT_IPD_PACKAGES";
+export const ADD_SERVICE = "ADD_SERVICE"
+export const EDIT_SERVICE = "EDIT_SERVICE"
+export const DELETE_SERVICE = "DELETE_SERVICE"
+export const ADD_CHARGE = "ADD_CHARGE"
+export const EDIT_CHARGE = "EDIT_CHARGE"

@@ -1,214 +1,197 @@
 import axios from "axios";
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { SERVER_URL } from "../../config/variables";
+import { RowBetween } from "../../styles/FlexView";
+import PatientDetailedView from "../../styles/PatientDetailsView";
+import Advice from "../molecules/Advice";
+import { Picker } from "@react-native-picker/picker";
+import WardBedDetails from "../molecules/WardBedDetails";
+import IcuBedDetails from "../molecules/IcuBedDetails";
 import {
   View,
   Text,
   Pressable,
-  Alert,
   TextInput,
   Dimensions,
   StyleSheet,
   ToastAndroid,
+  ScrollView,
 } from "react-native";
-import { SERVER_URL } from "../../config/variables";
-import { RowBetween, Row } from "../../styles/FlexView";
-import PatientDetailedView from "../../styles/PatientDetailsView";
-import Advice from "../molecules/Advice";
-import { Picker } from "@react-native-picker/picker";
+import {
+  addAdvice,
+  addService,
+  editAdvice,
+  editIPDPackages,
+  addCharge,
+  editCharge,
+} from "../../store/actions/adviceAction";
 
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
-const initAdvice = [
-  {
-    id: 0,
-    input: "",
-    type: "",
-    service: {
-      Department_Name: "",
-      Sub_Name: " ",
-      Department_Type: "",
-      ServiceId: 0,
-      Ref_Service_Code: 0,
-      Service_Name: "",
-      OPD: 0,
-      IPD: "",
-      Four_Sharing: "",
-      Twin_Sharing: "",
-      Single_Room: "",
-      Deluxe_Room: "",
-      Suite_Room: "",
-    },
-  },
-];
-
-const ACTION = {
-  ADD_ADVICE: "ADD_ADVICE",
-  REMOVE_ADVICE: "REMOVE_ADVICE",
-  EDIT_ADVICE: "EDIT_ADVICE",
-};
-
-const reducer = (advices, action) => {
-  switch (action.type) {
-    case ACTION.ADD_ADVICE:
-      let pushadivce = advices;
-      pushadivce.push({
-        id: advices.length,
-        input: "",
-        type: "",
-        service: {
-          Department_Name: "",
-          Sub_Name: " ",
-          Department_Type: "",
-          ServiceId: 0,
-          Ref_Service_Code: 0,
-          Service_Name: "",
-          OPD: 0,
-          IPD: "",
-          Four_Sharing: "",
-          Twin_Sharing: "",
-          Single_Room: "",
-          Deluxe_Room: "",
-          Suite_Room: "",
-        },
-      });
-      return [...pushadivce];
-    case ACTION.REMOVE_ADVICE:
-      return advices;
-    case ACTION.EDIT_ADVICE:
-      let temp = advices;
-      const { id, input, type, service } = action.payload;
-      temp[id].input = input;
-      temp[id].type = type;
-      temp[id].service = service;
-      return [...temp];
-
-    default:
-      return advices;
-  }
-};
-
-const DispatchContext = React.createContext();
-
-const CreateNewSessionTab = ({ patientID }) => {
-  const [advices, dispatch] = useReducer(reducer, initAdvice);
-  const [bed, setBed] = useState("Four_Sharing");
-  const [ward, setWard] = useState(0);
-  const [icu, setIcu] = useState(0);
+const CreateNewSessionTab = ({
+  patientID,
+  advice,
+  editIPDPackages,
+  addAdvice,
+  addCharge,
+  editCharge,
+}) => {
   const [total, setTotal] = useState(0);
-
   useEffect(() => {
+    console.log(advice);
     var totalTemp = 0;
-    advices.map((item) => {
-      for (const [key, value] of Object.entries(item.service)) {
-        if (key === bed) {
+    advice.services.map((item) => {
+      for (const [key, value] of Object.entries(item)) {
+        if (key === advice.wardBedType) {
           totalTemp +=
-            value === "" ? 0 : parseInt(value.replace(",", "")) * ward;
-          console.log(totalTemp);
+            value === "" ? 0 : parseInt(value.replace(",", "")) * advice.ward;
         }
       }
     });
     setTotal(totalTemp);
-  }, [advices, ward, icu, bed, setWard, setIcu, setBed]);
-  const handleCreateSession = async() => {
-    const session = advices.map((item) => {
-        return {
-          serviceName: item.service.Service_Name,
-          serviceId: item.service.ServiceId,
-          departmentName: item.service.Department_Name,
-          departmentType: item.service.Department_Type,
-        };
-      })
-      console.log(session)
-    const createSession = await axios.post(`${SERVER_URL}/api/v1/patient/createNewSession`, {
-      patientID,
-      bedType : bed,
-      bedCode : 1,
-      wardStay : ward,
-      ICUStay : icu,
-      estimate : total,
-      services : session
-    })
-    console.log(createSession)
+  }, [advice]);
 
-    if(createSession.status == 200){
-      ToastAndroid.show('Session created successfull', ToastAndroid.SHORT)
-      
-    }else{
-      ToastAndroid.show('Something went wrong please try again', ToastAndroid.SHORT)
-
+  const handleCreateSession = async () => {
+    const session = advice.services.map((item) => {
+      return {
+        serviceName: item.Service_Name,
+        serviceId: item.ServiceId,
+        departmentName: item.Department_Name,
+        departmentType: item.Department_Type,
+      };
+    });
+    const createSession = await axios.post(
+      `${SERVER_URL}/api/v1/patient/createNewSession`,
+      {
+        patientID,
+        bedType: advice.bedType,
+        bedCode: 1,
+        wardStay: advice.ward,
+        ICUStay: advice.icu,
+        estimate: total,
+        services: session,
+      }
+    );
+    if (createSession.status == 200) {
+      ToastAndroid.show("Session created successfull", ToastAndroid.SHORT);
+    } else {
+      ToastAndroid.show(
+        "Something went wrong please try again",
+        ToastAndroid.SHORT
+      );
     }
-
   };
 
   return (
-    <PatientDetailedView style={{ backgroundColor: "#E4DFDA" }}>
-      <RowBetween style={{ marginBottom: 8 }}>
-        <View>
-          <Picker
-            style={{ width: width * 0.35 }}
-            selectedValue={bed}
-            onValueChange={(itemValue, itemIndex) => setBed(itemValue)}
-          >
-            <Picker.Item label="Four Sharing" value="Four_Sharing" />
-            <Picker.Item label="Twin Sharing" value="Twin_Sharing" />
-            <Picker.Item label="Single Room" value="Single_Room" />
-            <Picker.Item label="Deluxe Room" value="Deluxe_Room" />
-            <Picker.Item label="Suite Room" value="Suite_Room" />
-          </Picker>
-        </View>
-        <View>
-          <Text>Ward Stay</Text>
-          <TextInput
-            textContentType="telephoneNumber"
-            onChangeText={(text) => setWard(text)}
-            value={ward}
-            keyboardType="number-pad"
-            placeholder="Ward"
-            style={styles.input}
-          />
-        </View>
-        <View>
-          <Text>ICU Stay</Text>
-          <TextInput
-            textContentType="telephoneNumber"
-            value={icu}
-            onChangeText={(text) => setIcu(text)}
-            keyboardType="number-pad"
-            placeholder="ICU"
-            style={styles.input}
-          />
-        </View>
-      </RowBetween>
-      <DispatchContext.Provider value={dispatch}>
-        {advices.map((item) => {
-          return <Advice key={item.id} item={item} />;
-        })}
-      </DispatchContext.Provider>
-
-      <Pressable
-        style={{ marginVertical: 5, alignItems: "center" }}
-        onPress={() => dispatch({ type: "ADD_ADVICE" })}
-      >
-        <Text
+    <ScrollView>
+      <PatientDetailedView style={{ backgroundColor: "#E4DFDA" }}>
+        {/* select type of admission */}
+        <Picker
+          selectedValue={advice.isIPDPackage}
+          onValueChange={(itemValue, itemIndex) =>
+            editIPDPackages({ ipd: itemValue })
+          }
+        >
+          <Picker.Item value={true} label="IPD Packages" />
+          <Picker.Item value={false} label="Custom" />
+        </Picker>
+        <View
           style={{
-            textAlign: "center",
-            backgroundColor: "lightblue",
-            paddingVertical: 5,
-            borderRadius: 5,
-            width: 150,
+            marginBottom: 8,
+            display: advice.isIPDPackage ? "none" : "flex",
           }}
         >
-          Add doctor advice
-        </Text>
-      </Pressable>
+          <WardBedDetails />
+          <IcuBedDetails />
+        </View>
 
-      <View style={{ margin: 5 }}>
-        <Text style={{ color: "green" }}>Est: {total}</Text>
-      </View>
-      <Pressable onPress={handleCreateSession} style={{ backgroundColor: "lightblue", padding: 10 }}>
-        <Text style={{ textAlign: "center" }}>Create Session</Text>
-      </Pressable>
-    </PatientDetailedView>
+        <View style={{ marginVertical: 5 }}>
+          <RowBetween style={{ marginVertical: 2 }}>
+            <TextInput
+              placeholder="Dr Name"
+              style={[styles.input, { width: 0.43 * width }]}
+            />
+            <TextInput
+              placeholder="Remarks"
+              style={[styles.input, { width: 0.43 * width }]}
+            />
+          </RowBetween>
+          <RowBetween style={{ marginVertical: 2 }}>
+            <TextInput
+              placeholder="Payment Type"
+              style={[styles.input, { width: 0.43 * width }]}
+            />
+            <TextInput
+              placeholder="Company"
+              style={[styles.input, { width: 0.43 * width }]}
+            />
+          </RowBetween>
+        </View>
+        <View>
+          {advice.services.map((item, index) => {
+            return <Advice key={index} item={item} index={index} />;
+          })}
+          <Pressable style={{ marginVertical: 5 }} onPress={() => addAdvice()}>
+            <Text
+              style={{
+                color: "blue",
+              }}
+            >
+              Add a service
+            </Text>
+          </Pressable>
+        </View>
+        <View>
+          {advice.addCharges.map((item, index) => {
+            return (
+              <RowBetween style={{ marginVertical: 2 }} key={index}>
+                <TextInput
+                  value={item.key}
+                  onChangeText={(text) =>
+                    editCharge({
+                      key: text,
+                      value: item.value,
+                      chargeIndex: index,
+                    })
+                  }
+                  placeholder="Key"
+                  style={[styles.input, { width: 0.43 * width }]}
+                />
+                <TextInput
+                  value={item.value}
+                  keyboardType="number-pad"
+                  onChangeText={(text) =>
+                    editCharge({
+                      key: item.key,
+                      value: text,
+                      chargeIndex: index,
+                    })
+                  }
+                  placeholder="value"
+                  style={[styles.input, { width: 0.43 * width }]}
+                />
+              </RowBetween>
+            );
+          })}
+
+          <Pressable onPress={() => addCharge()}>
+            <Text style={{ marginVertical: 5, color: "blue" }}>
+              Add Additional Charges
+            </Text>
+          </Pressable>
+        </View>
+        <View style={{ margin: 5 }}>
+          <Text style={{ color: "green" }}>Est: {total}</Text>
+        </View>
+        <Pressable
+          onPress={handleCreateSession}
+          style={{ backgroundColor: "lightblue", padding: 10, borderRadius : 5 }}
+        >
+          <Text style={{ textAlign: "center" }}>Create Session</Text>
+        </Pressable>
+      </PatientDetailedView>
+    </ScrollView>
   );
 };
 
@@ -223,5 +206,24 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreateNewSessionTab;
-export { DispatchContext };
+const mapDispatchToProps = (dispatch) => {
+  return {
+    editAdvice: (item) => dispatch(editAdvice(item)),
+    editIPDPackages: (item) => dispatch(editIPDPackages(item)),
+    addService: (item) => dispatch(addService(item)),
+    addAdvice: () => dispatch(addAdvice()),
+    addCharge: () => dispatch(addCharge()),
+    editCharge: (item) => dispatch(editCharge(item)),
+  };
+};
+
+const mapStateToProps = (state) => {
+  return {
+    advice: state.advice,
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CreateNewSessionTab);
