@@ -13,7 +13,7 @@ const WardBedDetails = ({ addWardBed, addWardStay, advice }) => {
     let totaltemp = 0;
     BedFeeMaster.map((item) => {
       if (item.Billing_Code === advice.wardBedType) {
-        totaltemp += item.IP_Fee*advice.ward;
+        totaltemp += (advice.isEmergency?item.Emergency_Fee:item.IP_Fee)*advice.ward;
       }
     });
     setTotal(totaltemp);

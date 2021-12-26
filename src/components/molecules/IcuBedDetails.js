@@ -13,10 +13,10 @@ const IcuBedDetails = ({ addIcuBed, addIcuStay, advice }) => {
     let temptotal = 0;
     BedFeeMaster.map((item) => {
       if (item.Billing_Code === advice.icuBedType) {
-        temptotal += item.IP_Fee;
+        temptotal += (advice.isEmergency?item.Emergency_Fee:item.IP_Fee)*advice.icu;
       }
     });
-    setTotal(temptotal * advice.icu);
+    setTotal(temptotal);
   }, [advice]);
   return (
     <RowBetween>

@@ -25,7 +25,15 @@ import {
   editIPDPackages,
   addCharge,
   editCharge,
+  editEmergency,
+  deleteAddCharge,
+  addDoctor,
+  addRemark,
+  addPaymentCompany,
+  addPaymentType,
 } from "../../store/actions/adviceAction";
+import Icon from "react-native-vector-icons/Ionicons";
+import EstimatePreview from "./EstimatePreview";
 
 const { width } = Dimensions.get("window");
 
@@ -36,6 +44,12 @@ const CreateNewSessionTab = ({
   addAdvice,
   addCharge,
   editCharge,
+  editEmergency,
+  deleteAddCharge,
+  addDoctor,
+  addRemark,
+  addPaymentCompany,
+  addPaymentType,
 }) => {
   const [total, setTotal] = useState(0);
   useEffect(() => {
@@ -105,24 +119,42 @@ const CreateNewSessionTab = ({
           <WardBedDetails />
           <IcuBedDetails />
         </View>
-
+        <RowBetween>
+          <Text style={{ fontSize: 16 }}>Is Emergency</Text>
+          <Pressable
+            onPress={() => editEmergency({ emergency: !advice.isEmergency })}
+          >
+            <Icon
+              name={advice.isEmergency ? "checkbox-outline" : "square-outline"}
+              size={25}
+            />
+          </Pressable>
+        </RowBetween>
         <View style={{ marginVertical: 5 }}>
           <RowBetween style={{ marginVertical: 2 }}>
             <TextInput
+              value={advice.doctor}
+              onChangeText={(text) => addDoctor({ doctor: text })}
               placeholder="Dr Name"
               style={[styles.input, { width: 0.43 * width }]}
             />
             <TextInput
+              value={advice.remark}
+              onChangeText={(text) => addRemark({ remark: text })}
               placeholder="Remarks"
               style={[styles.input, { width: 0.43 * width }]}
             />
           </RowBetween>
           <RowBetween style={{ marginVertical: 2 }}>
             <TextInput
+              value={advice.paymentType}
+              onChangeText={(text) => addPaymentType({ paymentType: text })}
               placeholder="Payment Type"
               style={[styles.input, { width: 0.43 * width }]}
             />
             <TextInput
+              value={advice.paymentCompany}
+              onChangeText={(text) => addPaymentCompany(text)}
               placeholder="Company"
               style={[styles.input, { width: 0.43 * width }]}
             />
@@ -156,7 +188,7 @@ const CreateNewSessionTab = ({
                     })
                   }
                   placeholder="Key"
-                  style={[styles.input, { width: 0.43 * width }]}
+                  style={[styles.input, { width: 0.41 * width }]}
                 />
                 <TextInput
                   value={item.value}
@@ -169,8 +201,13 @@ const CreateNewSessionTab = ({
                     })
                   }
                   placeholder="value"
-                  style={[styles.input, { width: 0.43 * width }]}
+                  style={[styles.input, { width: 0.41 * width }]}
                 />
+                <Pressable
+                  onPress={() => deleteAddCharge({ deleteChargeIndx: index })}
+                >
+                  <Icon name="trash" size={20} />
+                </Pressable>
               </RowBetween>
             );
           })}
@@ -186,11 +223,12 @@ const CreateNewSessionTab = ({
         </View>
         <Pressable
           onPress={handleCreateSession}
-          style={{ backgroundColor: "lightblue", padding: 10, borderRadius : 5 }}
+          style={{ backgroundColor: "lightblue", padding: 10, borderRadius: 5 }}
         >
-          <Text style={{ textAlign: "center" }}>Create Session</Text>
+          <Text style={{ textAlign: "center" }}>Preview</Text>
         </Pressable>
       </PatientDetailedView>
+      <EstimatePreview/>
     </ScrollView>
   );
 };
@@ -214,6 +252,12 @@ const mapDispatchToProps = (dispatch) => {
     addAdvice: () => dispatch(addAdvice()),
     addCharge: () => dispatch(addCharge()),
     editCharge: (item) => dispatch(editCharge(item)),
+    editEmergency: (item) => dispatch(editEmergency(item)),
+    deleteAddCharge: (item) => dispatch(deleteAddCharge(item)),
+    addDoctor: (item) => dispatch(addDoctor(item)),
+    addRemark: (item) => dispatch(addRemark(item)),
+    addPaymentCompany: (item) => dispatch(addPaymentCompany(item)),
+    addPaymentType: (item) => dispatch(addPaymentType(item)),
   };
 };
 

@@ -104,3 +104,75 @@ export const editCharge = (item) => {
     },
   };
 };
+
+export const editEmergency = (item) => {
+  return {
+    type: actionTypes.EDIT_EMERGENCY,
+    payload: {
+      item,
+    },
+  };
+};
+
+export const deleteAddCharge = (item) => {
+  return {
+    type: actionTypes.DELETE_ADD_CHARGE,
+    payload: {
+      item,
+    },
+  };
+};
+
+export const addDoctor = (item) => {
+  return {
+    type: actionTypes.ADD_DOCTOR,
+    payload: {
+      item,
+    },
+  };
+};
+
+export const addRemark = (item) => {
+  return {
+    type: actionTypes.ADD_REMARK,
+    payload: {
+      item,
+    },
+  };
+};
+
+export const addPaymentType = (item) => {
+  return {
+    type: actionTypes.ADD_PAYMENT_TYPE,
+    payload: {
+      item,
+    },
+  };
+};
+
+export const addPaymentCompany = (item) => {
+  return {
+    type: actionTypes.ADD_PAYMENT_COMPANY,
+    payload: {
+      item,
+    },
+  };
+};
+
+export const addDoctorToSurgery = (item) => {
+  return {
+    type: actionTypes.ADD_DOCTOR_TO_SURGERY,
+    payload: {
+      item,
+    },
+  };
+};
+
+export const deleteDoctorFromSurgery = (item) => {
+  return {
+    type: actionTypes.DELETE_DOCTOR_FROM_SURGERY,
+    payload: {
+      item,
+    },
+  };
+};
