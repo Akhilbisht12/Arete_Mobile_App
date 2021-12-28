@@ -21,6 +21,8 @@ import {
   deleteService,
   addDoctorToSurgery,
   deleteDoctorFromSurgery,
+  addMinorToSurgery,
+  editMinorSurgeryPercent,
 } from "../../store/actions/adviceAction";
 import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -33,7 +35,9 @@ const Advice = ({
   addService,
   deleteService,
   addDoctorToSurgery,
-  deleteDoctorFromSurgery
+  deleteDoctorFromSurgery,
+  addMinorToSurgery,
+  editMinorSurgeryPercent,
 }) => {
   const [Prescription, setPrescription] = useState([]);
   const [doctor, setDoctor] = useState("dr-jhon-doe");
@@ -45,6 +49,16 @@ const Advice = ({
       return str.Service_Name.toLowerCase().includes(text.toLowerCase());
     });
     setPrescription(result.slice(0, 100));
+  };
+
+  const addServiceToState = (item) => {
+    const tempService = {
+      ...item,
+      surgeon: [],
+      minor: 100,
+      isMinor: false,
+    };
+    addService({ newService: tempService, s_id: index });
   };
 
   return (
@@ -71,7 +85,7 @@ const Advice = ({
                 <Pressable
                   style={styles.service}
                   key={item.ServiceId}
-                  onPress={() => addService({ newService: item, s_id: index })}
+                  onPress={() => addServiceToState(item)}
                 >
                   <Text>{item.Service_Name}</Text>
                 </Pressable>
@@ -107,7 +121,13 @@ const Advice = ({
               <Text>{item.OPD ? item.OPD : ""}</Text>
             </ColumnCenter>
           </RowBetween>
-          <View style={{ width: 0.85 * width, flexWrap : 'wrap', flexDirection : 'row' }}>
+          <View
+            style={{
+              width: 0.85 * width,
+              flexWrap: "wrap",
+              flexDirection: "row",
+            }}
+          >
             {item.surgeon
               ? item.surgeon.map((surgeo, surgeonIndex) => {
                   return (
@@ -121,45 +141,89 @@ const Advice = ({
                       }}
                       key={surgeonIndex}
                     >
-                      <Text style={{paddingHorizontal : 3}}>{surgeo.name}</Text>
-                      <Pressable onPress={()=>deleteDoctorFromSurgery({surgeonIndex, surgeryIndex: index})}>
-                      <Icon name='close-circle-outline' size={16}/>
+                      <Text style={{ paddingHorizontal: 3 }}>
+                        {surgeo.name}
+                      </Text>
+                      <Pressable
+                        onPress={() =>
+                          deleteDoctorFromSurgery({
+                            surgeonIndex,
+                            surgeryIndex: index,
+                          })
+                        }
+                      >
+                        <Icon name="close-circle-outline" size={16} />
                       </Pressable>
                     </RowBetween>
                   );
                 })
               : null}
           </View>
-          <Row
+          <View
             style={{
               display: item.Department_Type == "SURGERY" ? "flex" : "none",
             }}
           >
-            <Picker
-              style={{ width: 0.35 * width }}
-              onValueChange={(itemValue, itemIndex) =>
-                addDoctorToSurgery({
-                  surgeon: { name: itemValue },
-                  serviceindex: index,
-                })
-              }
-            >
-              <Picker.Item label="Dr Jhon Doe" value="dr-jhon-doe" />
-              <Picker.Item label="Dr Anna Doe" value="dr-anna-doe" />
-              <Picker.Item label="Dr James Doe" value="dr-james-doe" />
-              <Picker.Item label="Dr Shirley Doe" value="dr-shirley-doe" />
-            </Picker>
-            <Picker
-              style={{ width: 0.35 * width }}
-              selectedValue={doctor}
-              onValueChange={(itemValue, itemIndex) => setDoctor(itemValue)}
-            >
-              <Picker.Item label="equipment_a" value="equipment_a" />
-              <Picker.Item label="equipment_b" value="equipment_b" />
-              <Picker.Item label="equipment_c" value="equipment_c" />
-              <Picker.Item label="equipment_d" value="equipment_d" />
-            </Picker>
-          </Row>
+            <Row>
+              <Picker
+                style={{ width: 0.35 * width }}
+                onValueChange={(itemValue, itemIndex) =>
+                  addDoctorToSurgery({
+                    surgeon: { name: itemValue },
+                    serviceindex: index,
+                  })
+                }
+              >
+                <Picker.Item label="Dr Jhon Doe" value="dr-jhon-doe" />
+                <Picker.Item label="Dr Anna Doe" value="dr-anna-doe" />
+                <Picker.Item label="Dr James Doe" value="dr-james-doe" />
+                <Picker.Item label="Dr Shirley Doe" value="dr-shirley-doe" />
+              </Picker>
+              <Picker
+                style={{ width: 0.35 * width }}
+                selectedValue={doctor}
+                onValueChange={(itemValue, itemIndex) => setDoctor(itemValue)}
+              >
+                <Picker.Item label="equipment_a" value="equipment_a" />
+                <Picker.Item label="equipment_b" value="equipment_b" />
+                <Picker.Item label="equipment_c" value="equipment_c" />
+                <Picker.Item label="equipment_d" value="equipment_d" />
+              </Picker>
+            </Row>
+            <Row>
+              <Row>
+                <Text>Minor Surgery ?</Text>
+                <Pressable
+                  onPress={() =>
+                    addMinorToSurgery({
+                      minorsurgeryindex: index,
+                      minorsurgery: !item.isMinor,
+                    })
+                  }
+                  style={{ marginHorizontal: 10 }}
+                >
+                  <Icon
+                    size={20}
+                    name={item.isMinor ? "checkbox-outline" : "square-outline"}
+                  />
+                </Pressable>
+              </Row>
+              <View style={{ display: item.isMinor ? "flex" : "none" }}>
+                <TextInput
+                  onChangeText={(text) =>
+                    editMinorSurgeryPercent({
+                      surgerypercent: text,
+                      minorpercentindex: index,
+                    })
+                  }
+                  value={item.minor}
+                  keyboardType="number-pad"
+                  placeholder="Percent"
+                  style={styles.input}
+                />
+              </View>
+            </Row>
+          </View>
         </View>
       </View>
       <Pressable
@@ -188,6 +252,14 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     margin: 2,
   },
+  input: {
+    width: width * 0.2,
+    borderWidth: 1,
+    borderColor: "gray",
+    borderRadius: 5,
+    height: 35,
+    paddingHorizontal: 10,
+  },
 });
 
 const mapDispatchToProps = (dispatch) => {
@@ -195,7 +267,9 @@ const mapDispatchToProps = (dispatch) => {
     addService: (item) => dispatch(addService(item)),
     deleteService: (item) => dispatch(deleteService(item)),
     addDoctorToSurgery: (item) => dispatch(addDoctorToSurgery(item)),
-    deleteDoctorFromSurgery : (item) => dispatch(deleteDoctorFromSurgery(item))
+    deleteDoctorFromSurgery: (item) => dispatch(deleteDoctorFromSurgery(item)),
+    addMinorToSurgery: (item) => dispatch(addMinorToSurgery(item)),
+    editMinorSurgeryPercent: (item) => dispatch(editMinorSurgeryPercent(item)),
   };
 };
 

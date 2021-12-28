@@ -176,3 +176,21 @@ export const deleteDoctorFromSurgery = (item) => {
     },
   };
 };
+
+export const addMinorToSurgery = (item) => {
+  return {
+    type: actionTypes.ADD_MINOR_TO_SURGERY,
+    payload: {
+      item,
+    },
+  };
+};
+
+export const editMinorSurgeryPercent = (item) => {
+  return {
+    type: actionTypes.EDIT_MINOR_SURGERY_PERCENT,
+    payload: {
+      item,
+    },
+  };
+};

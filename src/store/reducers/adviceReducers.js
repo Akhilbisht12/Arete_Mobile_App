@@ -132,14 +132,7 @@ const adviceReducer = (state = initAdvice, action) => {
     case actionTypes.ADD_DOCTOR_TO_SURGERY:
       const { surgeon, serviceindex } = action.payload.item;
       let tempsurgery = state.services;
-      if (tempsurgery[serviceindex].surgeon) {
-        tempsurgery[serviceindex].surgeon.push(surgeon);
-      } else {
-        tempsurgery[serviceindex] = {
-          ...tempsurgery[serviceindex],
-          surgeon: [surgeon],
-        };
-      }
+      tempsurgery[serviceindex].surgeon.push(surgeon);
       return {
         ...state,
         services: tempsurgery,
@@ -151,6 +144,22 @@ const adviceReducer = (state = initAdvice, action) => {
       return {
         ...state,
         services: deletesurgery,
+      };
+    case actionTypes.ADD_MINOR_TO_SURGERY:
+      const { minorsurgeryindex, minorsurgery } = action.payload.item;
+      let tempminorsurgery = state.services;
+      tempminorsurgery[minorsurgeryindex].isMinor = minorsurgery;
+      return {
+        ...state,
+        services: tempminorsurgery,
+      };
+    case actionTypes.EDIT_MINOR_SURGERY_PERCENT:
+      const { surgerypercent, minorpercentindex } = action.payload.item;
+      let temppercentsurgery = state.services;
+      temppercentsurgery[minorpercentindex].minor = surgerypercent;
+      return {
+        ...state,
+        services: temppercentsurgery,
       };
     default:
       return state;

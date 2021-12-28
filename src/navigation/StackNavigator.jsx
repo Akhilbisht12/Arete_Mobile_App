@@ -7,6 +7,7 @@ import FindPatientByID from "../screens/FindPatientByID";
 import DetailedSession from "../screens/DetailedSession";
 import QuickPrescriptionUpload from "../screens/QuickPrescriptionUpload";
 import CreateNewSessionTab from "../components/organisms/CreateNewSessionTab";
+import EstimatePreview from "../components/organisms/EstimatePreview";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -18,6 +19,7 @@ const StackNavigator = () => {
       <Stack.Screen name="DetailedSession" component={DetailedSession} />
       <Stack.Screen name="QuickPrescriptionUpload" component={QuickPrescriptionUpload} />
       <Stack.Screen name="CreateNewSession" component={CreateNewSessionTab} />
+      <Stack.Screen name="EstimatePreview" component={EstimatePreview} />
     </Stack.Navigator>
   );
 };
