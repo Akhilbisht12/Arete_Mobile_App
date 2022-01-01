@@ -1,10 +1,9 @@
-import { services } from "../../config/master";
 import * as actionTypes from "../types/adviceTypes";
 
 const initAdvice = {
   isIPDPackage: false,
   isEmergency: false,
-  step : 0,
+  step: 0,
   ward: 0,
   icu: 0,
   wardBedType: "",
@@ -45,6 +44,12 @@ const initAdvice = {
 
 const adviceReducer = (state = initAdvice, action) => {
   switch (action.type) {
+    case actionTypes.EDIT_IPD_PACKAGES:
+      const { ipd } = action.payload.item;
+      return {
+        ...state,
+        isIPDPackage: ipd,
+      };
     case actionTypes.ADD_ADVICE:
       return {
         ...state,
@@ -76,12 +81,7 @@ const adviceReducer = (state = initAdvice, action) => {
         ...state,
         icu: icuStay,
       };
-    case actionTypes.EDIT_IPD_PACKAGES:
-      const { ipd } = action.payload.item;
-      return {
-        ...state,
-        isIPDPackage: ipd,
-      };
+
     case actionTypes.ADD_SERVICE:
       const { newService, s_id } = action.payload.item;
       const servicetemp = state.services;

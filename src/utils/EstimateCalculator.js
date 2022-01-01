@@ -41,7 +41,6 @@ const calculateInvestigation = () => {
 
 const calculateProcedure = () => {
   let procedure = 0;
-  console.log(advice);
   if(advice.isIPDPackage){
     advice.procedures.map((item)=>{
       procedure+=item.OPD
@@ -49,7 +48,6 @@ const calculateProcedure = () => {
   }else{
     advice.procedures.map((item) => {
       for (const [key, value] of Object.entries(item)) {
-        console.log(key + " bed " + advice.wardBedType);
         procedure += key == advice.wardBedType ? value : 0;
       }
     });

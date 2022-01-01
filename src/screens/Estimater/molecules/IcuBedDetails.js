@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { BedFeeMaster } from "../../../config/BedFee";
 import { addIcuBed, addIcuStay } from "../../../store/actions/adviceAction";
 import { RowBetween } from "../../../styles/FlexView";
-
+import styles from "../styles";
 const { width } = Dimensions.get("window");
 
 const IcuBedDetails = ({ addIcuBed, addIcuStay, advice }) => {

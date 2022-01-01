@@ -1,45 +1,52 @@
 import React from "react";
-import { View, Text, Pressable } from "react-native";
+import { Text, Pressable } from "react-native";
 import { connect } from "react-redux";
 import { editIPDPackages, editStep } from "../../../store/actions/adviceAction";
 import { ColumnStart } from "../../../styles/FlexView";
-import { styles } from "../CreateEstimate";
+import { EstimateBox } from "../../../styles/styledBoxes";
+import styles from "../styles";
 
 const EstimateType = ({ advice, editIPDPackages, editStep }) => {
   return (
-    <ColumnStart>
-      <Text style={styles.title}>Choose type of estimate</Text>
-      <Pressable
-        style={[
-          styles.option,
-          {
-            backgroundColor:
-              advice.step >= 1 && advice.isIPDPackage ? "lightblue" : "lightgray",
-          },
-        ]}
-        onPress={() => {
-          editStep({step : 5});
-          editIPDPackages({ ipd: true });
-        }}
-      >
-        <Text>IPD Package</Text>
-      </Pressable>
-      <Pressable
-        style={[
-          styles.option,
-          {
-            backgroundColor:
-              advice.step >= 1 && !advice.isIPDPackage ? "lightblue" : "lightgray",
-          },
-        ]}
-        onPress={() => {
-          editStep({step : 5});
-          editIPDPackages({ ipd: false });
-        }}
-      >
-        <Text>IPD Non-Package</Text>
-      </Pressable>
-    </ColumnStart>
+    <EstimateBox>
+      <ColumnStart>
+        <Text style={styles.title}>Choose type of estimate</Text>
+        <Pressable
+          style={[
+            styles.option,
+            {
+              backgroundColor:
+                advice.step >= 1 && advice.isIPDPackage
+                  ? "lightblue"
+                  : "lightgray",
+            },
+          ]}
+          onPress={() => {
+            editStep({ step: 5 });
+            editIPDPackages({ ipd: true });
+          }}
+        >
+          <Text>IPD Package</Text>
+        </Pressable>
+        <Pressable
+          style={[
+            styles.option,
+            {
+              backgroundColor:
+                advice.step >= 1 && !advice.isIPDPackage
+                  ? "lightblue"
+                  : "lightgray",
+            },
+          ]}
+          onPress={() => {
+            editStep({ step: 5 });
+            editIPDPackages({ ipd: false });
+          }}
+        >
+          <Text>IPD Non-Package</Text>
+        </Pressable>
+      </ColumnStart>
+    </EstimateBox>
   );
 };
 

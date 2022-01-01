@@ -53,7 +53,6 @@ export const addIcuStay = (item) => {
 };
 
 export const editIPDPackages = (item) => {
-  console.log(item);
   return {
     type: actionTypes.EDIT_IPD_PACKAGES,
     payload: {
