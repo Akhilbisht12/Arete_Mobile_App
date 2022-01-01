@@ -1,5 +1,12 @@
 exports.BedFeeMaster = [
-    {
+  {
+    Billing_Code: "Select",
+    Bed_Category: "SELECT BED",
+    Room_Rent: 0,
+    IP_Fee: 0,
+    Emergency_Fee: 0
+  },
+  {
       Billing_Code: "DC",
       Bed_Category: "DAY CARE",
       Room_Rent: 4000,

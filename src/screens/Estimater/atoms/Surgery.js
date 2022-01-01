@@ -8,13 +8,6 @@ import {
   ScrollView,
   StyleSheet,
 } from "react-native";
-import { services } from "../../config/master";
-import {
-  ColumnCenter,
-  ColumnEvenly,
-  Row,
-  RowBetween,
-} from "../../styles/FlexView";
 import { Picker } from "@react-native-picker/picker";
 import {
   addService,
@@ -23,13 +16,15 @@ import {
   deleteDoctorFromSurgery,
   addMinorToSurgery,
   editMinorSurgeryPercent,
-} from "../../store/actions/adviceAction";
+} from "../../../store/actions/adviceAction";
 import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/Ionicons";
+import { SurgeryList } from "../../../config/Surgery";
+import { ColumnCenter, Row, RowBetween } from "../../../styles/FlexView";
 
 const { width, height } = Dimensions.get("window");
 
-const Advice = ({
+const Surgery = ({
   item,
   index,
   addService,
@@ -45,7 +40,7 @@ const Advice = ({
 
   // handle every tick on finding service
   const handleSearchPres = async (text) => {
-    const result = await services.filter((str) => {
+    const result = await SurgeryList.filter((str) => {
       return str.Service_Name.toLowerCase().includes(text.toLowerCase());
     });
     setPrescription(result.slice(0, 100));
@@ -190,7 +185,7 @@ const Advice = ({
                 <Picker.Item label="equipment_d" value="equipment_d" />
               </Picker>
             </Row>
-            <Row>
+            <Row style={{display : index===0?'none':'flex'}}>
               <Row>
                 <Text>Minor Surgery ?</Text>
                 <Pressable
@@ -279,4 +274,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Advice);
+export default connect(mapStateToProps, mapDispatchToProps)(Surgery);

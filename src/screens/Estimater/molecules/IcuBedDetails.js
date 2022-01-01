@@ -1,36 +1,38 @@
 import { Picker } from "@react-native-picker/picker";
-import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, StyleSheet, Dimensions } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet, Dimensions, TextInput } from "react-native";
 import { connect } from "react-redux";
-import { BedFeeMaster } from "../../config/BedFee";
-import { addWardBed, addWardStay } from "../../store/actions/adviceAction";
-import { RowBetween } from "../../styles/FlexView";
+import { BedFeeMaster } from "../../../config/BedFee";
+import { addIcuBed, addIcuStay } from "../../../store/actions/adviceAction";
+import { RowBetween } from "../../../styles/FlexView";
+
 const { width } = Dimensions.get("window");
 
-const WardBedDetails = ({ addWardBed, addWardStay, advice }) => {
-  const [total, setTotal] = useState(0);
+const IcuBedDetails = ({ addIcuBed, addIcuStay, advice }) => {
+  const [Total, setTotal] = useState(0);
   useEffect(() => {
-    let totaltemp = 0;
+    let temptotal = 0;
     BedFeeMaster.map((item) => {
-      if (item.Billing_Code === advice.wardBedType) {
-        totaltemp += (advice.isEmergency?item.Emergency_Fee:item.IP_Fee)*advice.ward;
+      if (item.Billing_Code === advice.icuBedType) {
+        temptotal += (advice.isEmergency?item.Emergency_Fee:item.IP_Fee)*advice.icu;
       }
     });
-    setTotal(totaltemp);
+    setTotal(temptotal);
   }, [advice]);
   return (
     <RowBetween>
       <View style={{ width: width * 0.45 }}>
         <Picker
-          selectedValue={advice.wardBedType}
+          
+          selectedValue={advice.icuBedType}
           onValueChange={(itemValue, itemIndex) =>
-            addWardBed({ wardBed: itemValue })
+            addIcuBed({ icuBed: itemValue })
           }
         >
           {BedFeeMaster.map((item) => {
             return (
               <Picker.Item
-                key={item.Billing_Code}
+                key={item.Service_Id}
                 label={item.Bed_Category}
                 value={item.Billing_Code}
               />
@@ -38,20 +40,19 @@ const WardBedDetails = ({ addWardBed, addWardStay, advice }) => {
           })}
         </Picker>
       </View>
-
       <View style={{ width: width * 0.25 }}>
-        <Text>Ward Stay</Text>
+        <Text>ICU Stay</Text>
         <TextInput
           textContentType="telephoneNumber"
-          onChangeText={(text) => addWardStay({ wardStay: text })}
-          value={advice.ward}
+          value={advice.icu}
+          onChangeText={(text) => addIcuStay({ icuStay: text })}
           keyboardType="number-pad"
-          placeholder="Ward"
+          placeholder="ICU"
           style={styles.input}
         />
       </View>
       <View style={{ width: width * 0.3 }}>
-        <Text>{total} INR</Text>
+        <Text>{Total} INR</Text>
       </View>
     </RowBetween>
   );
@@ -70,8 +71,8 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addWardBed: (item) => dispatch(addWardBed(item)),
-    addWardStay: (item) => dispatch(addWardStay(item)),
+    addIcuBed: (item) => dispatch(addIcuBed(item)),
+    addIcuStay: (item) => dispatch(addIcuStay(item)),
   };
 };
 
@@ -81,4 +82,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(WardBedDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(IcuBedDetails);

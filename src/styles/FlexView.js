@@ -13,7 +13,10 @@ const ColumnCenter = styled.View`
 alignItems : center;
 justify-content : center;
 `
+const ColumnStart = styled.View`
+align-items : flex-start;
+`
 const ColumnEvenly = styled.View`
 justify-content : space-evenly;
 `
-export {RowBetween, Row, ColumnCenter, ColumnEvenly}
+export {RowBetween, Row, ColumnCenter, ColumnEvenly, ColumnStart}

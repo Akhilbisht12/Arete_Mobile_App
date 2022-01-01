@@ -4,17 +4,38 @@ import * as actionTypes from "../types/adviceTypes";
 const initAdvice = {
   isIPDPackage: false,
   isEmergency: false,
+  step : 0,
   ward: 0,
   icu: 0,
   wardBedType: "",
-  wardBedPrice: 0,
   icuBedType: "",
-  icuBedPrice: 0,
   doctor: "",
   remarks: "",
   paymentType: "",
   paymentCompany: "",
+  investigationTotal: 0,
+  procedureTotal: 0,
+  medicine: 0,
+  equipment: 0,
+  blood: 0,
+  stent: 0,
+  visitTotal: 0,
   services: [
+    {
+      id: 0,
+    },
+  ],
+  investigations: [
+    {
+      id: 0,
+    },
+  ],
+  procedures: [
+    {
+      id: 0,
+    },
+  ],
+  packages: [
     {
       id: 0,
     },
@@ -70,12 +91,78 @@ const adviceReducer = (state = initAdvice, action) => {
         services: servicetemp,
       };
     case actionTypes.DELETE_SERVICE:
-      const { index } = action.payload.item;
-      const deleteTemp = state.services;
-      deleteTemp.splice(index, 1);
+      const { servicedeleteindex } = action.payload.item;
+      const deleteservicetemp = state.services;
+      deleteservicetemp.splice(servicedeleteindex, 1);
       return {
         ...state,
-        services: deleteTemp,
+        services: deleteservicetemp,
+      };
+    case actionTypes.ADD_NEW_INVESTIGATION:
+      return {
+        ...state,
+        investigations: [
+          ...state.investigations,
+          { id: state.investigations.length },
+        ],
+      };
+    case actionTypes.ADD_INVESTIGSTION:
+      const { newInvestigation, i_id } = action.payload.item;
+      const investigationtemp = state.investigations;
+      investigationtemp[i_id] = newInvestigation;
+      return {
+        ...state,
+        investigations: investigationtemp,
+      };
+    case actionTypes.DELETE_INVESTIGATION:
+      const { investigationindex } = action.payload.item;
+      const deleteinvitationTemp = state.investigations;
+      deleteinvitationTemp.splice(investigationindex, 1);
+      return {
+        ...state,
+        investigations: deleteinvitationTemp,
+      };
+    case actionTypes.ADD_NEW_PROCEDURE:
+      return {
+        ...state,
+        procedures: [...state.procedures, { id: state.procedures.length }],
+      };
+    case actionTypes.ADD_PROCEDURE:
+      const { newProcedure, p_id } = action.payload.item;
+      const proceduretemp = state.procedures;
+      proceduretemp[p_id] = newProcedure;
+      return {
+        ...state,
+        procedures: proceduretemp,
+      };
+    case actionTypes.DELETE_PROCEDURE:
+      const { procedureindex } = action.payload.item;
+      const deleteproceduretemp = state.procedures;
+      deleteproceduretemp.splice(procedureindex, 1);
+      return {
+        ...state,
+        procedures: deleteproceduretemp,
+      };
+    case actionTypes.ADD_NEW_PACKAGE:
+      return {
+        ...state,
+        packages: [...state.packages, { id: state.packages.length }],
+      };
+    case actionTypes.ADD_PACKAGE:
+      const { newPackage, pkg_id } = action.payload.item;
+      const packagetemp = state.packages;
+      packagetemp[pkg_id] = newPackage;
+      return {
+        ...state,
+        packages: packagetemp,
+      };
+    case actionTypes.DELETE_PACKAGE:
+      const { packageindex } = action.payload.item;
+      const deletepackagetemp = state.packages;
+      deletepackagetemp.splice(packageindex, 1);
+      return {
+        ...state,
+        packages: deletepackagetemp,
       };
     case actionTypes.ADD_CHARGE:
       return {
@@ -160,6 +247,60 @@ const adviceReducer = (state = initAdvice, action) => {
       return {
         ...state,
         services: temppercentsurgery,
+      };
+    case actionTypes.ADD_INVESTIGSTION:
+      const { investigation } = action.payload.item;
+      return {
+        ...state,
+        investigation,
+      };
+    case actionTypes.ADD_MEDICINE_CHARGE:
+      const { medicine } = action.payload.item;
+      return {
+        ...state,
+        medicine,
+      };
+    case actionTypes.ADD_EQUIPMENT_CHARGE:
+      const { equipment } = action.payload.item;
+      return {
+        ...state,
+        equipment,
+      };
+    case actionTypes.ADD_BLOOD_REQUIREMENT:
+      const { blood } = action.payload.item;
+      return {
+        ...state,
+        blood,
+      };
+    case actionTypes.ADD_STENT:
+      const { stent } = action.payload.item;
+      return {
+        ...state,
+        stent,
+      };
+    case actionTypes.ADD_INVESTIGATION_TOTAL:
+      const { investigationTotal } = action.payload.item;
+      return {
+        ...state,
+        investigationTotal,
+      };
+    case actionTypes.ADD_PROCEDURE_TOTAL:
+      const { procedureTotal } = action.payload.item;
+      return {
+        ...state,
+        procedureTotal,
+      };
+    case actionTypes.VISIT_TOTAL:
+      const { visitTotal } = action.payload.item;
+      return {
+        ...state,
+        visitTotal,
+      };
+    case actionTypes.EDIT_STEP:
+      const { step } = action.payload.item;
+      return {
+        ...state,
+        step,
       };
     default:
       return state;

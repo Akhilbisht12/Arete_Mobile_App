@@ -4,7 +4,6 @@ import { RowBetween } from "../../styles/FlexView";
 import PatientDetailedView from "../../styles/PatientDetailsView";
 const { width, height } = Dimensions.get("window");
 import SessionHistoryTab from './SessionHistoryTab';
-import CreateNewSessionTab from "./CreateNewSessionTab";
 import { useNavigation } from "@react-navigation/native";
 
 const PatientSessionTabs = ({patientID}) => {
@@ -16,15 +15,15 @@ const PatientSessionTabs = ({patientID}) => {
         <PatientDetailedView
           style={{ backgroundColor: IsHistoryActive ? "#C1666B" : "#E4DFDA" }}
         >
-          <Pressable onPress={()=>setIsHistoryActive(!IsHistoryActive)} style={{ width: 0.36 * width }}>
+          <Pressable style={{ width: 0.36 * width }}>
             <Text>Session History</Text>
           </Pressable>
         </PatientDetailedView>
         <PatientDetailedView
           style={{ backgroundColor: IsHistoryActive ? "#E4DFDA" : "#C1666B" }}
         >
-          <Pressable onPress={()=>navigation.navigate('CreateNewSession', {patientID})} style={{ width: 0.36 * width }}>
-            <Text>Create New Session</Text>
+          <Pressable onPress={()=>navigation.navigate('CreateEstimate', {patientID})} style={{ width: 0.36 * width }}>
+            <Text>Create Estimate</Text>
           </Pressable>
         </PatientDetailedView>
       </RowBetween>

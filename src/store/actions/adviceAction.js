@@ -194,3 +194,152 @@ export const editMinorSurgeryPercent = (item) => {
     },
   };
 };
+
+export const addNewInvestigation = (item) => {
+  return {
+    type: actionTypes.ADD_NEW_INVESTIGATION,
+    payload: {
+      item,
+    },
+  };
+};
+
+export const addInvestigation = (item) => {
+  return {
+    type: actionTypes.ADD_INVESTIGSTION,
+    payload: {
+      item,
+    },
+  };
+};
+
+export const deleteInvestigation = (item) => {
+  return {
+    type: actionTypes.DELETE_INVESTIGATION,
+    payload: {
+      item,
+    },
+  };
+};
+
+export const addNewProcedure = () => {
+  return {
+    type: actionTypes.ADD_NEW_PROCEDURE,
+    payload: {},
+  };
+};
+
+export const addProcedure = (item) => {
+  return {
+    type: actionTypes.ADD_PROCEDURE,
+    payload: {
+      item,
+    },
+  };
+};
+
+export const deleteProcedure = (item) => {
+  return {
+    type: actionTypes.DELETE_PROCEDURE,
+    payload: {
+      item,
+    },
+  };
+};
+
+export const addNewPackage = () => {
+  return {
+    type: actionTypes.ADD_NEW_PACKAGE,
+    payload: {},
+  };
+};
+
+export const addPackage = (item) => {
+  return {
+    type: actionTypes.ADD_PACKAGE,
+    payload: {
+      item,
+    },
+  };
+};
+
+export const deletePackage = (item) => {
+  return {
+    type: actionTypes.DELETE_PACKAGE,
+    payload: {
+      item,
+    },
+  };
+};
+
+export const addMedicineCharge = (item) => {
+  return {
+    type: actionTypes.ADD_MEDICINE_CHARGE,
+    payload: {
+      item,
+    },
+  };
+};
+
+export const addEquipmentCharge = (item) => {
+  return {
+    type: actionTypes.ADD_EQUIPMENT_CHARGE,
+    payload: {
+      item,
+    },
+  };
+};
+
+export const addBloodRequirement = (item) => {
+  return {
+    type: actionTypes.ADD_BLOOD_REQUIREMENT,
+    payload: {
+      item,
+    },
+  };
+};
+
+export const addStent = (item) => {
+  return {
+    type: actionTypes.ADD_STENT,
+    payload: {
+      item,
+    },
+  };
+};
+
+export const addInvestigationTotal = (item) => {
+  return {
+    type: actionTypes.ADD_INVESTIGATION_TOTAL,
+    payload: {
+      item,
+    },
+  };
+};
+
+export const addProcedureTotal = (item) => {
+  return {
+    type: actionTypes.ADD_PROCEDURE_TOTAL,
+    payload: {
+      item,
+    },
+  };
+};
+
+export const addVisitTotal = (item) => {
+  return {
+    type: actionTypes.VISIT_TOTAL,
+    payload: {
+      item,
+    },
+  };
+};
+
+export const editStep = (item) => {
+  return {
+    type: actionTypes.EDIT_STEP,
+    payload: {
+      item,
+    },
+  };
+};

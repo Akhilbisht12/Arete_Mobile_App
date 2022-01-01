@@ -3,26 +3,17 @@ import {
   View,
   StyleSheet,
   Dimensions,
-  Modal,
   Alert,
-  Pressable,
-  Picker,
-  Text,
-  TabBarIOSItem,
   ScrollView,
 } from "react-native";
 import axios from "axios";
 import { SERVER_URL } from "../config/variables";
-import LatestSessionComp from "../components/organisms/LatestSessionComp";
-import CreateNewSessionTab from "../components/organisms/CreateNewSessionTab";
-import CreatePETCT from "../components/molecules/CreatePETCT";
 import ImgBox from "../styles/ImgBox";
 import HeadingText from "../styles/HeadingText";
 import { ColumnCenter } from "../styles/FlexView";
 import PatientDetailedView from "../styles/PatientDetailsView";
 import ParaText from "../styles/ParaText";
 import moment from "moment";
-import PatientEntryTabs from "../navigation/PatientEntryTabs";
 import PatientSessionTabs from "../components/organisms/PatientSessionTabs";
 
 const { width, height } = Dimensions.get("window");
