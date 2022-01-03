@@ -16,12 +16,12 @@ import styles from "../styles";
 
 const { width } = Dimensions.get("window");
 
-const BedWidget = ({ advice, addWardBed, editStep }) => {
+const BedWidget = ({ advice, addIcuBed, editStep, addWardBed, addWardStay, addIcuStay }) => {
   return (
     <View>
       <EstimateBox
         style={{
-          display: advice.step >= 1 && !advice.isIPDPackage ? "flex" : "none",
+          display: advice.step >= 1 ? "flex" : "none",
         }}
       >
         <ColumnStart>
@@ -30,7 +30,7 @@ const BedWidget = ({ advice, addWardBed, editStep }) => {
             <Picker
               selectedValue={advice.wardBedType}
               onValueChange={(itemValue, itemIndex) => {
-                editStep({ step: 2 });
+                advice.isIPDPackage?editStep({step : 5}):editStep({step : 2})
                 addWardBed({ wardBed: itemValue });
               }}
             >
@@ -57,7 +57,7 @@ const BedWidget = ({ advice, addWardBed, editStep }) => {
           <TextInput
             onSubmitEditing={() => editStep({ step: 3 })}
             textContentType="telephoneNumber"
-            onChangeText={(text) => addWardStay({ wardStay: text })}
+            onChangeText={(text) => addWardStay({ wardStay: parseInt(text) })}
             value={advice.ward}
             keyboardType="number-pad"
             placeholder="Ward"
@@ -107,7 +107,7 @@ const BedWidget = ({ advice, addWardBed, editStep }) => {
             value={advice.icu}
             onSubmitEditing={() => editStep({ step: 5 })}
             onChangeText={(text) => {
-              addIcuStay({ icuStay: text });
+              addIcuStay({ icuStay: parseInt(text) });
             }}
             keyboardType="number-pad"
             placeholder="ICU"

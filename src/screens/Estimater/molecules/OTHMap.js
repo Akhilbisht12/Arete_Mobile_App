@@ -1,54 +1,54 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { View, Text, Pressable, Dimensions, TextInput } from "react-native";
 import { connect } from "react-redux";
 import {
-  addNewProcedure,
-  addProcedureTotal,
+  addInvestigationTotal,
+  addNewInvestigation,
   editStep,
 } from "../../../store/actions/adviceAction";
 import { ColumnStart, RowBetween } from "../../../styles/FlexView";
 import { EstimateBox } from "../../../styles/styledBoxes";
-import { calculateProcedure } from "../../../utils/EstimateCalculator";
-import Procedure from "../atoms/Procedure";
+import { calculateInvestigation } from "../../../utils/EstimateCalculator";
+import Investigation from "../atoms/Investigation";
 import styles from "../styles";
+const { width } = Dimensions.get("window");
 
-const { width, height } = Dimensions.get("window");
-
-const ProcedureMap = ({
-  addNewProcedure,
+const OTHMap = ({
+  addNewInvestigation,
   advice,
-  addProcedureTotal,
+  addInvestigationTotal,
   editStep,
 }) => {
+  const handleUpdateInvestigation = () => {
+    const investigation = calculateInvestigation();
+    addInvestigationTotal({ investigationTotal: investigation });
+  };
+
   return (
-    <EstimateBox style={{ display: advice.step >= 12 ? "flex" : "none" }}>
+    <EstimateBox style={{ display: advice.step >= 11 ? "flex" : "none" }}>
       <ColumnStart>
-        <Text style={styles.title}>Add Procedures</Text>
+        <Text style={styles.title}>Add Investigation</Text>
         <ColumnStart>
           <View>
-            {advice.procedures.map((item, index) => {
-              return <Procedure key={index} item={item} index={index} />;
+            {advice.investigations.map((item, index) => {
+              return <Investigation key={index} item={item} index={index} />;
             })}
             <RowBetween>
               <Pressable
                 style={{ marginVertical: 5 }}
-                onPress={() => addNewProcedure()}
+                onPress={() => addNewInvestigation()}
               >
                 <Text
                   style={{
                     color: "blue",
                   }}
                 >
-                  Add a Procedure
+                  Add a investigation
                 </Text>
               </Pressable>
               <Pressable
                 style={styles.option}
-                onPress={() =>{
-                  addProcedureTotal({ procedureTotal: calculateProcedure() })
-                  console.log(calculateProcedure())
-                }
-                }
+                onPress={handleUpdateInvestigation}
               >
                 <Text>calculate Total</Text>
               </Pressable>
@@ -65,33 +65,30 @@ const ProcedureMap = ({
               color: "gray",
             }}
           >
-            Procedures
+            Investigation
           </Text>
           <TextInput
             keyboardType="number-pad"
             placeholder="value"
-            value={advice.procedureTotal.toString()}
+            value={advice.investigationTotal.toString()}
             onChangeText={(text) =>
-              addProcedureTotal({ procedureTotal: parseInt(text) })
+              addInvestigationTotal({ investigationTotal: parseInt(text) })
             }
             style={[styles.input, { width: 0.41 * width }]}
           />
         </RowBetween>
-        <View
-          style={{
-            alignItems: "flex-end",
-            width: width * 0.85,
-            display: advice.step === 12 ? "flex" : "none",
-          }}
-        >
-          <Pressable
-            style={styles.option}
-            onPress={() => editStep({ step: 13 })}
-          >
-            <Text>Next</Text>
-          </Pressable>
-        </View>
       </ColumnStart>
+      <View
+        style={{
+          alignItems: "flex-end",
+          width: width * 0.85,
+          display: advice.step === 11 ? "flex" : "none",
+        }}
+      >
+        <Pressable style={styles.option} onPress={() => editStep({ step: 12 })}>
+          <Text>Next</Text>
+        </Pressable>
+      </View>
     </EstimateBox>
   );
 };
@@ -102,9 +99,10 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    addNewProcedure: () => dispatch(addNewProcedure()),
-    addProcedureTotal: (item) => dispatch(addProcedureTotal(item)),
+    addNewInvestigation: () => dispatch(addNewInvestigation()),
     editStep: (item) => dispatch(editStep(item)),
+    addInvestigationTotal: (item) => dispatch(addInvestigationTotal(item)),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(ProcedureMap);
+
+export default connect(mapStateToProps, mapDispatchToProps)(OTHMap);

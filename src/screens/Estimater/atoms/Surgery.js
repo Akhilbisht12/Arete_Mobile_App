@@ -27,6 +27,7 @@ const { width, height } = Dimensions.get("window");
 const Surgery = ({
   item,
   index,
+  advice,
   addService,
   deleteService,
   addDoctorToSurgery,
@@ -55,6 +56,16 @@ const Surgery = ({
     };
     addService({ newService: tempService, s_id: index });
   };
+
+  const getServicePrice = ()=>{
+    let price = null;
+    for(const [key, value] of Object.entries(item)){
+      if(key === advice.wardBedType){
+        price = value
+      }
+    }
+    return price
+  }
 
   return (
     <Row>
@@ -113,7 +124,7 @@ const Surgery = ({
               </Row>
             </View>
             <ColumnCenter>
-              <Text>{item.OPD ? item.OPD : ""}</Text>
+              <Text>{getServicePrice()}</Text>
             </ColumnCenter>
           </RowBetween>
           <View
@@ -185,16 +196,20 @@ const Surgery = ({
                 <Picker.Item label="equipment_d" value="equipment_d" />
               </Picker>
             </Row>
-            <Row style={{display : index===0?'none':'flex'}}>
+            <Row style={{ display: index === 0 ? "none" : "flex" }}>
               <Row>
-                <Text>Minor Surgery ?</Text>
+                <Text>Same Site</Text>
                 <Pressable
-                  onPress={() =>
+                  onPress={() => {
                     addMinorToSurgery({
                       minorsurgeryindex: index,
                       minorsurgery: !item.isMinor,
-                    })
-                  }
+                    });
+                    editMinorSurgeryPercent({
+                      surgerypercent: 50,
+                      minorpercentindex: index,
+                    });
+                  }}
                   style={{ marginHorizontal: 10 }}
                 >
                   <Icon
@@ -203,7 +218,7 @@ const Surgery = ({
                   />
                 </Pressable>
               </Row>
-              <View style={{ display: item.isMinor ? "flex" : "none" }}>
+              {/* <View style={{ display: item.isMinor ? "flex" : "none" }}>
                 <TextInput
                   onChangeText={(text) =>
                     editMinorSurgeryPercent({
@@ -216,7 +231,7 @@ const Surgery = ({
                   placeholder="Percent"
                   style={styles.input}
                 />
-              </View>
+              </View> */}
             </Row>
           </View>
         </View>

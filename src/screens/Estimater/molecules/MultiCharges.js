@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Dimensions, TextInput } from "react-native";
+import { View, Text, Dimensions, TextInput, Pressable } from "react-native";
 import { connect } from "react-redux";
 import {
   addBloodRequirement,
@@ -9,9 +9,10 @@ import {
   addVisitTotal,
   editStep,
 } from "../../../store/actions/adviceAction";
-import { ColumnStart, RowBetween } from "../../../styles/FlexView";
+import { ColumnCenter, ColumnStart, RowBetween } from "../../../styles/FlexView";
 import { EstimateBox } from "../../../styles/styledBoxes";
 import styles from "../styles";
+import { useNavigation } from "@react-navigation/native";
 const {width} = Dimensions.get('window')
 
 const MultiCharges = ({
@@ -22,6 +23,7 @@ const MultiCharges = ({
   addEquipmentCharge,
   addStent,
 }) => {
+  const navigation = useNavigation()
   return (
     <EstimateBox style={{ display: advice.step >= 13 ? "flex" : "none" }}>
       <ColumnStart>
@@ -80,7 +82,7 @@ const MultiCharges = ({
             </Text>
             <TextInput
               value={advice.equipment}
-              onChangeText={(text) => addEquipmentCharge(text)}
+              onChangeText={(text) => addEquipmentCharge({equipment : text})}
               keyboardType="number-pad"
               placeholder="value"
               style={[styles.input, { width: 0.41 * width }]}
@@ -126,6 +128,11 @@ const MultiCharges = ({
               style={[styles.input, { width: 0.41 * width }]}
             />
           </RowBetween>
+          <ColumnCenter>
+          <Pressable style={styles.option} onPress={()=>navigation.navigate('EstimateOutput')}>
+            <Text>Preview Estimate</Text>
+          </Pressable>
+          </ColumnCenter>
         </View>
       </ColumnStart>
     </EstimateBox>

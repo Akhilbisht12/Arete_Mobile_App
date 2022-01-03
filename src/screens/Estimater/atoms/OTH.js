@@ -2,32 +2,38 @@ import React, { useState } from "react";
 import {
   View,
   Text,
-  StyleSheet,
-  Dimensions,
-  ScrollView,
   TextInput,
+  ScrollView,
   Pressable,
+  Dimensions,
+  StyleSheet,
 } from "react-native";
 import { connect } from "react-redux";
-import { addPackage, deletePackage } from "../../../store/actions/adviceAction";
-import { ColumnCenter, Row, RowBetween } from "../../../styles/FlexView";
 import Icon from "react-native-vector-icons/Ionicons";
-import { PackageList } from "../../../config/IPDPackage";
+import { InvestigationMap } from "../../../config/Investigation";
+import { addInvestigation, addNewInvestigation, deleteInvestigation } from "../../../store/actions/adviceAction";
+import { ColumnCenter, Row, RowBetween } from "../../../styles/FlexView";
 
 const { width, height } = Dimensions.get("window");
-
-const Package = ({ item, index, advice, addPackage, deletePackage }) => {
+const OTH = ({
+  advice,
+  addInvestigation,
+  deleteInvestigation,
+  addNewInvestigation,
+  item,
+  index,
+}) => {
   const [Prescription, setPrescription] = useState([]);
 
   const handleSearchPres = async (text) => {
-    const result = await PackageList.filter((str) => {
-      return str.Service_Name.includes(text.toLowerCase());
+    const result = await InvestigationMap.filter((str) => {
+      return str.Service_Name.toLowerCase().includes(text.toLowerCase());
     });
     setPrescription(result.slice(0, 100));
   };
 
   const addServiceToState = (item) => {
-    addPackage({ newPackage: item, pkg_id: index });
+    addInvestigation({ newInvestigation: item, i_id: index });
   };
 
   const getServicePrice = ()=>{
@@ -45,7 +51,7 @@ const Package = ({ item, index, advice, addPackage, deletePackage }) => {
       <View style={{ width: 0.85 * width }}>
         <View style={{ display: item.Service_Name ? "none" : "flex" }}>
           <TextInput
-            placeholder="find packages"
+            placeholder="find service"
             onChangeText={(text) => handleSearchPres(text)}
             style={{
               borderWidth: 1,
@@ -104,13 +110,14 @@ const Package = ({ item, index, advice, addPackage, deletePackage }) => {
       </View>
       <Pressable
         style={{ marginVertical: 5 }}
-        onPress={() => deletePackage({ packageindex: index })}
+        onPress={() => deleteInvestigation({ investigationindex: index })}
       >
         <Icon name="trash" size={20} />
       </Pressable>
     </Row>
   );
 };
+
 const styles = StyleSheet.create({
   service: {
     paddingVertical: 2,
@@ -138,8 +145,9 @@ const styles = StyleSheet.create({
 });
 const mapDispatchToProps = (dispatch) => {
   return {
-    deletePackage: (item) => dispatch(deletePackage(item)),
-    addPackage: (item) => dispatch(addPackage(item)),
+    addInvestigation: (item) => dispatch(addInvestigation(item)),
+    deleteInvestigation: (item) => dispatch(deleteInvestigation(item)),
+    addNewInvestigation: (item) => dispatch(addNewInvestigation(item)),
   };
 };
 
@@ -148,4 +156,4 @@ const mapStateToProps = (state) => {
     advice: state.advice,
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Package);
+export default connect(mapStateToProps, mapDispatchToProps)(OTH);

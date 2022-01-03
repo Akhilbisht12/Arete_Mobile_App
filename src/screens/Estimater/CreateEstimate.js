@@ -1,12 +1,11 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
 import { SERVER_URL } from "../../config/variables";
 import { ColumnStart } from "../../styles/FlexView";
 import {
   View,
   Text,
-  Pressable,
   TextInput,
   Dimensions,
   StyleSheet,
@@ -14,12 +13,6 @@ import {
   ScrollView,
 } from "react-native";
 import {
-  addAdvice,
-  addService,
-  editAdvice,
-  addCharge,
-  editCharge,
-  deleteAddCharge,
   addDoctor,
   addRemark,
   editStep,
@@ -40,21 +33,22 @@ const { width } = Dimensions.get("window");
 
 const CreateEstimate = ({ patientID, advice, addDoctor, editStep }) => {
   const [total, setTotal] = useState(0);
-  const [step, setStep] = useState(0);
   const navigation = useNavigation();
+  const scrollRef = useRef(null)
   useEffect(() => {
-    console.log(advice)
-    var totalTemp = 0;
-    advice.services.map((item) => {
-      for (const [key, value] of Object.entries(item)) {
-        if (key === advice.wardBedType) {
-          totalTemp +=
-            value === "" ? 0 : parseInt(value.replace(",", "")) * advice.ward;
-        }
-      }
-    });
-    setTotal(totalTemp);
-  }, [advice]);
+    console.log(advice);
+    scrollRef.current.scrollToEnd({animated: true})
+    // var totalTemp = 0;
+    // advice.services.map((item) => {
+    //   for (const [key, value] of Object.entries(item)) {
+    //     if (key === advice.wardBedType) {
+    //       totalTemp +=
+    //         value === "" ? 0 : parseInt(value.replace(",", "")) * advice.ward;
+    //     }
+    //   }
+    // });
+    // setTotal(totalTemp);
+  }, [advice.step]);
 
   const handleCreateSession = async () => {
     const session = advice.services.map((item) => {
@@ -89,6 +83,7 @@ const CreateEstimate = ({ patientID, advice, addDoctor, editStep }) => {
 
   return (
     <ScrollView
+      ref={scrollRef}
       contentContainerStyle={{
         justifyContent: "flex-end",
         flexGrow: 1,
@@ -160,12 +155,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    editAdvice: (item) => dispatch(editAdvice(item)),
-    addService: (item) => dispatch(addService(item)),
-    addAdvice: () => dispatch(addAdvice()),
-    addCharge: () => dispatch(addCharge()),
-    editCharge: (item) => dispatch(editCharge(item)),
-    deleteAddCharge: (item) => dispatch(deleteAddCharge(item)),
     addDoctor: (item) => dispatch(addDoctor(item)),
     addRemark: (item) => dispatch(addRemark(item)),
     editStep: (item) => dispatch(editStep(item)),
