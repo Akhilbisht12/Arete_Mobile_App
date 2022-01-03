@@ -221,6 +221,42 @@ export const deleteInvestigation = (item) => {
   };
 };
 
+export const addNewOTH = (item) => {
+  return {
+    type: actionTypes.ADD_NEW_OTH,
+    payload: {
+      item,
+    },
+  };
+};
+
+export const addOTH = (item) => {
+  return {
+    type: actionTypes.ADD_OTH,
+    payload: {
+      item,
+    },
+  };
+};
+
+export const deleteOTH = (item) => {
+  return {
+    type: actionTypes.DELETE_OTH,
+    payload: {
+      item,
+    },
+  };
+};
+
+export const addOTHTotal = (item) =>{
+  return {
+    type : actionTypes.ADD_OTH_TOTAL,
+    payload : {
+      item
+    }
+  }
+}
+
 export const addNewProcedure = () => {
   return {
     type: actionTypes.ADD_NEW_PROCEDURE,

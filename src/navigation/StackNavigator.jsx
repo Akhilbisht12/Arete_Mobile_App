@@ -10,6 +10,7 @@ import QuickPrescriptionUpload from "../screens/QuickPrescriptionUpload";
 import EstimatePreview from "../components/organisms/EstimatePreview";
 import CreateEstimate from "../screens/Estimater/CreateEstimate";
 import RegisterScreen from "../screens/RegisterScreen";
+import EstimateOutput from "../screens/EstimateOutput";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -24,6 +25,7 @@ const StackNavigator = () => {
       <Stack.Screen name="QuickPrescriptionUpload" component={QuickPrescriptionUpload} />
       <Stack.Screen name="CreateEstimate" component={CreateEstimate} />
       <Stack.Screen name="EstimatePreview" component={EstimatePreview} />
+      <Stack.Screen name="EstimateOutput" component={EstimateOutput} />
     </Stack.Navigator>
   );
 };

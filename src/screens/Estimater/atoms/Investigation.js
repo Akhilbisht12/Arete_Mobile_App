@@ -16,6 +16,7 @@ import { ColumnCenter, Row, RowBetween } from "../../../styles/FlexView";
 
 const { width, height } = Dimensions.get("window");
 const Investigation = ({
+  advice,
   addInvestigation,
   deleteInvestigation,
   addNewInvestigation,
@@ -34,6 +35,17 @@ const Investigation = ({
   const addServiceToState = (item) => {
     addInvestigation({ newInvestigation: item, i_id: index });
   };
+
+  const getServicePrice = ()=>{
+    let price = null;
+    for(const [key, value] of Object.entries(item)){
+      if(key === advice.wardBedType){
+        price = value
+      }
+    }
+    return price
+  }
+
   return (
     <Row>
       <View style={{ width: 0.85 * width }}>
@@ -91,7 +103,7 @@ const Investigation = ({
               </Row>
             </View>
             <ColumnCenter>
-              <Text>{item.OPD ? item.OPD : ""}</Text>
+              <Text>{getServicePrice()}</Text>
             </ColumnCenter>
           </RowBetween>
         </View>

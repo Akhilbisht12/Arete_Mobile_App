@@ -8,16 +8,22 @@ import {
 } from "../../../store/actions/adviceAction";
 import { ColumnStart, RowBetween } from "../../../styles/FlexView";
 import { EstimateBox } from "../../../styles/styledBoxes";
+import { calculateInvestigation } from "../../../utils/EstimateCalculator";
 import Investigation from "../atoms/Investigation";
 import styles from "../styles";
-const {width} = Dimensions.get('window')
+const { width } = Dimensions.get("window");
 
 const InvestigationMap = ({
   addNewInvestigation,
   advice,
   addInvestigationTotal,
-  editStep
+  editStep,
 }) => {
+  const handleUpdateInvestigation = () => {
+    const investigation = calculateInvestigation();
+    addInvestigationTotal({ investigationTotal: investigation });
+  };
+
   return (
     <EstimateBox style={{ display: advice.step >= 11 ? "flex" : "none" }}>
       <ColumnStart>
@@ -27,18 +33,26 @@ const InvestigationMap = ({
             {advice.investigations.map((item, index) => {
               return <Investigation key={index} item={item} index={index} />;
             })}
-            <Pressable
-              style={{ marginVertical: 5 }}
-              onPress={() => addNewInvestigation()}
-            >
-              <Text
-                style={{
-                  color: "blue",
-                }}
+            <RowBetween>
+              <Pressable
+                style={{ marginVertical: 5 }}
+                onPress={() => addNewInvestigation()}
               >
-                Add a investigation
-              </Text>
-            </Pressable>
+                <Text
+                  style={{
+                    color: "blue",
+                  }}
+                >
+                  Add a investigation
+                </Text>
+              </Pressable>
+              <Pressable
+                style={styles.option}
+                onPress={handleUpdateInvestigation}
+              >
+                <Text>calculate Total</Text>
+              </Pressable>
+            </RowBetween>
           </View>
         </ColumnStart>
         <RowBetween style={{ marginVertical: 2 }}>
@@ -56,9 +70,9 @@ const InvestigationMap = ({
           <TextInput
             keyboardType="number-pad"
             placeholder="value"
-            value={advice.investigation}
+            value={advice.investigationTotal.toString()}
             onChangeText={(text) =>
-              addInvestigationTotal({ investigationTotal: text })
+              addInvestigationTotal({ investigationTotal: parseInt(text) })
             }
             style={[styles.input, { width: 0.41 * width }]}
           />
@@ -71,7 +85,7 @@ const InvestigationMap = ({
           display: advice.step === 11 ? "flex" : "none",
         }}
       >
-        <Pressable style={styles.option} onPress={() => editStep({step : 12})}>
+        <Pressable style={styles.option} onPress={() => editStep({ step: 12 })}>
           <Text>Next</Text>
         </Pressable>
       </View>

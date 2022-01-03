@@ -26,6 +26,17 @@ const Procedure = ({ item, index, advice, addProcedure, deleteProcedure, addProc
   const addServiceToState = (item) => {
     addProcedure({ newProcedure: item, p_id: index });
   };
+
+  const getServicePrice = ()=>{
+    let price = null;
+    for(const [key, value] of Object.entries(item)){
+      if(key === advice.wardBedType){
+        price = value
+      }
+    }
+    return price
+  }
+
   return (
     <Row>
       <View style={{ width: 0.85 * width }}>
@@ -83,7 +94,7 @@ const Procedure = ({ item, index, advice, addProcedure, deleteProcedure, addProc
               </Row>
             </View>
             <ColumnCenter>
-              <Text>{item.OPD ? item.OPD : ""}</Text>
+              <Text>{getServicePrice()}</Text>
             </ColumnCenter>
           </RowBetween>
         </View>

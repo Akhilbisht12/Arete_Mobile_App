@@ -22,7 +22,7 @@ const EstimateType = ({ advice, editIPDPackages, editStep }) => {
             },
           ]}
           onPress={() => {
-            editStep({ step: 5 });
+            editStep({ step: 1 });
             editIPDPackages({ ipd: true });
           }}
         >
@@ -39,7 +39,7 @@ const EstimateType = ({ advice, editIPDPackages, editStep }) => {
             },
           ]}
           onPress={() => {
-            editStep({ step: 5 });
+            editStep({ step: 1 });
             editIPDPackages({ ipd: false });
           }}
         >

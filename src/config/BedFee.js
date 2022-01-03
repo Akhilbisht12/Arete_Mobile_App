@@ -28,35 +28,35 @@ exports.BedFeeMaster = [
       Emergency_Fee: 1350
     },
     {
-      Billing_Code: "4BED",
+      Billing_Code: "Four_Sharing",
       Bed_Category: "FOUR BEDED",
       Room_Rent: 5000,
       IP_Fee: 900,
       Emergency_Fee: 1350
     },
     {
-      Billing_Code: "DOUBLE",
+      Billing_Code: "Twin_Sharing",
       Bed_Category: "DOUBLE BEDED",
       Room_Rent: 6000,
       IP_Fee: 1100,
       Emergency_Fee: 1650
     },
     {
-      Billing_Code: "SINGLE",
+      Billing_Code: "Single_Room",
       Bed_Category: "SINGLE BED",
       Room_Rent: 9000,
       IP_Fee: 1300,
       Emergency_Fee: 1950
     },
     {
-      Billing_Code: "DLX",
+      Billing_Code: "Deluxe_Room",
       Bed_Category: "DELUXE",
       Room_Rent: 13000,
       IP_Fee: 1500,
       Emergency_Fee: 2250
     },
     {
-      Billing_Code: "VIP S",
+      Billing_Code: "Suite_Room",
       Bed_Category: "VIP SUITE",
       Room_Rent: 21000,
       IP_Fee: 1800,
