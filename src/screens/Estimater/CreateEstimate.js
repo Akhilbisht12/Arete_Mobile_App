@@ -15,6 +15,7 @@ import {
 import {
   addDoctor,
   addRemark,
+  addVisitTotal,
   editStep,
 } from "../../store/actions/adviceAction";
 import { useNavigation } from "@react-navigation/native";
@@ -28,16 +29,18 @@ import EmergencyWidget from "./molecules/EmergencyWidget";
 import PaymentWidget from "./molecules/PaymentWidget";
 import MultiCharges from "./molecules/MultiCharges";
 import { EstimateBox } from "../../styles/styledBoxes";
+import { Picker } from "@react-native-picker/picker";
+import { doctorVisitCharges } from "../../utils/EstimateCalculator";
 
 const { width } = Dimensions.get("window");
 
-const CreateEstimate = ({ patientID, advice, addDoctor, editStep }) => {
+const CreateEstimate = ({ patientID, advice, addDoctor, editStep, addVisitTotal }) => {
   const [total, setTotal] = useState(0);
   const navigation = useNavigation();
-  const scrollRef = useRef(null)
+  const scrollRef = useRef(null);
   useEffect(() => {
     console.log(advice);
-    scrollRef.current.scrollToEnd({animated: true})
+    scrollRef.current.scrollToEnd({ animated: true });
     // var totalTemp = 0;
     // advice.services.map((item) => {
     //   for (const [key, value] of Object.entries(item)) {
@@ -48,6 +51,9 @@ const CreateEstimate = ({ patientID, advice, addDoctor, editStep }) => {
     //   }
     // });
     // setTotal(totalTemp);
+    if(advice.step === 5) {
+      addVisitTotal({visitTotal : doctorVisitCharges()})
+    }
   }, [advice.step]);
 
   const handleCreateSession = async () => {
@@ -103,13 +109,28 @@ const CreateEstimate = ({ patientID, advice, addDoctor, editStep }) => {
         <EstimateBox style={{ display: advice.step >= 6 ? "flex" : "none" }}>
           <ColumnStart>
             <Text style={styles.title}>Type Doctor's Name</Text>
-            <TextInput
+            {/* <TextInput
               value={advice.doctor}
               onChangeText={(text) => addDoctor({ doctor: text })}
               onSubmitEditing={() => editStep({ step: 7 })}
               placeholder="Dr Name"
               style={[styles.input, { width: 0.43 * width }]}
-            />
+            /> */}
+            <Picker
+              selectedValue={advice.doctor}
+              onValueChange={(itemValue) => {
+                addDoctor({ doctor: itemValue });
+                editStep({ step: 7 });
+              }}
+              style={{ width: width * 0.85 }}
+            >
+              <Picker.Item label="Dr. Jhon Doe" value="Dr. Jhon Doe" />
+              <Picker.Item label="Dr. Karl Doe" value="Dr. Karl Doe" />
+              <Picker.Item label="Dr. Liam Doe" value="Dr. Liam Doe" />
+              <Picker.Item label="Dr. Nat Doe" value="Dr. Nat Doe" />
+              <Picker.Item label="Dr. Mona Doe" value="Dr. Mona Doe" />
+              <Picker.Item label="Dr. Oslo Doe" value="Dr. Oslo Doe" />
+            </Picker>
           </ColumnStart>
         </EstimateBox>
         <PaymentWidget />
@@ -158,6 +179,7 @@ const mapDispatchToProps = (dispatch) => {
     addDoctor: (item) => dispatch(addDoctor(item)),
     addRemark: (item) => dispatch(addRemark(item)),
     editStep: (item) => dispatch(editStep(item)),
+    addVisitTotal : (item) => dispatch(addVisitTotal(item))
   };
 };
 

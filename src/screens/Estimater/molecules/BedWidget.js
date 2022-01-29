@@ -58,7 +58,7 @@ const BedWidget = ({ advice, addIcuBed, editStep, addWardBed, addWardStay, addIc
             onSubmitEditing={() => editStep({ step: 3 })}
             textContentType="telephoneNumber"
             onChangeText={(text) => addWardStay({ wardStay: parseInt(text) })}
-            value={advice.ward}
+            value={(advice.ward).toString()}
             keyboardType="number-pad"
             placeholder="Ward"
             style={styles.input}
@@ -104,7 +104,7 @@ const BedWidget = ({ advice, addIcuBed, editStep, addWardBed, addWardStay, addIc
           <Text style={styles.title}>Type number of days to ICU</Text>
           <TextInput
             textContentType="telephoneNumber"
-            value={advice.icu}
+            value={(advice.icu).toString()}
             onSubmitEditing={() => editStep({ step: 5 })}
             onChangeText={(text) => {
               addIcuStay({ icuStay: parseInt(text) });

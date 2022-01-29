@@ -152,7 +152,13 @@ const adviceReducer = (state = initAdvice, action) => {
           ...state,
           oth: deleteothtemp,
         };
-      // oth
+      case actionTypes.ADD_OTH_TOTAL:
+        const {othtotal} = action.payload.item;
+        return {
+          ...state,
+          othTotal : othtotal
+        }
+        // oth
     case actionTypes.ADD_NEW_PROCEDURE:
       return {
         ...state,

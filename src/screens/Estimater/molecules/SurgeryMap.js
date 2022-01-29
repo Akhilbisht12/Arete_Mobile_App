@@ -6,9 +6,12 @@ import { ColumnStart } from "../../../styles/FlexView";
 import { EstimateBox } from "../../../styles/styledBoxes";
 import Surgery from "../atoms/Surgery";
 import styles from "../styles";
-const {width} = Dimensions.get('window')
+const { width } = Dimensions.get("window");
 
 const SurgeryMap = ({ addAdvice, advice, editStep }) => {
+  const sortedService = advice.services.sort((a, b) => {
+    return b - a;
+  });
   return (
     <EstimateBox
       style={{
@@ -19,9 +22,13 @@ const SurgeryMap = ({ addAdvice, advice, editStep }) => {
         <Text style={styles.title}>Add Surgery</Text>
         <ColumnStart>
           <View>
-            {advice.services.map((item, index) => {
-              return <Surgery key={index} item={item} index={index} />;
-            })}
+            {advice.services
+              .sort((a, b) => {
+                return b.OPD - a.OPD;
+              })
+              .map((item, index) => {
+                return <Surgery key={index} item={item} index={index} />;
+              })}
             <Pressable
               style={{ marginVertical: 5 }}
               onPress={() => addAdvice()}
@@ -31,7 +38,7 @@ const SurgeryMap = ({ addAdvice, advice, editStep }) => {
                   color: "blue",
                 }}
               >
-                Add a service
+                Add surgery
               </Text>
             </Pressable>
           </View>

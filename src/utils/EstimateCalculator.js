@@ -28,10 +28,13 @@ let calculateSurgery = () => {
   const advice = store.getState().advice;
   let surgery = 0;
   advice.services.map((item) => {
+    let tempsurgery = 0
     for (const [key, value] of Object.entries(item)) {
-      surgery += key === advice.wardBedType ? value * 0.01 * item.minor : 0;
+      tempsurgery += key === advice.wardBedType ? value * 0.01 *item.minor : 0;
     }
-    surgery += 0.9 * surgery + 0.3 * surgery + 0.35 * surgery + 0.15 * surgery;
+    let temp = 0.9 * tempsurgery + 0.3 * tempsurgery + 0.35 * tempsurgery + 0.15 * tempsurgery + tempsurgery;
+    surgery += temp;
+    console.log(tempsurgery)
   });
   return Math.round(surgery);
 };
@@ -80,13 +83,13 @@ const doctorVisitCharges = () => {
         ? advice.isEmergency
           ? item.Emergency_Fee
           : item.IP_Fee
-        : 0) * advice.ward;
+        : 0) * advice.ward*2;
     visit +=
       (item.Billing_Code === advice.icuBedType
         ? advice.isEmergency
           ? item.Emergency_Fee
           : item.IP_Fee
-        : 0) * advice.icu;
+        : 0) * advice.icu*4;
   });
   return visit;
 };

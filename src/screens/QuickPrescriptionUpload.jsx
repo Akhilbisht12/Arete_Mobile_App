@@ -12,8 +12,10 @@ import Icon from "react-native-vector-icons/Ionicons";
 import axios from "axios";
 import { SERVER_URL } from "../config/variables";
 import { Picker } from "@react-native-picker/picker";
+import {useNavigation} from '@react-navigation/native'
 
 const QuickPrescriptionUpload = ({ route }) => {
+  const navigation = useNavigation()
   const patientID = route.params.patientID;
   const [isAdmissionAdvised, setisAdmissionAdvised] = useState(false);
   const [isPetCTAdvised, setisPetCTAdvised] = useState(false);
@@ -25,37 +27,43 @@ const QuickPrescriptionUpload = ({ route }) => {
   const [dialysis, setDialysis] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleQuickPrescriptionUpload = async () => {
+  const UploadPrescription = async () => {
     setLoading(true);
     try {
-      const prescription = await axios.post(
-        `${SERVER_URL}/api/v1/patient/quickPrescriptionUpload`,
+      const pres = await axios.post(
+        `${SERVER_URL}/api/v1/patient/createNewSession`,
         {
-          patientID,
-          isAdmissionAdvised,
-          isPetCTAdvised,
-          isRadiologyAdvised,
-          dialysis,
-          diagnostics : {
-            ct,
-            mri,
-            usg,
-            others
-          }
+          patientID: patientID,
+          quickPres: {
+            isAdmissionAdvised,
+            isPetCTAdvised,
+            isRadiologyAdvised,
+            dialysis,
+            diagnostics: {
+              ct,
+              mri,
+              usg,
+              others,
+            },
+          },
         }
       );
-      ToastAndroid.show(
-        "Prescription successfully uploaded",
-        ToastAndroid.SHORT
-      );
-      console.log(prescription);
-      setLoading(false);
+      console.log(pres);
+      if (pres.status === 200) {
+        setLoading(false);
+        ToastAndroid.show(
+          "Prescription Uploaded Successfully",
+          ToastAndroid.SHORT
+        );
+        navigation.navigate("FindPatient");
+      }
     } catch (error) {
-      Alert.alert("something went wrong", "check logs");
-      console.log(error);
       setLoading(false);
+      console.log(error);
+      ToastAndroid.show(error.message, ToastAndroid.SHORT);
     }
   };
+
   return (
     <View>
       <RowBetween style={{ margin: 15 }}>
@@ -67,10 +75,10 @@ const QuickPrescriptionUpload = ({ route }) => {
           setisAdmissionAdvised(itemValue)
         }
       >
-        <Picker.Item value='Initiate RFA' label="Initiate RFA" />
-        <Picker.Item value='Follow Up Later' label="Follow Up Later" />
-        <Picker.Item value='Not Advised' label="Not Advised" />
-        <Picker.Item value='Not Interested' label="Not Interested" />
+        <Picker.Item value="Initiate RFA" label="Initiate RFA" />
+        <Picker.Item value="Follow Up Later" label="Follow Up Later" />
+        <Picker.Item value="Not Advised" label="Not Advised" />
+        <Picker.Item value="Not Interested" label="Not Interested" />
       </Picker>
       <RowBetween style={{ margin: 15 }}>
         <Text>Is PetCT Advised?</Text>
@@ -160,7 +168,7 @@ const QuickPrescriptionUpload = ({ route }) => {
       </View>
       <Pressable
         style={{ backgroundColor: "lightblue", padding: 15 }}
-        onPress={() => handleQuickPrescriptionUpload()}
+        onPress={() => UploadPrescription()}
       >
         <Text style={{ textAlign: "center" }}>Submit Quick Prescription</Text>
         <ActivityIndicator

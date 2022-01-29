@@ -41,8 +41,8 @@ const MultiCharges = ({
               Visit Charge
             </Text>
             <TextInput
-              value={advice.visitTotal}
-              onChangeText={(text) => addVisitTotal({ visitTotal: text })}
+              value={(advice.visitTotal).toString()}
+              onChangeText={(text) => addVisitTotal({ visitTotal: parseInt(text) })}
               keyboardType="number-pad"
               placeholder="value"
               style={[styles.input, { width: 0.41 * width }]}
@@ -61,8 +61,8 @@ const MultiCharges = ({
               Medicine Charge
             </Text>
             <TextInput
-              value={advice.medicine}
-              onChangeText={(text) => addMedicineCharge({ medicine: text })}
+              value={(advice.medicine).toString()}
+              onChangeText={(text) => addMedicineCharge({ medicine: parseInt(text) })}
               keyboardType="number-pad"
               placeholder="value"
               style={[styles.input, { width: 0.41 * width }]}
@@ -81,8 +81,8 @@ const MultiCharges = ({
               Equipment Charge
             </Text>
             <TextInput
-              value={advice.equipment}
-              onChangeText={(text) => addEquipmentCharge({equipment : text})}
+              value={(advice.equipment).toString()}
+              onChangeText={(text) => addEquipmentCharge({equipment : parseInt(text)})}
               keyboardType="number-pad"
               placeholder="value"
               style={[styles.input, { width: 0.41 * width }]}
@@ -101,8 +101,8 @@ const MultiCharges = ({
               Blood Requirement
             </Text>
             <TextInput
-              value={advice.blood}
-              onChangeText={(text) => addBloodRequirement({ blood: text })}
+              value={(advice.blood).toString()}
+              onChangeText={(text) => addBloodRequirement({ blood: parseInt(text) })}
               keyboardType="number-pad"
               placeholder="value"
               style={[styles.input, { width: 0.41 * width }]}
@@ -121,8 +121,8 @@ const MultiCharges = ({
               Stent/Implant Cost
             </Text>
             <TextInput
-              value={advice.stent}
-              onChangeText={(text) => addStent({ stent: text })}
+              value={(advice.stent).toString()}
+              onChangeText={(text) => addStent({ stent: parseInt(text) })}
               keyboardType="number-pad"
               placeholder="value"
               style={[styles.input, { width: 0.41 * width }]}

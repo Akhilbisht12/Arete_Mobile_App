@@ -61,7 +61,7 @@ const Surgery = ({
     let price = null;
     for(const [key, value] of Object.entries(item)){
       if(key === advice.wardBedType){
-        price = value
+        price = value + 0.3*value + 0.35*value + 0.9*value + 0.15*value  
       }
     }
     return price
@@ -238,7 +238,7 @@ const Surgery = ({
       </View>
       <Pressable
         style={{ marginVertical: 5 }}
-        onPress={() => deleteService({ index })}
+        onPress={() => deleteService({ servicedeleteindex:index })}
       >
         <Icon name="trash" size={20} />
       </Pressable>

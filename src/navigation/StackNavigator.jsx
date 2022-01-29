@@ -16,13 +16,16 @@ const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Register Screen" component = {RegisterScreen} />
-      <Stack.Screen name="LoginScreen" component={LoginScreen} />
       <Stack.Screen name="FindPatient" component={FindPatientByID} />
+      <Stack.Screen name="LoginScreen" component={LoginScreen} />
+      <Stack.Screen name="Register Screen" component={RegisterScreen} />
       <Stack.Screen name="Home" component={index} />
       <Stack.Screen name="PatientEntry" component={PatientEntry} />
       <Stack.Screen name="DetailedSession" component={DetailedSession} />
-      <Stack.Screen name="QuickPrescriptionUpload" component={QuickPrescriptionUpload} />
+      <Stack.Screen
+        name="QuickPrescriptionUpload"
+        component={QuickPrescriptionUpload}
+      />
       <Stack.Screen name="CreateEstimate" component={CreateEstimate} />
       <Stack.Screen name="EstimatePreview" component={EstimatePreview} />
       <Stack.Screen name="EstimateOutput" component={EstimateOutput} />

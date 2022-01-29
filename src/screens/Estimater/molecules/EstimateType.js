@@ -26,7 +26,7 @@ const EstimateType = ({ advice, editIPDPackages, editStep }) => {
             editIPDPackages({ ipd: true });
           }}
         >
-          <Text>IPD Package</Text>
+          <Text>Packaged</Text>
         </Pressable>
         <Pressable
           style={[
@@ -43,7 +43,7 @@ const EstimateType = ({ advice, editIPDPackages, editStep }) => {
             editIPDPackages({ ipd: false });
           }}
         >
-          <Text>IPD Non-Package</Text>
+          <Text>Non Packaged</Text>
         </Pressable>
       </ColumnStart>
     </EstimateBox>

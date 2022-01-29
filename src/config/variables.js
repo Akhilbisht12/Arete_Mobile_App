@@ -1,1 +1,1 @@
-exports.SERVER_URL = 'https://60ea-122-161-78-159.ngrok.io'
+exports.SERVER_URL = "https://b0d7-122-161-79-222.ngrok.io";

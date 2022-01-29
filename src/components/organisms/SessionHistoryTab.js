@@ -5,11 +5,11 @@ import { SERVER_URL } from "../../config/variables";
 import PatientDetailedView from "../../styles/PatientDetailsView";
 import moment from "moment";
 import { ColumnEvenly, RowBetween } from "../../styles/FlexView";
-import Icon from 'react-native-vector-icons/Ionicons'
-import {useNavigation}  from '@react-navigation/native'
+import Icon from "react-native-vector-icons/Ionicons";
+import { useNavigation } from "@react-navigation/native";
 
 const SessionHistoryTab = ({ patientID }) => {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const [AllSessions, setAllSessions] = useState([]);
   useEffect(async () => {
     const allSessions = await axios.post(
@@ -24,23 +24,30 @@ const SessionHistoryTab = ({ patientID }) => {
     <View>
       {AllSessions.map((item) => {
         return (
-          <PatientDetailedView key={item._id} style={{ backgroundColor: "#E4DFDA" }}>
+          <PatientDetailedView
+            key={item._id}
+            style={{ backgroundColor: "#E4DFDA" }}
+          >
             <RowBetween>
               <View>
                 <Text>{moment(item.createdAT).format("D-MMM-YY hh:mm a")}</Text>
                 <Text>status: {item.status}</Text>
                 <Text>stage: {item.stage}</Text>
-                <Text>
+                {/* <Text>
                   Last Activity: {item.activity[item.activity.length-1].taskType}
                   {item.activity[item.activity.length - 1].activityType}
-                </Text>
+                </Text> */}
               </View>
               <ColumnEvenly>
-                <Pressable onPress={()=>navigation.navigate('DetailedSession', {data : item})}>
-                  <Icon name="eye-outline" size={25}/>
+                <Pressable
+                  onPress={() =>
+                    navigation.navigate("DetailedSession", { data: item })
+                  }
+                >
+                  <Icon name="eye-outline" size={25} />
                 </Pressable>
                 <Pressable>
-                  <Icon name="create-outline" size={25}/>
+                  <Icon name="create-outline" size={25} />
                 </Pressable>
               </ColumnEvenly>
             </RowBetween>

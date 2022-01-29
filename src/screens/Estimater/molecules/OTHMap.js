@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import {
   addInvestigationTotal,
   addNewInvestigation,
+  addNewOTH,
   editStep,
 } from "../../../store/actions/adviceAction";
 import { ColumnStart, RowBetween } from "../../../styles/FlexView";
@@ -99,9 +100,9 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    addNewInvestigation: () => dispatch(addNewInvestigation()),
+    addNewOTH: () => dispatch(addNewOTH()),
     editStep: (item) => dispatch(editStep(item)),
-    addInvestigationTotal: (item) => dispatch(addInvestigationTotal(item)),
+    addInvestigationTotal: (item) => dispatch(addot(item)),
   };
 };
 

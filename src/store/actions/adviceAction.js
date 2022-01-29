@@ -6,7 +6,6 @@ export const addAdvice = () => {
     payload: {},
   };
 };
-
 export const editAdvice = (item) => {
   return {
     type: actionTypes.EDIT_ADVICE,
@@ -15,7 +14,6 @@ export const editAdvice = (item) => {
     },
   };
 };
-
 export const addWardBed = (item) => {
   return {
     type: actionTypes.ADD_WARD_BED,
@@ -24,7 +22,6 @@ export const addWardBed = (item) => {
     },
   };
 };
-
 export const addWardStay = (item) => {
   return {
     type: actionTypes.ADD_WARD_STAY,
@@ -33,7 +30,6 @@ export const addWardStay = (item) => {
     },
   };
 };
-
 export const addIcuBed = (item) => {
   return {
     type: actionTypes.ADD_ICU_BED,
@@ -42,7 +38,6 @@ export const addIcuBed = (item) => {
     },
   };
 };
-
 export const addIcuStay = (item) => {
   return {
     type: actionTypes.ADD_ICU_STAY,
@@ -51,7 +46,6 @@ export const addIcuStay = (item) => {
     },
   };
 };
-
 export const editIPDPackages = (item) => {
   return {
     type: actionTypes.EDIT_IPD_PACKAGES,
@@ -60,7 +54,6 @@ export const editIPDPackages = (item) => {
     },
   };
 };
-
 export const addService = (item) => {
   return {
     type: actionTypes.ADD_SERVICE,
@@ -69,7 +62,6 @@ export const addService = (item) => {
     },
   };
 };
-
 export const editService = (item) => {
   return {
     type: actionTypes.EDIT_SERVICE,
@@ -78,7 +70,6 @@ export const editService = (item) => {
     },
   };
 };
-
 export const deleteService = (item) => {
   return {
     type: actionTypes.DELETE_SERVICE,
@@ -87,14 +78,12 @@ export const deleteService = (item) => {
     },
   };
 };
-
 export const addCharge = () => {
   return {
     type: actionTypes.ADD_CHARGE,
     payload: {},
   };
 };
-
 export const editCharge = (item) => {
   return {
     type: actionTypes.EDIT_CHARGE,
@@ -103,7 +92,6 @@ export const editCharge = (item) => {
     },
   };
 };
-
 export const editEmergency = (item) => {
   return {
     type: actionTypes.EDIT_EMERGENCY,
@@ -112,7 +100,6 @@ export const editEmergency = (item) => {
     },
   };
 };
-
 export const deleteAddCharge = (item) => {
   return {
     type: actionTypes.DELETE_ADD_CHARGE,
@@ -121,7 +108,6 @@ export const deleteAddCharge = (item) => {
     },
   };
 };
-
 export const addDoctor = (item) => {
   return {
     type: actionTypes.ADD_DOCTOR,
@@ -130,7 +116,6 @@ export const addDoctor = (item) => {
     },
   };
 };
-
 export const addRemark = (item) => {
   return {
     type: actionTypes.ADD_REMARK,
@@ -139,7 +124,6 @@ export const addRemark = (item) => {
     },
   };
 };
-
 export const addPaymentType = (item) => {
   return {
     type: actionTypes.ADD_PAYMENT_TYPE,
@@ -148,7 +132,6 @@ export const addPaymentType = (item) => {
     },
   };
 };
-
 export const addPaymentCompany = (item) => {
   return {
     type: actionTypes.ADD_PAYMENT_COMPANY,
@@ -157,7 +140,6 @@ export const addPaymentCompany = (item) => {
     },
   };
 };
-
 export const addDoctorToSurgery = (item) => {
   return {
     type: actionTypes.ADD_DOCTOR_TO_SURGERY,
@@ -166,7 +148,6 @@ export const addDoctorToSurgery = (item) => {
     },
   };
 };
-
 export const deleteDoctorFromSurgery = (item) => {
   return {
     type: actionTypes.DELETE_DOCTOR_FROM_SURGERY,
@@ -175,7 +156,6 @@ export const deleteDoctorFromSurgery = (item) => {
     },
   };
 };
-
 export const addMinorToSurgery = (item) => {
   return {
     type: actionTypes.ADD_MINOR_TO_SURGERY,
@@ -184,7 +164,6 @@ export const addMinorToSurgery = (item) => {
     },
   };
 };
-
 export const editMinorSurgeryPercent = (item) => {
   return {
     type: actionTypes.EDIT_MINOR_SURGERY_PERCENT,
@@ -193,7 +172,6 @@ export const editMinorSurgeryPercent = (item) => {
     },
   };
 };
-
 export const addNewInvestigation = (item) => {
   return {
     type: actionTypes.ADD_NEW_INVESTIGATION,
@@ -202,7 +180,6 @@ export const addNewInvestigation = (item) => {
     },
   };
 };
-
 export const addInvestigation = (item) => {
   return {
     type: actionTypes.ADD_INVESTIGSTION,
@@ -211,7 +188,6 @@ export const addInvestigation = (item) => {
     },
   };
 };
-
 export const deleteInvestigation = (item) => {
   return {
     type: actionTypes.DELETE_INVESTIGATION,
@@ -220,7 +196,6 @@ export const deleteInvestigation = (item) => {
     },
   };
 };
-
 export const addNewOTH = (item) => {
   return {
     type: actionTypes.ADD_NEW_OTH,
@@ -229,7 +204,6 @@ export const addNewOTH = (item) => {
     },
   };
 };
-
 export const addOTH = (item) => {
   return {
     type: actionTypes.ADD_OTH,
@@ -238,7 +212,6 @@ export const addOTH = (item) => {
     },
   };
 };
-
 export const deleteOTH = (item) => {
   return {
     type: actionTypes.DELETE_OTH,
@@ -247,7 +220,6 @@ export const deleteOTH = (item) => {
     },
   };
 };
-
 export const addOTHTotal = (item) =>{
   return {
     type : actionTypes.ADD_OTH_TOTAL,
@@ -256,14 +228,12 @@ export const addOTHTotal = (item) =>{
     }
   }
 }
-
 export const addNewProcedure = () => {
   return {
     type: actionTypes.ADD_NEW_PROCEDURE,
     payload: {},
   };
 };
-
 export const addProcedure = (item) => {
   return {
     type: actionTypes.ADD_PROCEDURE,
@@ -272,7 +242,6 @@ export const addProcedure = (item) => {
     },
   };
 };
-
 export const deleteProcedure = (item) => {
   return {
     type: actionTypes.DELETE_PROCEDURE,
@@ -281,14 +250,12 @@ export const deleteProcedure = (item) => {
     },
   };
 };
-
 export const addNewPackage = () => {
   return {
     type: actionTypes.ADD_NEW_PACKAGE,
     payload: {},
   };
 };
-
 export const addPackage = (item) => {
   return {
     type: actionTypes.ADD_PACKAGE,
@@ -297,7 +264,6 @@ export const addPackage = (item) => {
     },
   };
 };
-
 export const deletePackage = (item) => {
   return {
     type: actionTypes.DELETE_PACKAGE,
@@ -306,7 +272,6 @@ export const deletePackage = (item) => {
     },
   };
 };
-
 export const addMedicineCharge = (item) => {
   return {
     type: actionTypes.ADD_MEDICINE_CHARGE,
@@ -315,7 +280,6 @@ export const addMedicineCharge = (item) => {
     },
   };
 };
-
 export const addEquipmentCharge = (item) => {
   return {
     type: actionTypes.ADD_EQUIPMENT_CHARGE,
@@ -324,7 +288,6 @@ export const addEquipmentCharge = (item) => {
     },
   };
 };
-
 export const addBloodRequirement = (item) => {
   return {
     type: actionTypes.ADD_BLOOD_REQUIREMENT,
@@ -333,7 +296,6 @@ export const addBloodRequirement = (item) => {
     },
   };
 };
-
 export const addStent = (item) => {
   return {
     type: actionTypes.ADD_STENT,
@@ -342,7 +304,6 @@ export const addStent = (item) => {
     },
   };
 };
-
 export const addInvestigationTotal = (item) => {
   return {
     type: actionTypes.ADD_INVESTIGATION_TOTAL,
@@ -351,7 +312,6 @@ export const addInvestigationTotal = (item) => {
     },
   };
 };
-
 export const addProcedureTotal = (item) => {
   return {
     type: actionTypes.ADD_PROCEDURE_TOTAL,
@@ -360,7 +320,6 @@ export const addProcedureTotal = (item) => {
     },
   };
 };
-
 export const addVisitTotal = (item) => {
   return {
     type: actionTypes.VISIT_TOTAL,
@@ -369,7 +328,6 @@ export const addVisitTotal = (item) => {
     },
   };
 };
-
 export const editStep = (item) => {
   return {
     type: actionTypes.EDIT_STEP,
