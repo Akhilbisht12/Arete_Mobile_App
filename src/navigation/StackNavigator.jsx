@@ -5,24 +5,35 @@ import PatientEntry from "../screens/PatientEntry";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import FindPatientByID from "../screens/FindPatientByID";
 import DetailedSession from "../screens/DetailedSession";
-import LoginScreen from "../screens/LoginScreen";
+import LoginScreen from "../screens/Auth/LoginScreen";
 import QuickPrescriptionUpload from "../screens/QuickPrescriptionUpload";
 import EstimatePreview from "../components/organisms/EstimatePreview";
 import CreateEstimate from "../screens/Estimater/CreateEstimate";
-import RegisterScreen from "../screens/RegisterScreen";
+import RegisterScreen from "../screens/Auth/RegisterScreen";
 import EstimateOutput from "../screens/EstimateOutput";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Register Screen" component = {RegisterScreen} />
-      <Stack.Screen name="LoginScreen" component={LoginScreen} />
+      <Stack.Screen
+        name="LoginScreen"
+        component={LoginScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="RegisterScreen"
+        component={RegisterScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen name="FindPatient" component={FindPatientByID} />
       <Stack.Screen name="Home" component={index} />
       <Stack.Screen name="PatientEntry" component={PatientEntry} />
       <Stack.Screen name="DetailedSession" component={DetailedSession} />
-      <Stack.Screen name="QuickPrescriptionUpload" component={QuickPrescriptionUpload} />
+      <Stack.Screen
+        name="QuickPrescriptionUpload"
+        component={QuickPrescriptionUpload}
+      />
       <Stack.Screen name="CreateEstimate" component={CreateEstimate} />
       <Stack.Screen name="EstimatePreview" component={EstimatePreview} />
       <Stack.Screen name="EstimateOutput" component={EstimateOutput} />

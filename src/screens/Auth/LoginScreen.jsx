@@ -9,36 +9,45 @@ import {
   TouchableOpacity,
   Pressable,
 } from "react-native";
+import axios from "axios";
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
+  const handleScreen = () => {
+    navigation.navigate("Home");
+  };
   return (
-    <View style={{ display: "flex", padding: 20 }}>
+    <View style={{ display: "flex", padding: 20, alignItems: "center" }}>
       <Image
-        source={require("../assets/logo.png")}
+        source={require("../../../assets/logo/logo.png")}
         style={{
           height: 50,
           width: 200,
-          marginLeft: 60,
-          marginRight: 50,
-          marginTop: 20,
+          marginTop: 50,
         }}
       />
       <Text
         style={{
+          fontFamily: "Poppins-Bold",
           fontSize: 15,
           margin: 25,
           textAlign: "center",
-          fontWeight: "bold",
         }}
       >
         We are leading Hospital Management Tool
       </Text>
       <View style={{ marginTop: 50 }}>
         <View>
-          <Text style={{ fontSize: 15 }}>Agent ID</Text>
+          <Text
+            style={{
+              fontFamily: "Poppins-Medium",
+            }}
+          >
+            Agent ID
+          </Text>
           <TextInput
             style={{
               height: 40,
+              width: 300,
               borderColor: "gray",
               borderWidth: 1,
               borderRadius: 5,
@@ -48,7 +57,13 @@ const LoginScreen = () => {
           />
         </View>
         <View style={{ marginTop: 10 }}>
-          <Text style={{ fontSize: 15 }}>Password</Text>
+          <Text
+            style={{
+              fontFamily: "Poppins-Medium",
+            }}
+          >
+            Password
+          </Text>
           <TextInput
             style={{
               height: 40,
@@ -61,13 +76,18 @@ const LoginScreen = () => {
           />
           <Pressable style={{ marginTop: 5 }}>
             <Text
-              style={{ textAlign: "right", paddingTop: 5, color: "orange" }}
+              style={{
+                textAlign: "right",
+                paddingTop: 5,
+                color: "orange",
+                fontFamily: "Poppins-Medium",
+              }}
             >
               Forget Password ?
             </Text>
           </Pressable>
         </View>
-        <TouchableOpacity>
+        <Pressable onPress={handleScreen}>
           <View
             style={{
               backgroundColor: "orange",
@@ -81,34 +101,48 @@ const LoginScreen = () => {
               style={{
                 color: "white",
                 fontSize: 16,
-                fontWeight: "bold",
                 textAlign: "center",
                 letterSpacing: 5,
+                fontFamily: "Poppins-Medium",
               }}
             >
               LOGIN
             </Text>
           </View>
-        </TouchableOpacity>
-        <Text style={{ margin: 10, textAlign: "center" }}>Or</Text>
-        <View style={{ display: "flex", flexDirection: "row" }}>
+        </Pressable>
+        <Text
+          style={{
+            margin: 10,
+            textAlign: "center",
+            fontFamily: "Poppins-Medium",
+          }}
+        >
+          Or
+        </Text>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+          }}
+        >
           <Text
             style={{
               paddingTop: 20,
-              paddingLeft: 80,
-              paddingRight: 10,
-              textAlign: "center",
+              marginRight: 10,
+              fontFamily: "Poppins-Medium",
             }}
           >
             Do not have an account?
           </Text>
-          <Pressable style={{ paddingTop: 20, paddingRight: 10 }}>
+          <Pressable
+            style={{ paddingTop: 20, paddingRight: 10 }}
+            onPress={() => navigation.navigate("RegisterScreen")}
+          >
             <Text
               style={{
                 color: "orange",
-                fontWeight: "bold",
-                fontSize: 14,
-                textAlign: "left",
+                fontFamily: "Poppins-Bold",
               }}
             >
               Register
