@@ -1,46 +1,115 @@
-import React, { useEffect, useState } from "react";
-import { View, StyleSheet } from "react-native";
-import Filter from "../components/molecules/Filter";
-import Search from "../components/molecules/Search";
-import PatientComp from "../components/organisms/PatientComp";
+import React from "react";
+import { View, StyleSheet, Text, Pressable } from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
 
-const index = () => {
-  const [AllPatients, setAllPatients] = useState([]);
-  useEffect(() => {
-    fetch("https://451d-103-84-239-249.ngrok.io/api/v1/patient")
-      .then(async (response) => {
-        const res = await response.json();
-        setAllPatients(res.data)
-        console.log(AllPatients);
-      })
-      .catch((err) => console.log(err));
-  }, []);
-
+const index = ({ navigation }) => {
+  const handleScreen = () => {
+    navigation.navigate("FindPatient");
+  };
   return (
-    <View style={styles.container}>
-      <Search />
-      <Text style={{ textAlign: "center" }} category="h6" status="primary">
-        Tasks
-      </Text>
-      <Filter />
-      <Button>kitten button</Button>
-      {AllPatients?AllPatients.map((item)=>{
-        return(
-          <PatientComp key={item._id} item={item}/>
-        )
-      }):null}
+    <View>
+      <View style={{ padding: 10, flexDirection: "row" }}>
+        <Pressable
+          style={{
+            margin: 10,
+            width: 150,
+            backgroundColor: "orange",
+            borderRadius: 5,
+            padding: 10,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Icon name="calculator-outline" size={40} color={"white"} />
+          <Text
+            style={{
+              margin: 10,
+              fontSize: 20,
+              fontFamily: "Poppins-Medium",
+              color: "white",
+              textAlign: "center",
+            }}
+          >
+            Bill Estimater
+          </Text>
+        </Pressable>
+        <Pressable
+          onPress={handleScreen}
+          style={{
+            width: 150,
+            margin: 10,
+            backgroundColor: "#ff7700",
+            borderRadius: 5,
+            padding: 10,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Icon name="camera-outline" size={40} color={"white"} />
+          <Text
+            style={{
+              margin: 10,
+              fontSize: 20,
+              fontFamily: "Poppins-Medium",
+              color: "white",
+              textAlign: "center",
+            }}
+          >
+            Quick Prescription
+          </Text>
+        </Pressable>
+      </View>
+      <Pressable
+        style={{
+          marginLeft: 20,
+          marginRight: 20,
+          marginBottom: 20,
+          backgroundColor: "#ff7744",
+          borderRadius: 5,
+          padding: 10,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Icon name="person-outline" size={40} color={"white"} />
+        <Text
+          style={{
+            margin: 10,
+            fontSize: 20,
+            fontFamily: "Poppins-Medium",
+            color: "white",
+            textAlign: "center",
+          }}
+        >
+          Check Patient Info
+        </Text>
+      </Pressable>
+      <Pressable
+        style={{
+          marginLeft: 20,
+          marginRight: 20,
+          marginBottom: 20,
+          backgroundColor: "#ff3300",
+          borderRadius: 5,
+          padding: 10,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Icon name="newspaper-outline" size={40} color={"white"} />
+        <Text
+          style={{
+            margin: 10,
+            fontSize: 20,
+            fontFamily: "Poppins-Medium",
+            color: "white",
+            textAlign: "center",
+          }}
+        >
+          Check Patient History
+        </Text>
+      </Pressable>
     </View>
   );
 };
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  button: {
-    margin: 2,
-    position: "absolute",
-    bottom: 30,
-    right: 30,
-  },
-});
 export default index;

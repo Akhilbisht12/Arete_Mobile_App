@@ -12,6 +12,9 @@ import {
 import axios from "axios";
 
 const LoginScreen = ({ navigation }) => {
+  const handleScreen = () => {
+    navigation.navigate("Home");
+  };
   return (
     <View style={{ display: "flex", padding: 20, alignItems: "center" }}>
       <Image
@@ -84,7 +87,7 @@ const LoginScreen = ({ navigation }) => {
             </Text>
           </Pressable>
         </View>
-        <TouchableOpacity>
+        <Pressable onPress={handleScreen}>
           <View
             style={{
               backgroundColor: "orange",
@@ -106,7 +109,7 @@ const LoginScreen = ({ navigation }) => {
               LOGIN
             </Text>
           </View>
-        </TouchableOpacity>
+        </Pressable>
         <Text
           style={{
             margin: 10,
