@@ -1,6 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
-import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -9,7 +7,11 @@ import {
   ScrollView,
   Pressable,
   ToastAndroid,
+  TouchableOpacity,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
+import Icon from "react-native-vector-icons/Ionicons";
 import { connect } from "react-redux";
 import { SERVER_URL } from "../config/variables";
 import { RowBetween } from "../styles/FlexView";
@@ -20,23 +22,38 @@ import {
   calculateSurgery,
   doctorVisitCharges,
 } from "../utils/EstimateCalculator";
+import CameraView from "../components/atoms/CameraView";
 
 const { width } = Dimensions.get("window");
 
 const EstimateOutput = ({ patient, advice }) => {
   const navigation = useNavigation();
   const info = patient.info;
+  const [camera, setCamera] = useState(false);
+  const [photo, setPhoto] = useState("");
 
   const UploadPrescription = async () => {
+    if (!photo) {
+      ToastAndroid.show("Capture Prescription", ToastAndroid.SHORT);
+      return;
+    }
     try {
+      const formdata = new FormData();
+      formdata.append("patientID", info._id);
+      formdata.append(
+        "estimate",
+        JSON.stringify({ ...advice, total: calculateTotal() })
+      );
+      formdata.append("prescription", {
+        uri: `file://${photo}`,
+        name: `${info._id + "on" + Date.now()}`,
+        type: "image/jpg",
+      });
       const pres = await axios.post(
         `${SERVER_URL}/api/v1/patient/createNewSession`,
-        {
-          patientID: info._id,
-          estimate: advice,
-        }
+        formdata
       );
-        console.log(pres)
+      console.log(pres);
       if (pres.status === 200) {
         ToastAndroid.show(
           "Prescription Uploaded Successfully",
@@ -45,7 +62,7 @@ const EstimateOutput = ({ patient, advice }) => {
         navigation.navigate("FindPatient");
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       ToastAndroid.show(error.message, ToastAndroid.SHORT);
     }
   };
@@ -66,6 +83,10 @@ const EstimateOutput = ({ patient, advice }) => {
       calculateSurgery();
     return total;
   };
+  if (camera)
+    return (
+      <CameraView photo={photo} setCamera={setCamera} setPhoto={setPhoto} />
+    );
   return (
     <ScrollView>
       <View style={{ flex: 1 }}>
@@ -268,6 +289,20 @@ const EstimateOutput = ({ patient, advice }) => {
               </View>
             </RowBetween>
           </View>
+          <TouchableOpacity
+            onPress={() => setCamera(true)}
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "lightgray",
+              padding: 10,
+              margin: 10,
+            }}
+          >
+            <Icon style={{ marginHorizontal: 5 }} name="camera" size={25} />
+            <Text>{photo ? "Captured" : "Capture Prescription"}</Text>
+          </TouchableOpacity>
           <Pressable
             onPress={UploadPrescription}
             style={{

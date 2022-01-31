@@ -6,47 +6,68 @@ import {
   Alert,
   ToastAndroid,
   ActivityIndicator,
+  StyleSheet,
+  TouchableOpacity,
 } from "react-native";
-import { RowBetween } from "../styles/FlexView";
+import { RowBetween } from "../../styles/FlexView";
 import Icon from "react-native-vector-icons/Ionicons";
 import axios from "axios";
-import { SERVER_URL } from "../config/variables";
+import { SERVER_URL } from "../../config/variables";
 import { Picker } from "@react-native-picker/picker";
-import {useNavigation} from '@react-navigation/native'
+import { useNavigation } from "@react-navigation/native";
+import CameraView from "../../components/atoms/CameraView";
 
 const QuickPrescriptionUpload = ({ route }) => {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const patientID = route.params.patientID;
-  const [isAdmissionAdvised, setisAdmissionAdvised] = useState(false);
-  const [isPetCTAdvised, setisPetCTAdvised] = useState(false);
-  const [isRadiologyAdvised, setisRadiologyAdvised] = useState(false);
-  const [ct, setCt] = useState(false);
-  const [mri, setMri] = useState(false);
-  const [usg, setUsg] = useState(false);
-  const [others, setOthers] = useState(false);
-  const [dialysis, setDialysis] = useState(false);
+  const [presDetails, setPresDetails] = useState({
+    isAdmissionAdvised: false,
+    isPetCTAdvised: false,
+    isRadiologyAdvised: false,
+    ct: false,
+    mri: false,
+    usg: false,
+    others: false,
+    dialysis: false,
+  });
   const [loading, setLoading] = useState(false);
-
+  const [camera, setCamera] = useState(false);
+  const [photo, setPhoto] = useState("");
   const UploadPrescription = async () => {
+    if (!photo) {
+      ToastAndroid.show("Capture Prescription Photo", ToastAndroid.SHORT);
+      return;
+    }
     setLoading(true);
     try {
+      let formdata = new FormData();
+      formdata.append(
+        "quickPres",
+        JSON.stringify({
+          isAdmissionAdvised: presDetails.isAdmissionAdvised,
+          isPetCTAdvised: presDetails.isPetCTAdvised,
+          isRadiologyAdvised: presDetails.isRadiologyAdvised,
+          dialysis: presDetails.dialysis,
+          diagnostics: {
+            ct: presDetails.ct,
+            mri: presDetails.mri,
+            usg: presDetails.usg,
+            others: presDetails.others,
+          },
+        })
+      );
+      formdata.append("patientID", patientID);
+      formdata.append("prescription", {
+        uri: `file://${photo}`,
+        name: `${patientID + "on" + Date.now()}`,
+        type: "image/jpg",
+      });
+      for (var pair of formdata.getParts()) {
+        console.log(pair.fieldName + ", " + pair.string);
+      }
       const pres = await axios.post(
         `${SERVER_URL}/api/v1/patient/createNewSession`,
-        {
-          patientID: patientID,
-          quickPres: {
-            isAdmissionAdvised,
-            isPetCTAdvised,
-            isRadiologyAdvised,
-            dialysis,
-            diagnostics: {
-              ct,
-              mri,
-              usg,
-              others,
-            },
-          },
-        }
+        formdata
       );
       console.log(pres);
       if (pres.status === 200) {
@@ -63,16 +84,19 @@ const QuickPrescriptionUpload = ({ route }) => {
       ToastAndroid.show(error.message, ToastAndroid.SHORT);
     }
   };
-
+  if (camera)
+    return (
+      <CameraView photo={photo} setCamera={setCamera} setPhoto={setPhoto} />
+    );
   return (
     <View>
       <RowBetween style={{ margin: 15 }}>
         <Text>Admission</Text>
       </RowBetween>
       <Picker
-        selectedValue={isAdmissionAdvised}
+        selectedValue={presDetails.isAdmissionAdvised}
         onValueChange={(itemValue, itemIndex) =>
-          setisAdmissionAdvised(itemValue)
+          setPresDetails({ ...presDetails, isAdmissionAdvised: itemValue })
         }
       >
         <Picker.Item value="Initiate RFA" label="Initiate RFA" />
@@ -82,8 +106,15 @@ const QuickPrescriptionUpload = ({ route }) => {
       </Picker>
       <RowBetween style={{ margin: 15 }}>
         <Text>Is PetCT Advised?</Text>
-        <Pressable onPress={() => setisPetCTAdvised(!isPetCTAdvised)}>
-          {isPetCTAdvised ? (
+        <Pressable
+          onPress={() =>
+            setPresDetails({
+              ...presDetails,
+              isPetCTAdvised: !presDetails.isPetCTAdvised,
+            })
+          }
+        >
+          {presDetails.isPetCTAdvised ? (
             <Icon size={25} name="checkbox-outline" />
           ) : (
             <Icon size={25} name="square-outline" />
@@ -94,8 +125,12 @@ const QuickPrescriptionUpload = ({ route }) => {
         <Text>Diagnostics</Text>
         <RowBetween style={{ margin: 15 }}>
           <Text>CT</Text>
-          <Pressable onPress={() => setCt(!ct)}>
-            {ct ? (
+          <Pressable
+            onPress={() =>
+              setPresDetails({ ...presDetails, ct: !presDetails.ct })
+            }
+          >
+            {presDetails.ct ? (
               <Icon size={25} name="checkbox-outline" />
             ) : (
               <Icon size={25} name="square-outline" />
@@ -104,8 +139,12 @@ const QuickPrescriptionUpload = ({ route }) => {
         </RowBetween>
         <RowBetween style={{ margin: 15 }}>
           <Text>MRI</Text>
-          <Pressable onPress={() => setMri(!mri)}>
-            {mri ? (
+          <Pressable
+            onPress={() =>
+              setPresDetails({ ...presDetails, mri: !presDetails.mri })
+            }
+          >
+            {presDetails.mri ? (
               <Icon size={25} name="checkbox-outline" />
             ) : (
               <Icon size={25} name="square-outline" />
@@ -114,8 +153,12 @@ const QuickPrescriptionUpload = ({ route }) => {
         </RowBetween>
         <RowBetween style={{ margin: 15 }}>
           <Text>USG</Text>
-          <Pressable onPress={() => setUsg(!usg)}>
-            {usg ? (
+          <Pressable
+            onPress={() =>
+              setPresDetails({ ...presDetails, usg: !presDetails.usg })
+            }
+          >
+            {presDetails.usg ? (
               <Icon size={25} name="checkbox-outline" />
             ) : (
               <Icon size={25} name="square-outline" />
@@ -124,8 +167,12 @@ const QuickPrescriptionUpload = ({ route }) => {
         </RowBetween>
         <RowBetween style={{ margin: 15 }}>
           <Text>Others</Text>
-          <Pressable onPress={() => setOthers(!others)}>
-            {others ? (
+          <Pressable
+            onPress={() =>
+              setPresDetails({ ...presDetails, others: !presDetails.others })
+            }
+          >
+            {presDetails.others ? (
               <Icon size={25} name="checkbox-outline" />
             ) : (
               <Icon size={25} name="square-outline" />
@@ -135,8 +182,15 @@ const QuickPrescriptionUpload = ({ route }) => {
       </View>
       <RowBetween style={{ margin: 15 }}>
         <Text>Radiology</Text>
-        <Pressable onPress={() => setisRadiologyAdvised(!isRadiologyAdvised)}>
-          {isRadiologyAdvised ? (
+        <Pressable
+          onPress={() =>
+            setPresDetails({
+              ...presDetails,
+              isRadiologyAdvised: !presDetails.isRadiologyAdvised,
+            })
+          }
+        >
+          {presDetails.isRadiologyAdvised ? (
             <Icon size={25} name="checkbox-outline" />
           ) : (
             <Icon size={25} name="square-outline" />
@@ -145,15 +199,20 @@ const QuickPrescriptionUpload = ({ route }) => {
       </RowBetween>
       <RowBetween style={{ margin: 15 }}>
         <Text>Dialysis</Text>
-        <Pressable onPress={() => setDialysis(!dialysis)}>
-          {dialysis ? (
+        <Pressable
+          onPress={() =>
+            setPresDetails({ ...presDetails, dialysis: !presDetails.dialysis })
+          }
+        >
+          {presDetails.dialysis ? (
             <Icon size={25} name="checkbox-outline" />
           ) : (
             <Icon size={25} name="square-outline" />
           )}
         </Pressable>
       </RowBetween>
-      <View
+      <TouchableOpacity
+        onPress={() => setCamera(true)}
         style={{
           flexDirection: "row",
           alignItems: "center",
@@ -164,8 +223,9 @@ const QuickPrescriptionUpload = ({ route }) => {
         }}
       >
         <Icon style={{ marginHorizontal: 5 }} name="camera" size={25} />
-        <Text>Upload Prescription</Text>
-      </View>
+        <Text>{photo ? "Captured" : "Upload Prescription"}</Text>
+      </TouchableOpacity>
+
       <Pressable
         style={{ backgroundColor: "lightblue", padding: 15 }}
         onPress={() => UploadPrescription()}
