@@ -9,7 +9,8 @@ import {
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { Camera, useCameraDevices } from "react-native-vision-camera";
-import { RowBetween } from "../../styles/FlexView";
+import { Row, RowBetween } from "../../styles/FlexView";
+import Icon from "react-native-vector-icons/Ionicons";
 
 const CameraView = ({ photo, setPhoto, setCamera }) => {
   const { width, height } = Dimensions.get("window");
@@ -17,6 +18,7 @@ const CameraView = ({ photo, setPhoto, setCamera }) => {
   const device = devices.back;
   const camera = useRef(null);
   const [showPhoto, setShowPhoto] = useState(false);
+  const [flash, setFlash] = useState(false);
   useEffect(() => {
     const getCameraPermissions = async () => {
       const cameraPermission = await Camera.getCameraPermissionStatus();
@@ -28,9 +30,12 @@ const CameraView = ({ photo, setPhoto, setCamera }) => {
     };
     getCameraPermissions();
   }, []);
+  const handleFlash = () => {
+    setFlash(!flash);
+  };
   const handlePhotoClick = async () => {
     const photo = await camera.current.takePhoto({
-      flash: "on",
+      flash: flash ? "on" : "off",
     });
     setPhoto(photo.path);
     setShowPhoto(true);
@@ -72,14 +77,40 @@ const CameraView = ({ photo, setPhoto, setCamera }) => {
         isActive={true}
         photo={true}
       />
-      <View style={{ justifyContent: "center", alignItems: "center" }}>
-        <TouchableOpacity
-          onPress={handlePhotoClick}
-          style={{ padding: 20, backgroundColor: "lightblue" }}
-        >
-          <Text>click photo</Text>
-        </TouchableOpacity>
-      </View>
+
+      <RowBetween
+        style={{
+          height: 200,
+          backgroundColor: "black",
+        }}
+      >
+        <View>
+          <TouchableOpacity onPress={handleFlash}>
+            <Icon
+              name="flash"
+              size={25}
+              style={{
+                color: flash ? "white" : "#a5a5a5",
+              }}
+            />
+          </TouchableOpacity>
+        </View>
+        <View>
+          <TouchableOpacity
+            onPress={handlePhotoClick}
+            style={{
+              backgroundColor: "white",
+              borderRadius: 100,
+              height: 60,
+              width: 60,
+              borderWidth: 3,
+              borderColor: "#c5c5c5",
+              marginBottom: 50,
+            }}
+          ></TouchableOpacity>
+        </View>
+        <View></View>
+      </RowBetween>
     </View>
   );
 };
