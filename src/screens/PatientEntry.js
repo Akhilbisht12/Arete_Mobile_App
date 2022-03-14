@@ -5,6 +5,7 @@ import {
   Dimensions,
   Alert,
   ScrollView,
+  Image,
 } from "react-native";
 import axios from "axios";
 import { SERVER_URL } from "../config/variables";
@@ -15,6 +16,7 @@ import PatientDetailedView from "../styles/PatientDetailsView";
 import ParaText from "../styles/ParaText";
 import moment from "moment";
 import PatientSessionTabs from "../components/organisms/PatientSessionTabs";
+import Logo from "../components/atoms/Logo";
 
 const { width, height } = Dimensions.get("window");
 
@@ -39,11 +41,7 @@ const PatientEntry = ({ route }) => {
   };
   return (
     <ScrollView style={Styles.main}>
-      <ColumnCenter style={{ marginTop: 10 }}>
-        <ImgBox circular>
-          <HeadingText>{data.firstName[0].toUpperCase()}</HeadingText>
-        </ImgBox>
-      </ColumnCenter>
+      <Logo />
       <View style={Styles.spaceBetween}>
         <View>
           <PatientDetailedView>

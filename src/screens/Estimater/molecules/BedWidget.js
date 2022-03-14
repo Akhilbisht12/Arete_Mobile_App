@@ -3,6 +3,7 @@ import React from "react";
 import { View, Text, Dimensions, TextInput } from "react-native";
 import { connect } from "react-redux";
 import { BedFeeMaster } from "../../../config/BedFee";
+import { ICUFee } from "../../../config/ICUFee";
 import {
   addIcuBed,
   addIcuStay,
@@ -16,7 +17,14 @@ import styles from "../styles";
 
 const { width } = Dimensions.get("window");
 
-const BedWidget = ({ advice, addIcuBed, editStep, addWardBed, addWardStay, addIcuStay }) => {
+const BedWidget = ({
+  advice,
+  addIcuBed,
+  editStep,
+  addWardBed,
+  addWardStay,
+  addIcuStay,
+}) => {
   return (
     <View>
       <EstimateBox
@@ -30,7 +38,9 @@ const BedWidget = ({ advice, addIcuBed, editStep, addWardBed, addWardStay, addIc
             <Picker
               selectedValue={advice.wardBedType}
               onValueChange={(itemValue, itemIndex) => {
-                advice.isIPDPackage?editStep({step : 5}):editStep({step : 2})
+                advice.isIPDPackage
+                  ? editStep({ step: 5 })
+                  : editStep({ step: 2 });
                 addWardBed({ wardBed: itemValue });
               }}
             >
@@ -57,8 +67,14 @@ const BedWidget = ({ advice, addIcuBed, editStep, addWardBed, addWardStay, addIc
           <TextInput
             onSubmitEditing={() => editStep({ step: 3 })}
             textContentType="telephoneNumber"
-            onChangeText={(text) => addWardStay({ wardStay: parseInt(text) })}
-            value={(advice.ward).toString()}
+            onChangeText={(text) => {
+              if (!text) {
+                addWardStay({ wardStay: parseInt(0) });
+              } else {
+                addWardStay({ wardStay: parseInt(text) });
+              }
+            }}
+            value={advice.ward.toString()}
             keyboardType="number-pad"
             placeholder="Ward"
             style={styles.input}
@@ -81,7 +97,7 @@ const BedWidget = ({ advice, addIcuBed, editStep, addWardBed, addWardStay, addIc
                 addIcuBed({ icuBed: itemValue });
               }}
             >
-              {BedFeeMaster.map((item) => {
+              {ICUFee.map((item) => {
                 return (
                   <Picker.Item
                     key={item.Billing_Code}
@@ -96,18 +112,21 @@ const BedWidget = ({ advice, addIcuBed, editStep, addWardBed, addWardStay, addIc
       </EstimateBox>
       <EstimateBox
         style={{
-          display:
-            advice.step >= 4 && !advice.isIPDPackage ? "flex" : "none",
+          display: advice.step >= 4 && !advice.isIPDPackage ? "flex" : "none",
         }}
       >
         <ColumnStart>
           <Text style={styles.title}>Type number of days to ICU</Text>
           <TextInput
             textContentType="telephoneNumber"
-            value={(advice.icu).toString()}
+            value={advice.icu.toString()}
             onSubmitEditing={() => editStep({ step: 5 })}
             onChangeText={(text) => {
-              addIcuStay({ icuStay: parseInt(text) });
+              if (!text) {
+                addIcuStay({ icuStay: parseInt(0) });
+              } else {
+                addIcuStay({ icuStay: parseInt(text) });
+              }
             }}
             keyboardType="number-pad"
             placeholder="ICU"

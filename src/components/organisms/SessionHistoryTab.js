@@ -8,8 +8,9 @@ import { ColumnEvenly, RowBetween } from "../../styles/FlexView";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 
-const SessionHistoryTab = ({ patientID }) => {
+const SessionHistoryTab = ({ route }) => {
   const navigation = useNavigation();
+  const { patientID } = route.params;
   const [AllSessions, setAllSessions] = useState([]);
   useEffect(async () => {
     const allSessions = await axios.post(

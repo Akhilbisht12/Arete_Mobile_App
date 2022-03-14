@@ -13,7 +13,7 @@ import axios from "axios";
 
 const LoginScreen = ({ navigation }) => {
   const handleScreen = () => {
-    navigation.navigate("Home");
+    navigation.navigate("AgentIndex");
   };
   return (
     <View style={{ display: "flex", padding: 20, alignItems: "center" }}>
@@ -137,7 +137,7 @@ const LoginScreen = ({ navigation }) => {
           </Text>
           <Pressable
             style={{ paddingTop: 20, paddingRight: 10 }}
-            onPress={() => navigation.navigate("RegisterScreen")}
+            onPress={() => navigation.navigate("FindPatient")}
           >
             <Text
               style={{

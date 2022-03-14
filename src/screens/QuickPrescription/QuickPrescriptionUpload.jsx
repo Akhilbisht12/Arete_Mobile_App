@@ -21,7 +21,7 @@ const QuickPrescriptionUpload = ({ route }) => {
   const navigation = useNavigation();
   const patientID = route.params.patientID;
   const [presDetails, setPresDetails] = useState({
-    isAdmissionAdvised: false,
+    isAdmissionAdvised: "",
     isPetCTAdvised: false,
     isRadiologyAdvised: false,
     ct: false,
@@ -29,13 +29,17 @@ const QuickPrescriptionUpload = ({ route }) => {
     usg: false,
     others: false,
     dialysis: false,
+    doctor: "",
   });
   const [loading, setLoading] = useState(false);
   const [camera, setCamera] = useState(false);
   const [photo, setPhoto] = useState("");
   const UploadPrescription = async () => {
-    if (!photo) {
-      ToastAndroid.show("Capture Prescription Photo", ToastAndroid.SHORT);
+    if (!(photo && presDetails.doctor && presDetails.isAdmissionAdvised)) {
+      ToastAndroid.show(
+        "Capture Prescription, Select Doctor, Select Admission",
+        ToastAndroid.SHORT
+      );
       return;
     }
     setLoading(true);
@@ -48,6 +52,7 @@ const QuickPrescriptionUpload = ({ route }) => {
           isPetCTAdvised: presDetails.isPetCTAdvised,
           isRadiologyAdvised: presDetails.isRadiologyAdvised,
           dialysis: presDetails.dialysis,
+          doctor: presDetails.doctor,
           diagnostics: {
             ct: presDetails.ct,
             mri: presDetails.mri,
@@ -99,10 +104,23 @@ const QuickPrescriptionUpload = ({ route }) => {
           setPresDetails({ ...presDetails, isAdmissionAdvised: itemValue })
         }
       >
+        <Picker.Item value="" label="Select Admission" />
         <Picker.Item value="Initiate RFA" label="Initiate RFA" />
         <Picker.Item value="Follow Up Later" label="Follow Up Later" />
         <Picker.Item value="Not Advised" label="Not Advised" />
         <Picker.Item value="Not Interested" label="Not Interested" />
+      </Picker>
+      <Picker
+        selectedValue={presDetails.doctor}
+        onValueChange={(itemValue, itemIndex) =>
+          setPresDetails({ ...presDetails, doctor: itemValue })
+        }
+      >
+        <Picker.Item value="" label="Select Doctor" />
+        <Picker.Item value="Dr. Ramesh Talwas" label="Dr. Ramesh Talwas" />
+        <Picker.Item value="Dr. Naveen Jain" label="Dr. Naveen Jain" />
+        <Picker.Item value="Dr. Kanti Jindal" label="Dr. Kanti Jindal" />
+        <Picker.Item value="Dr. Seema Aggarwal" label="Dr. Seema Aggarwal" />
       </Picker>
       <RowBetween style={{ margin: 15 }}>
         <Text>Is PetCT Advised?</Text>

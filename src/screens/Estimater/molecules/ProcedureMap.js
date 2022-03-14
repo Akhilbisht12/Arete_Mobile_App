@@ -44,11 +44,10 @@ const ProcedureMap = ({
               </Pressable>
               <Pressable
                 style={styles.option}
-                onPress={() =>{
-                  addProcedureTotal({ procedureTotal: calculateProcedure() })
-                  console.log(calculateProcedure())
-                }
-                }
+                onPress={() => {
+                  addProcedureTotal({ procedureTotal: calculateProcedure() });
+                  console.log(calculateProcedure());
+                }}
               >
                 <Text>calculate Total</Text>
               </Pressable>
@@ -71,9 +70,13 @@ const ProcedureMap = ({
             keyboardType="number-pad"
             placeholder="value"
             value={advice.procedureTotal.toString()}
-            onChangeText={(text) =>
-              addProcedureTotal({ procedureTotal: parseInt(text) })
-            }
+            onChangeText={(text) => {
+              if (!text) {
+                addProcedureTotal({ procedureTotal: parseInt(0) });
+              } else {
+                addProcedureTotal({ procedureTotal: parseInt(text) });
+              }
+            }}
             style={[styles.input, { width: 0.41 * width }]}
           />
         </RowBetween>

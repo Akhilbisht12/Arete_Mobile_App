@@ -14,6 +14,7 @@ import StyledInput from "../styles/StyledInputView";
 import StyledInputView from "../styles/StyledInputView";
 import { Row, RowBetween } from "../styles/FlexView";
 import Icon from "react-native-vector-icons/Ionicons";
+import Logo from "../components/atoms/Logo";
 
 const FindPatientByID = ({ navigation }) => {
   const [patientID, setpatientID] = useState("");
@@ -44,6 +45,7 @@ const FindPatientByID = ({ navigation }) => {
   };
   return (
     <View>
+      <Logo />
       <StyledInputView>
         <RowBetween>
           <Row>
@@ -55,7 +57,7 @@ const FindPatientByID = ({ navigation }) => {
             />
           </Row>
           {Loading ? (
-            <ActivityIndicator size='small' color='#4281A4' />
+            <ActivityIndicator size="small" color="#4281A4" />
           ) : (
             <Icon name="search-outline" size={25} color={"#4281A4"} />
           )}

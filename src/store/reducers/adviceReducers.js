@@ -13,7 +13,7 @@ const initAdvice = {
   paymentType: "",
   paymentCompany: "",
   investigationTotal: 0,
-  othTotal : 0,
+  othTotal: 0,
   procedureTotal: 0,
   medicine: 0,
   equipment: 0,
@@ -127,38 +127,35 @@ const adviceReducer = (state = initAdvice, action) => {
         ...state,
         investigations: deleteinvitationTemp,
       };
-      // oth
-      case actionTypes.ADD_NEW_OTH:
-        return {
-          ...state,
-          oth: [
-            ...state.oth,
-            { id: state.oth.length },
-          ],
-        };
-      case actionTypes.ADD_OTH:
-        const { newoth, o_id } = action.payload.item;
-        const othtemp = state.oth;
-        othtemp[o_id] = newoth;
-        return {
-          ...state,
-          oth: othtemp,
-        };
-      case actionTypes.DELETE_OTH:
-        const { othindex } = action.payload.item;
-        const deleteothtemp = state.oth;
-        deleteothtemp.splice(othindex, 1);
-        return {
-          ...state,
-          oth: deleteothtemp,
-        };
-      case actionTypes.ADD_OTH_TOTAL:
-        const {othtotal} = action.payload.item;
-        return {
-          ...state,
-          othTotal : othtotal
-        }
-        // oth
+    // oth
+    case actionTypes.ADD_NEW_OTH:
+      return {
+        ...state,
+        oth: [...state.oth, { id: state.oth.length }],
+      };
+    case actionTypes.ADD_OTH:
+      const { newoth, o_id } = action.payload.item;
+      const othtemp = state.oth;
+      othtemp[o_id] = newoth;
+      return {
+        ...state,
+        oth: othtemp,
+      };
+    case actionTypes.DELETE_OTH:
+      const { othindex } = action.payload.item;
+      const deleteothtemp = state.oth;
+      deleteothtemp.splice(othindex, 1);
+      return {
+        ...state,
+        oth: deleteothtemp,
+      };
+    case actionTypes.ADD_OTH_TOTAL:
+      const { othtotal } = action.payload.item;
+      return {
+        ...state,
+        othTotal: othtotal,
+      };
+    // oth
     case actionTypes.ADD_NEW_PROCEDURE:
       return {
         ...state,
@@ -339,6 +336,8 @@ const adviceReducer = (state = initAdvice, action) => {
         ...state,
         step,
       };
+    case actionTypes.RESTORE_STATE:
+      return initAdvice;
     default:
       return state;
   }

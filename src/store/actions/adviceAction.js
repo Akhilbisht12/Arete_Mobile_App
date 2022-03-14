@@ -220,14 +220,14 @@ export const deleteOTH = (item) => {
     },
   };
 };
-export const addOTHTotal = (item) =>{
+export const addOTHTotal = (item) => {
   return {
-    type : actionTypes.ADD_OTH_TOTAL,
-    payload : {
-      item
-    }
-  }
-}
+    type: actionTypes.ADD_OTH_TOTAL,
+    payload: {
+      item,
+    },
+  };
+};
 export const addNewProcedure = () => {
   return {
     type: actionTypes.ADD_NEW_PROCEDURE,
@@ -331,6 +331,14 @@ export const addVisitTotal = (item) => {
 export const editStep = (item) => {
   return {
     type: actionTypes.EDIT_STEP,
+    payload: {
+      item,
+    },
+  };
+};
+export const restoreState = (item) => {
+  return {
+    type: actionTypes.RESTORE_STATE,
     payload: {
       item,
     },

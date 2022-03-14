@@ -11,6 +11,9 @@ import EstimatePreview from "../components/organisms/EstimatePreview";
 import CreateEstimate from "../screens/Estimater/CreateEstimate";
 import RegisterScreen from "../screens/Auth/RegisterScreen";
 import EstimateOutput from "../screens/EstimateOutput";
+import SessionHistoryTab from "../components/organisms/SessionHistoryTab";
+import AgentIndex from "../screens/AgentIndex";
+import RegisterPatient from "../screens/RegisterPatient";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -27,9 +30,12 @@ const StackNavigator = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen name="FindPatient" component={FindPatientByID} />
+      <Stack.Screen name="AgentIndex" component={AgentIndex} />
       <Stack.Screen name="Home" component={index} />
       <Stack.Screen name="PatientEntry" component={PatientEntry} />
+      <Stack.Screen name="PatientHistory" component={SessionHistoryTab} />
       <Stack.Screen name="DetailedSession" component={DetailedSession} />
+      <Stack.Screen name="RegisterPatient" component={RegisterPatient} />
       <Stack.Screen
         name="QuickPrescriptionUpload"
         component={QuickPrescriptionUpload}

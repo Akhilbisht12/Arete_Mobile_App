@@ -21,7 +21,7 @@ const Package = ({ item, index, advice, addPackage, deletePackage }) => {
 
   const handleSearchPres = async (text) => {
     const result = await PackageList.filter((str) => {
-      return str.Service_Name.includes(text.toLowerCase());
+      return str.Service_Name.toLocaleLowerCase().includes(text.toLowerCase());
     });
     setPrescription(result.slice(0, 100));
   };
@@ -30,15 +30,15 @@ const Package = ({ item, index, advice, addPackage, deletePackage }) => {
     addPackage({ newPackage: item, pkg_id: index });
   };
 
-  const getServicePrice = ()=>{
+  const getServicePrice = () => {
     let price = null;
-    for(const [key, value] of Object.entries(item)){
-      if(key === advice.wardBedType){
-        price = value
+    for (const [key, value] of Object.entries(item)) {
+      if (key === advice.wardBedType) {
+        price = value;
       }
     }
-    return price
-  }
+    return price;
+  };
 
   return (
     <Row>

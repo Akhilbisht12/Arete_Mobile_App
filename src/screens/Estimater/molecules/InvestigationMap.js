@@ -71,9 +71,13 @@ const InvestigationMap = ({
             keyboardType="number-pad"
             placeholder="value"
             value={advice.investigationTotal.toString()}
-            onChangeText={(text) =>
-              addInvestigationTotal({ investigationTotal: parseInt(text) })
-            }
+            onChangeText={(text) => {
+              if (!text) {
+                addInvestigationTotal({ investigationTotal: parseInt(0) });
+              } else {
+                addInvestigationTotal({ investigationTotal: parseInt(text) });
+              }
+            }}
             style={[styles.input, { width: 0.41 * width }]}
           />
         </RowBetween>

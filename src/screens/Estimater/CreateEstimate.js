@@ -34,7 +34,13 @@ import { doctorVisitCharges } from "../../utils/EstimateCalculator";
 
 const { width } = Dimensions.get("window");
 
-const CreateEstimate = ({ patientID, advice, addDoctor, editStep, addVisitTotal }) => {
+const CreateEstimate = ({
+  patientID,
+  advice,
+  addDoctor,
+  editStep,
+  addVisitTotal,
+}) => {
   const [total, setTotal] = useState(0);
   const navigation = useNavigation();
   const scrollRef = useRef(null);
@@ -51,8 +57,8 @@ const CreateEstimate = ({ patientID, advice, addDoctor, editStep, addVisitTotal 
     //   }
     // });
     // setTotal(totalTemp);
-    if(advice.step === 5) {
-      addVisitTotal({visitTotal : doctorVisitCharges()})
+    if (advice.step === 5) {
+      addVisitTotal({ visitTotal: doctorVisitCharges() });
     }
   }, [advice.step]);
 
@@ -124,12 +130,17 @@ const CreateEstimate = ({ patientID, advice, addDoctor, editStep, addVisitTotal 
               }}
               style={{ width: width * 0.85 }}
             >
-              <Picker.Item label="Dr. Jhon Doe" value="Dr. Jhon Doe" />
-              <Picker.Item label="Dr. Karl Doe" value="Dr. Karl Doe" />
-              <Picker.Item label="Dr. Liam Doe" value="Dr. Liam Doe" />
-              <Picker.Item label="Dr. Nat Doe" value="Dr. Nat Doe" />
-              <Picker.Item label="Dr. Mona Doe" value="Dr. Mona Doe" />
-              <Picker.Item label="Dr. Oslo Doe" value="Dr. Oslo Doe" />
+              <Picker.Item value="" label="Select Doctor" />
+              <Picker.Item
+                value="Dr. Ramesh Talwas"
+                label="Dr. Ramesh Talwas"
+              />
+              <Picker.Item value="Dr. Naveen Jain" label="Dr. Naveen Jain" />
+              <Picker.Item value="Dr. Kanti Jindal" label="Dr. Kanti Jindal" />
+              <Picker.Item
+                value="Dr. Seema Aggarwal"
+                label="Dr. Seema Aggarwal"
+              />
             </Picker>
           </ColumnStart>
         </EstimateBox>
@@ -179,7 +190,7 @@ const mapDispatchToProps = (dispatch) => {
     addDoctor: (item) => dispatch(addDoctor(item)),
     addRemark: (item) => dispatch(addRemark(item)),
     editStep: (item) => dispatch(editStep(item)),
-    addVisitTotal : (item) => dispatch(addVisitTotal(item))
+    addVisitTotal: (item) => dispatch(addVisitTotal(item)),
   };
 };
 
