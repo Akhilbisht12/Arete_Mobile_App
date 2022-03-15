@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   StyleSheet,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import { RowBetween } from "../../styles/FlexView";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -94,7 +95,7 @@ const QuickPrescriptionUpload = ({ route }) => {
       <CameraView photo={photo} setCamera={setCamera} setPhoto={setPhoto} />
     );
   return (
-    <View>
+    <ScrollView>
       <RowBetween style={{ margin: 15 }}>
         <Text>Admission</Text>
       </RowBetween>
@@ -245,7 +246,7 @@ const QuickPrescriptionUpload = ({ route }) => {
       </TouchableOpacity>
 
       <Pressable
-        style={{ backgroundColor: "lightblue", padding: 15 }}
+        style={{ backgroundColor: "lightblue", padding: 15, margin: 20 }}
         onPress={() => UploadPrescription()}
       >
         <Text style={{ textAlign: "center" }}>Submit Quick Prescription</Text>
@@ -254,7 +255,7 @@ const QuickPrescriptionUpload = ({ route }) => {
           style={{ display: loading ? "flex" : "none" }}
         />
       </Pressable>
-    </View>
+    </ScrollView>
   );
 };
 
