@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { Camera, useCameraDevices } from "react-native-vision-camera";
-import { Row, RowBetween } from "../../styles/FlexView";
+import { ColumnEvenly, Row, RowBetween } from "../../styles/FlexView";
 import Icon from "react-native-vector-icons/Ionicons";
 
 const CameraView = ({ photo, setPhoto, setCamera }) => {
@@ -59,10 +59,28 @@ const CameraView = ({ photo, setPhoto, setCamera }) => {
                 setShowPhoto(false);
               }}
             >
-              <Text>Retake</Text>
+              <Icon
+                name="ios-arrow-undo-sharp"
+                size={25}
+                color="white"
+                style={{
+                  backgroundColor: "#2d3e50",
+                  padding: 20,
+                  borderRadius: 100,
+                }}
+              />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => setCamera(false)}>
-              <Text>Done</Text>
+              <Icon
+                name="ios-checkmark-done-sharp"
+                size={25}
+                color="white"
+                style={{
+                  backgroundColor: "#2d3e50",
+                  padding: 20,
+                  borderRadius: 200,
+                }}
+              />
             </TouchableOpacity>
           </RowBetween>
         </View>
@@ -78,24 +96,41 @@ const CameraView = ({ photo, setPhoto, setCamera }) => {
         photo={true}
       />
 
-      <RowBetween
+      <View
         style={{
           height: 200,
+          flexDirection: "row",
           backgroundColor: "black",
+          width: width,
         }}
       >
-        <View>
-          <TouchableOpacity onPress={handleFlash}>
+        <View
+          style={{
+            height: 200,
+            width: width / 3,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <TouchableOpacity onPress={handleFlash} style={{ marginBottom: 40 }}>
             <Icon
               name="flash"
               size={25}
               style={{
-                color: flash ? "white" : "#a5a5a5",
+                color: flash ? "yellow" : "#a5a5a5",
               }}
             />
+            <Text style={{ color: "white" }}>Flash</Text>
           </TouchableOpacity>
         </View>
-        <View>
+        <View
+          style={{
+            width: width / 3,
+            justifyContent: "center",
+            alignItems: "center",
+            height: 200,
+          }}
+        >
           <TouchableOpacity
             onPress={handlePhotoClick}
             style={{
@@ -109,8 +144,15 @@ const CameraView = ({ photo, setPhoto, setCamera }) => {
             }}
           ></TouchableOpacity>
         </View>
-        <View></View>
-      </RowBetween>
+        <View
+          style={{
+            width: width / 3,
+            justifyContent: "center",
+            alignItems: "center",
+            height: 200,
+          }}
+        ></View>
+      </View>
     </View>
   );
 };
