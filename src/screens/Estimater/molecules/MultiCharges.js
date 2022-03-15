@@ -46,9 +46,13 @@ const MultiCharges = ({
             </Text>
             <TextInput
               value={advice.visitTotal.toString()}
-              onChangeText={(text) =>
-                addVisitTotal({ visitTotal: parseInt(text) })
-              }
+              onChangeText={(text) => {
+                if (!text) {
+                  addVisitTotal({ visitTotal: parseInt(0) });
+                } else {
+                  addVisitTotal({ visitTotal: parseInt(text) });
+                }
+              }}
               keyboardType="number-pad"
               placeholder="value"
               style={[styles.input, { width: 0.41 * width }]}

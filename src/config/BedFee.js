@@ -6,14 +6,6 @@ exports.BedFeeMaster = [
     IP_Fee: 0,
     Emergency_Fee: 0,
   },
-
-  {
-    Billing_Code: "GW",
-    Bed_Category: "GENERAL WARD",
-    Room_Rent: 2000,
-    IP_Fee: 900,
-    Emergency_Fee: 1350,
-  },
   {
     Billing_Code: "Four_Sharing",
     Bed_Category: "FOUR BEDED",
@@ -48,12 +40,5 @@ exports.BedFeeMaster = [
     Room_Rent: 21000,
     IP_Fee: 1800,
     Emergency_Fee: 2700,
-  },
-  {
-    Billing_Code: "ER1002-A",
-    Bed_Category: "EMERGENCY BED CHARGES ( PER TWO HOURS)",
-    Room_Rent: 800,
-    IP_Fee: "As per Specialty",
-    Emergency_Fee: "As per Specialty",
   },
 ];
