@@ -10,6 +10,8 @@ import {
   Pressable,
 } from "react-native";
 import axios from "axios";
+import { colors } from "../../config/variables";
+const { primary } = colors;
 
 const LoginScreen = ({ navigation }) => {
   const handleScreen = () => {
@@ -79,7 +81,7 @@ const LoginScreen = ({ navigation }) => {
               style={{
                 textAlign: "right",
                 paddingTop: 5,
-                color: "orange",
+                color: primary,
                 fontFamily: "Poppins-Medium",
               }}
             >
@@ -90,7 +92,7 @@ const LoginScreen = ({ navigation }) => {
         <Pressable onPress={handleScreen}>
           <View
             style={{
-              backgroundColor: "orange",
+              backgroundColor: primary,
               marginTop: 20,
               padding: 12,
               borderRadius: 10,
@@ -141,7 +143,7 @@ const LoginScreen = ({ navigation }) => {
           >
             <Text
               style={{
-                color: "orange",
+                color: primary,
                 fontFamily: "Poppins-Bold",
               }}
             >

@@ -17,8 +17,14 @@ import RegisterPatient from "../screens/RegisterPatient";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
+  const isLoggedIn = false;
   return (
     <Stack.Navigator>
+      <Stack.Screen
+        name="HomeScreen"
+        component={isLoggedIn ? AgentIndex : LoginScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name="LoginScreen"
         component={LoginScreen}

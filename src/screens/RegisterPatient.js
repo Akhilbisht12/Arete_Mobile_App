@@ -30,6 +30,7 @@ const RegisterPatient = ({ addPatient }) => {
   });
 
   const handleRegister = async () => {
+    console.log(data);
     if (
       !(
         data.uhid &&
@@ -53,7 +54,7 @@ const RegisterPatient = ({ addPatient }) => {
       }
       const response = await axios.post(
         `${SERVER_URL}/api/v1/patient/register/`,
-        formdata
+        data
       );
       console.log(response.patient);
       ToastAndroid.show("Patient Registered", ToastAndroid.SHORT);
