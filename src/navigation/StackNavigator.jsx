@@ -14,6 +14,9 @@ import EstimateOutput from "../screens/EstimateOutput";
 import SessionHistoryTab from "../components/organisms/SessionHistoryTab";
 import AgentIndex from "../screens/AgentIndex";
 import RegisterPatient from "../screens/RegisterPatient";
+import BottomNavigator from "./BottomNavigator";
+import OnboardingScreen from "../screens/OnboardingScreen";
+import FullPrescriptionUpload from "../screens/FullPrescriptionUpload";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -22,7 +25,7 @@ const StackNavigator = () => {
     <Stack.Navigator>
       <Stack.Screen
         name="HomeScreen"
-        component={isLoggedIn ? AgentIndex : LoginScreen}
+        component={isLoggedIn ? AgentIndex : OnboardingScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen
@@ -36,7 +39,15 @@ const StackNavigator = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen name="FindPatient" component={FindPatientByID} />
-      <Stack.Screen name="AgentIndex" component={AgentIndex} />
+      <Stack.Screen
+        name="AgentIndex"
+        component={BottomNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="FullPrescription"
+        component={FullPrescriptionUpload}
+      />
       <Stack.Screen name="Home" component={index} />
       <Stack.Screen name="PatientEntry" component={PatientEntry} />
       <Stack.Screen name="PatientHistory" component={SessionHistoryTab} />

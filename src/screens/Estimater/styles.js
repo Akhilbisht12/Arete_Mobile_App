@@ -1,5 +1,5 @@
 const { StyleSheet, Dimensions } = require("react-native");
-const {width} = Dimensions.get('window')
+const { width } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   input: {
@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 17,
     marginVertical: 4,
+    fontFamily: "Poppins-Bold",
   },
 });
 

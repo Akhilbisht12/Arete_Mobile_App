@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Dimensions, ScrollView, TextInput, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  ScrollView,
+  TextInput,
+  Pressable,
+} from "react-native";
 import { connect } from "react-redux";
 import {
   addInvestigationTotal,
@@ -11,10 +19,18 @@ import { ColumnCenter, Row, RowBetween } from "../../../styles/FlexView";
 import Icon from "react-native-vector-icons/Ionicons";
 import { ProcedureList } from "../../../config/Procedures";
 
-const {width, height } = Dimensions.get('window')
+const { width, height } = Dimensions.get("window");
 
-const Procedure = ({ item, index, advice, addProcedure, deleteProcedure, addProcedureTotal }) => {
+const Medicine = ({
+  item,
+  index,
+  advice,
+  addProcedure,
+  deleteProcedure,
+  addProcedureTotal,
+}) => {
   const [Prescription, setPrescription] = useState([]);
+  const [closeInput, setcloseInput] = useState(true);
 
   const handleSearchPres = async (text) => {
     const result = await ProcedureList.filter((str) => {
@@ -27,34 +43,49 @@ const Procedure = ({ item, index, advice, addProcedure, deleteProcedure, addProc
     addProcedure({ newProcedure: item, p_id: index });
   };
 
-  const getServicePrice = ()=>{
+  const getServicePrice = () => {
     let price = null;
-    for(const [key, value] of Object.entries(item)){
-      if(key === advice.wardBedType){
-        price = value
+    for (const [key, value] of Object.entries(item)) {
+      if (key === advice.wardBedType) {
+        price = value;
       }
     }
-    return price
-  }
+    return price;
+  };
 
   return (
-    <Row>
-      <View style={{ width: 0.85 * width }}>
+    <Row style={{ width: width * 0.8 }}>
+      <View>
         <View style={{ display: item.Service_Name ? "none" : "flex" }}>
-          <TextInput
-            placeholder="find service"
-            onChangeText={(text) => handleSearchPres(text)}
-            style={{
-              borderWidth: 1,
-              borderColor: "grey",
-              borderRadius: 5,
-              marginVertical: 1,
-              paddingVertical: 2,
-              paddingHorizontal: 10,
-            }}
-          />
+          <RowBetween>
+            <TextInput
+              placeholder="Search Diagnostics"
+              onChangeText={(text) => handleSearchPres(text)}
+              style={[
+                styles.input,
+                { display: closeInput == true ? "flex" : "none" },
+              ]}
+            />
+            <Pressable
+              style={{ marginHorizontal: 10, justifyContent: "center" }}
+              onPress={() => {
+                setcloseInput(!closeInput);
+              }}
+            >
+              {closeInput == true ? (
+                <Icon name="close-circle" size={25} color={"black"} />
+              ) : (
+                <Icon name="create" size={25} color={"black"} />
+              )}
+            </Pressable>
+          </RowBetween>
           <ScrollView
-            style={{ marginVertical: 2, padding: 2, maxHeight: 0.15 * height }}
+            nestedScrollEnabled={true}
+            style={{
+              marginVertical: 2,
+              padding: 2,
+              maxHeight: 0.2 * height,
+            }}
           >
             {Prescription.map((item) => {
               return (
@@ -63,7 +94,9 @@ const Procedure = ({ item, index, advice, addProcedure, deleteProcedure, addProc
                   key={item.ServiceId}
                   onPress={() => addServiceToState(item)}
                 >
-                  <Text>{item.Service_Name}</Text>
+                  <Text style={{ fontFamily: "Poppins-Medium" }}>
+                    {item.Service_Name}
+                  </Text>
                 </Pressable>
               );
             })}
@@ -73,15 +106,34 @@ const Procedure = ({ item, index, advice, addProcedure, deleteProcedure, addProc
           style={{
             display: item.Service_Name ? "flex" : "none",
             paddingVertical: 5,
+            flexDirection: "row",
+            width: width * 0.85,
             paddingHorizontal: 10,
-            backgroundColor: "lightgray",
+            backgroundColor: "olive",
             borderRadius: 5,
             marginVertical: 4,
           }}
         >
+          <Pressable
+            style={{
+              borderRadius: 7,
+              padding: 10,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            onPress={() => deleteProcedure({ procedureindex: index })}
+          >
+            <Icon name="trash" size={20} color={"white"} />
+          </Pressable>
           <RowBetween>
             <View>
-              <Text style={{ width: 0.6 * width }}>
+              <Text
+                style={{
+                  width: 0.6 * width,
+                  fontFamily: "Poppins-Medium",
+                  color: "white",
+                }}
+              >
                 {item.Service_Name ? item.Service_Name : ""}
               </Text>
               <Row>
@@ -93,51 +145,47 @@ const Procedure = ({ item, index, advice, addProcedure, deleteProcedure, addProc
                 </Text>
               </Row>
             </View>
-            <ColumnCenter>
+            {/* <ColumnCenter>
               <Text>{getServicePrice()}</Text>
-            </ColumnCenter>
+            </ColumnCenter> */}
           </RowBetween>
         </View>
       </View>
-      <Pressable
-        style={{ marginVertical: 5 }}
-        onPress={() => deleteProcedure({ procedureindex: index })}
-      >
-        <Icon name="trash" size={20} />
-      </Pressable>
     </Row>
   );
 };
 const styles = StyleSheet.create({
   service: {
-    paddingVertical: 2,
+    paddingVertical: 4,
     paddingHorizontal: 5,
     backgroundColor: "lightgray",
     marginVertical: 2,
     borderRadius: 5,
   },
   badge: {
-    backgroundColor: "blue",
+    backgroundColor: "#030027",
     color: "white",
     paddingVertical: 2,
     paddingHorizontal: 5,
     borderRadius: 5,
     margin: 2,
+    fontFamily: "Poppins-Medium",
   },
   input: {
-    width: width * 0.2,
-    borderWidth: 1,
-    borderColor: "gray",
+    width: width * 0.7,
+    backgroundColor: "#f5f5f5",
+    color: "black",
     borderRadius: 5,
     height: 35,
-    paddingHorizontal: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
   },
 });
 const mapDispatchToProps = (dispatch) => {
   return {
     deleteProcedure: (item) => dispatch(deleteProcedure(item)),
     addProcedure: (item) => dispatch(addProcedure(item)),
-    addProcedureTotal : (item) => dispatch(addProcedureTotal(item))
+    addProcedureTotal: (item) => dispatch(addProcedureTotal(item)),
   };
 };
 
@@ -146,4 +194,4 @@ const mapStateToProps = (state) => {
     advice: state.advice,
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Procedure);
+export default connect(mapStateToProps, mapDispatchToProps)(Medicine);

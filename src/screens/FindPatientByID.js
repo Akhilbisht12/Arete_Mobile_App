@@ -14,7 +14,8 @@ import StyledInput from "../styles/StyledInputView";
 import StyledInputView from "../styles/StyledInputView";
 import { Row, RowBetween } from "../styles/FlexView";
 import Icon from "react-native-vector-icons/Ionicons";
-import Logo from "../components/atoms/Logo";
+import { Colors } from "../styles/colors";
+import { ScrollView } from "react-native-gesture-handler";
 
 const FindPatientByID = ({ navigation }) => {
   const [patientID, setpatientID] = useState("");
@@ -44,30 +45,54 @@ const FindPatientByID = ({ navigation }) => {
     }
   };
   return (
-    <View>
-      <Logo />
-      <StyledInputView>
-        <RowBetween>
-          <Row>
-            <Icon name="person" size={25} color={"#4281A4"} />
-            <TextInput
-              style={{ height: 45, marginHorizontal: 5 }}
-              placeholder="Search Patient By ID"
-              onChangeText={(text) => handlePatientSearch(text)}
-            />
-          </Row>
-          {Loading ? (
-            <ActivityIndicator size="small" color="#4281A4" />
-          ) : (
-            <Icon name="search-outline" size={25} color={"#4281A4"} />
-          )}
-        </RowBetween>
-      </StyledInputView>
-      <View>
+    <View style={{ paddingBottom: 20 }}>
+      <View
+        style={{
+          backgroundColor: Colors.primary,
+          paddingVertical: 10,
+          borderBottomEndRadius: 20,
+        }}
+      >
+        <View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
+          <Text
+            style={{
+              color: "white",
+              fontSize: 25,
+              fontFamily: "Poppins-Medium",
+              paddingHorizontal: 5,
+            }}
+          >
+            Find Patient By Id
+          </Text>
+        </View>
+        <StyledInputView>
+          <RowBetween>
+            <Row>
+              <Icon name="person" size={25} color={Colors.primary} />
+              <TextInput
+                style={{
+                  height: 45,
+                  width: 250,
+                  marginHorizontal: 5,
+                  fontFamily: "Poppins-Medium",
+                }}
+                placeholder="Search Patient By ID"
+                onChangeText={(text) => handlePatientSearch(text)}
+              />
+            </Row>
+            {Loading ? (
+              <ActivityIndicator size="small" color="#4281A4" />
+            ) : (
+              <Icon name="search-outline" size={25} color={"#4281A4"} />
+            )}
+          </RowBetween>
+        </StyledInputView>
+      </View>
+      <ScrollView style={{ paddingBottom: 30 }}>
         {patients.map((item) => {
           return <PatientComp key={item._id} item={item} />;
         })}
-      </View>
+      </ScrollView>
     </View>
   );
 };
