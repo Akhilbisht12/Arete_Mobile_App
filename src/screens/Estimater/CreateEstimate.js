@@ -84,7 +84,7 @@ const CreateEstimate = ({
       }
     );
     if (createSession.status == 200) {
-      ToastAndroid.show("Session created successfull", ToastAndroid.SHORT);
+      ToastAndroid.show("Estimate created successfull", ToastAndroid.SHORT);
     } else {
       ToastAndroid.show(
         "Something went wrong please try again",

@@ -5,7 +5,7 @@ const ImgBox = styled.View`
   padding: 2px;
   height: ${(props) => (props.circular ? "60px" : "40px")};
   width: ${(props) => (props.circular ? "60px" : "40px")};
-  background-color: #fc4349;
+  background-color: olive;
   border-radius: ${(props) => (props.circular ? "30px" : "10px")};
   align-items: center;
   justify-content: center;

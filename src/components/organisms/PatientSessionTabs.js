@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, Dimensions, Pressable } from "react-native";
-import { RowBetween } from "../../styles/FlexView";
+import { RowBetween, RowEven } from "../../styles/FlexView";
 import PatientDetailedView from "../../styles/PatientDetailsView";
 const { width, height } = Dimensions.get("window");
 import SessionHistoryTab from "./SessionHistoryTab";
@@ -60,24 +60,53 @@ const PatientSessionTabs = ({ patientID, restoreState }) => {
           style={{
             margin: 10,
             width: width * 0.9,
-            backgroundColor: "#2d3e50",
-            borderRadius: 5,
+            backgroundColor: "#f5f5f5",
+            elevation: 3,
+            borderRadius: 7,
+            flexDirection: "row",
             paddingHorizontal: 10,
-            paddingVertical: 5,
+            paddingVertical: 10,
             alignItems: "center",
-            justifyContent: "center",
           }}
         >
-          <Icon name="person-outline" size={40} color={"white"} />
+          <Icon name="finger-print" size={30} color={"#151E3F"} />
           <Text
             style={{
-              fontSize: 20,
+              fontSize: 18,
               fontFamily: "Poppins-Medium",
-              color: "white",
+              color: "#030303",
               textAlign: "center",
+              paddingHorizontal: 10,
             }}
           >
             Patient History
+          </Text>
+        </Pressable>
+        <Pressable
+          onPress={() => navigation.navigate("FullPrescription", { patientID })}
+          style={{
+            margin: 10,
+            width: width * 0.9,
+            backgroundColor: "#f5f5f5",
+            elevation: 3,
+            borderRadius: 7,
+            flexDirection: "row",
+            paddingHorizontal: 10,
+            paddingVertical: 10,
+            alignItems: "center",
+          }}
+        >
+          <Icon name="cloud-upload" size={30} color={"#151E3F"} />
+          <Text
+            style={{
+              fontSize: 18,
+              fontFamily: "Poppins-Medium",
+              color: "#030303",
+              textAlign: "center",
+              paddingHorizontal: 10,
+            }}
+          >
+            Upload Full Prescription
           </Text>
         </Pressable>
         <Pressable
@@ -88,25 +117,29 @@ const PatientSessionTabs = ({ patientID, restoreState }) => {
           style={{
             margin: 10,
             width: width * 0.9,
-            backgroundColor: "#2d3e50",
-            borderRadius: 5,
-            padding: 10,
+            backgroundColor: "#f5f5f5",
+            elevation: 3,
+            borderRadius: 7,
+            flexDirection: "row",
+            paddingHorizontal: 10,
+            paddingVertical: 10,
             alignItems: "center",
-            justifyContent: "center",
           }}
         >
-          <Icon name="calculator-outline" size={40} color={"white"} />
+          <Icon name="calculator-outline" size={30} color={"#151E3F"} />
           <Text
             style={{
-              fontSize: 20,
+              fontSize: 18,
               fontFamily: "Poppins-Medium",
-              color: "white",
+              color: "#030303",
               textAlign: "center",
+              paddingHorizontal: 10,
             }}
           >
-            Create Estimate
+            Create Admission Estimate
           </Text>
         </Pressable>
+
         <Pressable
           onPress={() =>
             navigation.navigate("QuickPrescriptionUpload", { patientID })
@@ -114,21 +147,23 @@ const PatientSessionTabs = ({ patientID, restoreState }) => {
           style={{
             margin: 10,
             width: width * 0.9,
-            backgroundColor: "#2d3e50",
-            borderRadius: 5,
-            padding: 10,
+            backgroundColor: "#f5f5f5",
+            elevation: 3,
+            borderRadius: 7,
+            flexDirection: "row",
+            paddingHorizontal: 10,
+            paddingVertical: 10,
             alignItems: "center",
-            justifyContent: "center",
           }}
         >
-          <Icon name="person-outline" size={40} color={"white"} />
+          <Icon name="scan" size={30} color={"#151E3F"} />
           <Text
             style={{
-              margin: 0,
-              fontSize: 20,
+              fontSize: 18,
               fontFamily: "Poppins-Medium",
-              color: "white",
+              color: "#030303",
               textAlign: "center",
+              paddingHorizontal: 10,
             }}
           >
             Quick Prescription Upload

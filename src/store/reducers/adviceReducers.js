@@ -9,6 +9,7 @@ const initAdvice = {
   wardBedType: "",
   icuBedType: "",
   doctor: "",
+  treatment: "",
   remarks: "",
   paymentType: "",
   paymentCompany: "",
@@ -35,6 +36,17 @@ const initAdvice = {
       id: 0,
     },
   ],
+  diagnostic: [
+    {
+      id: 0,
+    },
+  ],
+  radiology: [
+    {
+      id: 0,
+    },
+  ],
+  medicine: [{}],
   packages: [
     {
       id: 0,
@@ -55,6 +67,11 @@ const adviceReducer = (state = initAdvice, action) => {
       return {
         ...state,
         isIPDPackage: ipd,
+      };
+    case actionTypes.ADD_TREATMENT:
+      return {
+        ...state,
+        treatment: action.payload.item.treatment,
       };
     case actionTypes.ADD_ADVICE:
       return {
@@ -176,6 +193,48 @@ const adviceReducer = (state = initAdvice, action) => {
       return {
         ...state,
         procedures: deleteproceduretemp,
+      };
+    case actionTypes.ADD_NEW_DIAGNOSTIC:
+      return {
+        ...state,
+        diagnostic: [...state.diagnostic, { id: state.diagnostic.length }],
+      };
+    case actionTypes.ADD_DIAGNOSTIC:
+      const { newDiagnostic, d_id } = action.payload.item;
+      const diagnostictemp = state.diagnostic;
+      diagnostictemp[d_id] = newDiagnostic;
+      return {
+        ...state,
+        diagnostic: diagnostictemp,
+      };
+    case actionTypes.DELETE_DIAGNOSTIC:
+      const { diagnosticindex } = action.payload.item;
+      const deletediagnostictemp = state.diagnostic;
+      deletediagnostictemp.splice(diagnosticindex, 1);
+      return {
+        ...state,
+        diagnostic: deletediagnostictemp,
+      };
+    case actionTypes.ADD_NEW_RADIOLOGY:
+      return {
+        ...state,
+        radiology: [...state.radiology, { id: state.radiology.length }],
+      };
+    case actionTypes.ADD_RADIOLOGY:
+      const { newRadiology, r_id } = action.payload.item;
+      const radiologytemp = state.radiology;
+      radiologytemp[r_id] = newRadiology;
+      return {
+        ...state,
+        radiology: radiologytemp,
+      };
+    case actionTypes.DELETE_RADIOLOGY:
+      const { radiologyindex } = action.payload.item;
+      const deleteradiologytemp = state.radiology;
+      deleteradiologytemp.splice(radiologyindex, 1);
+      return {
+        ...state,
+        radiology: deleteradiologytemp,
       };
     case actionTypes.ADD_NEW_PACKAGE:
       return {

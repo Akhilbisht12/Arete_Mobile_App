@@ -1,9 +1,2 @@
-exports.SERVER_URL = "https://octahealth.link";
-exports.colors = {
-  primary: "#2d3e50",
-  seconday: "#E4DFDA",
-  white: "#ffffff",
-  lowWhite: "#f2f3f4",
-  black: "#000000",
-  lowBlack: "#232023",
-};
+exports.SERVER_URL =
+  "https://d7d4-2409-4053-e9e-1bc-65bf-374-ef2d-c3a5.ngrok.io";

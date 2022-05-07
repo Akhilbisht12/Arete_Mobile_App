@@ -18,7 +18,7 @@ const PatientComp = ({ item, addPatient }) => {
     navigation.navigate("PatientEntry", { data: item });
   };
   return (
-    <PatientCard style={{ marginVertical: 10 }}>
+    <PatientCard style={{ marginVertical: 10, elevation: 3 }}>
       <Pressable onPress={handleSelectPatient}>
         <Row>
           <ImgBox>
@@ -26,23 +26,30 @@ const PatientComp = ({ item, addPatient }) => {
           </ImgBox>
           <RowBetween style={{ width: 0.75 * width }}>
             <View>
-              <Row>
-                <SubHeadingText>{item.gender} </SubHeadingText>
-                <SubHeadingText>{item.firstName}</SubHeadingText>
-                <SubHeadingText> {item.lastName}</SubHeadingText>
+              <Row style={{ alignItems: "center", justifyContent: "center" }}>
+                <SubHeadingText>
+                  {item.firstName} {item.lastName}
+                </SubHeadingText>
+                {item.gender == "M" ? (
+                  <Icon name="male" size={15} />
+                ) : item.gender == "F" ? (
+                  <Icon name="female" size={15} />
+                ) : (
+                  <Icon name="male-female" size={15} />
+                )}
               </Row>
               <ParaText>UHID: {item.uhid}</ParaText>
             </View>
-            <ParaText> Age: {item.age}</ParaText>
+            <ParaText> Age: {item.age} Y</ParaText>
           </RowBetween>
         </Row>
         <RowBetween style={{ marginTop: 5, paddingHorizontal: 5 }}>
           <Row>
-            <Icon size={20} color={"#E4DFDA"} name="mail-outline" />
-            <ParaText>{item.email}</ParaText>
+            <Icon size={20} color={"#151E3F"} name="mail-outline" />
+            <ParaText> {item.email}</ParaText>
           </Row>
           <Row>
-            <Icon size={20} color={"#E4DFDA"} name="call-outline" />
+            <Icon size={20} color={"#151E3F"} name="call-outline" />
             <ParaText>{item.phone}</ParaText>
           </Row>
         </RowBetween>
