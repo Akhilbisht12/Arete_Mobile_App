@@ -57,46 +57,57 @@ const FullPrescriptionUpload = ({
 
   const handleUploadPrescription = async () => {
     setLoading(true);
-    const data = {
-      patientID: route.params.patientID,
-      prescriptionDate: Date.now(),
-      diseaseName: diseaseName,
-      doctor: doctor,
-      admission: {
-        isPackage: advice.isIPDPackage,
-        bedType: advice.wardBedType,
-        lengthOfStay: {
-          ward: advice.ward,
-          icu: advice.icu,
-        },
-        package: advice.packages,
-        investigation: advice.investigations,
-        procedure: advice.procedures,
+    const formdata = new FormData();
+    const patientID = route.params.patientID;
+    const admission = {
+      isPackage: advice.isIPDPackage,
+      bedType: advice.wardBedType,
+      lengthOfStay: {
+        ward: advice.ward,
+        icu: advice.icu,
       },
-      diagnostic: advice.diagnostic,
-      radiology: advice.radiology,
-      medicine: "Empty",
-      file: {
-        uri: `file://${photo}`,
-        name: `${"Prescription" + "on" + Date.now()}`,
-        type: "image/jpg",
-      },
-      isAdmissonAdvised: selectAdmission,
+      package: advice.packages,
+      investigation: advice.investigations,
+      procedure: advice.procedures,
     };
 
-    if (!(data.diseaseName && data.doctor && data.diagnostic)) {
+    const diagnostic = advice.diagnostic;
+    const radiology = advice.radiology;
+    const medicine = "";
+
+    formdata.append("prescription", {
+      uri: `file://${photo}`,
+      name: `${"Prescription" + "on" + Date.now()}`,
+      type: "image/jpg",
+    });
+    formdata.append("patientID", patientID);
+    formdata.append("advise", diseaseName);
+    formdata.append("doctor", doctor);
+    formdata.append("admission", JSON.stringify(admission));
+    formdata.append("diagnostic", JSON.stringify(diagnostic));
+    formdata.append("radiology", JSON.stringify(radiology));
+    formdata.append("medicine", medicine);
+
+    // for (var key of formdata.keys()) {
+    //   console.log(key, formdata.get(key));
+    // }
+
+    if (!(diseaseName && doctor && diagnostic)) {
       ToastAndroid.show(
         "Capture Prescription, Select Doctor, Select Diagnostic, Enter Disease",
         ToastAndroid.SHORT
       );
     }
+    console.log(formdata);
     try {
-      const uploadData = await axios.post(
-        `${SERVER_URL}/api/v1/patient/newAppointment`,
-        data
-      );
-      console.log(data);
-      console.log(uploadData.status);
+      const uploadData = await axios({
+        method: "POST",
+        url: `${SERVER_URL}/api/v1/patient/newAppointment`,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        body: formdata,
+      });
       if (uploadData.status === 200) {
         setLoading(false);
         ToastAndroid.show(
