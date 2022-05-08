@@ -6,6 +6,14 @@ export const addAdvice = () => {
     payload: {},
   };
 };
+export const addTreatment = (item) => {
+  return {
+    type: actionTypes.ADD_TREATMENT,
+    payload: {
+      item,
+    },
+  };
+};
 export const editAdvice = (item) => {
   return {
     type: actionTypes.EDIT_ADVICE,
@@ -245,6 +253,50 @@ export const addProcedure = (item) => {
 export const deleteProcedure = (item) => {
   return {
     type: actionTypes.DELETE_PROCEDURE,
+    payload: {
+      item,
+    },
+  };
+};
+export const addNewDiagnostic = () => {
+  return {
+    type: actionTypes.ADD_NEW_DIAGNOSTIC,
+    payload: {},
+  };
+};
+export const addDiagnostic = (item) => {
+  return {
+    type: actionTypes.ADD_DIAGNOSTIC,
+    payload: {
+      item,
+    },
+  };
+};
+export const deleteDiagnostic = (item) => {
+  return {
+    type: actionTypes.DELETE_DIAGNOSTIC,
+    payload: {
+      item,
+    },
+  };
+};
+export const addNewRadiology = () => {
+  return {
+    type: actionTypes.ADD_NEW_RADIOLOGY,
+    payload: {},
+  };
+};
+export const addRadiology = (item) => {
+  return {
+    type: actionTypes.ADD_RADIOLOGY,
+    payload: {
+      item,
+    },
+  };
+};
+export const deleteRadiology = (item) => {
+  return {
+    type: actionTypes.DELETE_RADIOLOGY,
     payload: {
       item,
     },

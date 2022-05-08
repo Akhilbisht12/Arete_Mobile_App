@@ -63,7 +63,7 @@ const Investigation = ({
             }}
           />
           <ScrollView
-            style={{ marginVertical: 2, padding: 2, maxHeight: 0.15 * height }}
+            style={{ marginVertical: 2, padding: 2, maxHeight: 0.15 * height ,flex:1}}
           >
             {Prescription.map((item) => {
               return (
