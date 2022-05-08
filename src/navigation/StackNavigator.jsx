@@ -38,7 +38,11 @@ const StackNavigator = () => {
         component={RegisterScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen name="FindPatient" component={FindPatientByID} />
+      <Stack.Screen
+        name="FindPatient"
+        options={{ headerShown: false }}
+        component={FindPatientByID}
+      />
       <Stack.Screen
         name="AgentIndex"
         component={BottomNavigator}

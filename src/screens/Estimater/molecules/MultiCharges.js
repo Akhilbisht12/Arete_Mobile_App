@@ -8,6 +8,7 @@ import {
   addStent,
   addVisitTotal,
   editStep,
+  data,
 } from "../../../store/actions/adviceAction";
 import {
   ColumnCenter,
@@ -26,6 +27,7 @@ const MultiCharges = ({
   addBloodRequirement,
   addEquipmentCharge,
   addStent,
+  patientID,
 }) => {
   const navigation = useNavigation();
   return (
@@ -162,14 +164,27 @@ const MultiCharges = ({
               style={[styles.input, { width: 0.41 * width }]}
             />
           </RowBetween>
-          <ColumnCenter>
-            <Pressable
-              style={styles.option}
-              onPress={() => navigation.navigate("EstimateOutput")}
-            >
-              <Text>Preview Estimate</Text>
-            </Pressable>
-          </ColumnCenter>
+          {data == false ? (
+            <ColumnCenter>
+              <Pressable
+                style={styles.option}
+                onPress={() => navigation.navigate("EstimateOutput")}
+              >
+                <Text>Preview Estimate</Text>
+              </Pressable>
+            </ColumnCenter>
+          ) : (
+            <ColumnCenter>
+              <Pressable
+                style={styles.option}
+                onPress={() => {
+                  navigation.goBack("FullPrescription");
+                }}
+              >
+                <Text>Go Back To Prescription</Text>
+              </Pressable>
+            </ColumnCenter>
+          )}
         </View>
       </ColumnStart>
     </EstimateBox>

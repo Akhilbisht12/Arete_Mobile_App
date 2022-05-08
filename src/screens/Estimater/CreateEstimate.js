@@ -40,6 +40,7 @@ const CreateEstimate = ({
   addDoctor,
   editStep,
   addVisitTotal,
+  route,
 }) => {
   const [total, setTotal] = useState(0);
   const navigation = useNavigation();
@@ -126,9 +127,16 @@ const CreateEstimate = ({
               selectedValue={advice.doctor}
               onValueChange={(itemValue) => {
                 addDoctor({ doctor: itemValue });
-                editStep({ step: 7 });
+                let step = 7;
+                if (advice.doctor == itemValue) {
+                  editStep({ step: step });
+                } else {
+                  editStep({ step: step });
+                }
               }}
-              style={{ width: width * 0.85 }}
+              style={{
+                width: width * 0.85,
+              }}
             >
               <Picker.Item value="" label="Select Doctor" />
               <Picker.Item
@@ -149,7 +157,7 @@ const CreateEstimate = ({
         <PackageMap />
         <InvestigationMap />
         <ProcedureMap />
-        <MultiCharges />
+        <MultiCharges data={route.params.data} />
       </View>
     </ScrollView>
   );
