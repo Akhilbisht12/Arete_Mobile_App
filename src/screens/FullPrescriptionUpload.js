@@ -45,31 +45,46 @@ const FullPrescriptionUpload = ({
   const [medicine, setMedicine] = useState();
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
+  const [estimate, setEstimate] = useState(false);
 
   const handleEstimator = () => {
-    navigation.navigate("CreateEstimate");
+    setEstimate(true);
+    navigation.navigate("CreateEstimate", {
+      data: selectAdmission,
+      patientID: route.params.patientID,
+    });
   };
 
   const handleUploadPrescription = async () => {
     setLoading(true);
-    const patientID = route.params.patientID;
-    const prescription = {
+    const data = {
+      patientID: route.params.patientID,
       prescriptionDate: Date.now(),
       diseaseName: diseaseName,
       doctor: doctor,
+      admission: {
+        isPackage: advice.isIPDPackage,
+        bedType: advice.wardBedType,
+        lengthOfStay: {
+          ward: advice.ward,
+          icu: advice.icu,
+        },
+        package: advice.packages,
+        investigation: advice.investigations,
+        procedure: advice.procedures,
+      },
       diagnostic: advice.diagnostic,
       radiology: advice.radiology,
       medicine: "Empty",
       file: {
         uri: `file://${photo}`,
-        name: `${patientID + "on" + Date.now()}`,
+        name: `${"Prescription" + "on" + Date.now()}`,
         type: "image/jpg",
       },
       isAdmissonAdvised: selectAdmission,
     };
 
-    const data = [patientID, prescription];
-    if (!data.diseaseName && !data.doctor && !data.diagnostic) {
+    if (!(data.diseaseName && data.doctor && data.diagnostic)) {
       ToastAndroid.show(
         "Capture Prescription, Select Doctor, Select Diagnostic, Enter Disease",
         ToastAndroid.SHORT
@@ -80,14 +95,15 @@ const FullPrescriptionUpload = ({
         `${SERVER_URL}/api/v1/patient/newAppointment`,
         data
       );
-
+      console.log(data);
+      console.log(uploadData.status);
       if (uploadData.status === 200) {
         setLoading(false);
         ToastAndroid.show(
           "Prescription Uploaded Successfully",
           ToastAndroid.SHORT
         );
-        navigation.navigate("FindPatient");
+        navigation.navigate("Find");
       }
     } catch (error) {
       setLoading(false);
@@ -100,13 +116,11 @@ const FullPrescriptionUpload = ({
     return (
       <CameraView photo={photo} setCamera={setCamera} setPhoto={setPhoto} />
     );
-  {
-    console.log(item);
-  }
   return (
     <View>
-      <ScrollView style={{ height: height * 0.8 }}>
+      <ScrollView style={{ height: height * 0.82 }}>
         <View style={styles.card}>
+          <Text>PatientId : {route.params.patientID}</Text>
           <TextInput
             placeholder="Enter Disease Name"
             style={{ padding: 10, backgroundColor: "#f5f5f5", borderRadius: 5 }}
@@ -202,26 +216,48 @@ const FullPrescriptionUpload = ({
                 marginVertical: 10,
               }}
             >
-              <Pressable
-                style={{
-                  width: width * 0.85,
-                  backgroundColor: "olive",
-                  paddingHorizontal: 5,
-                  paddingVertical: 15,
-                  borderRadius: 7,
-                }}
-                onPress={handleEstimator}
-              >
-                <Text
+              {estimate == false ? (
+                <Pressable
                   style={{
-                    color: "white",
-                    textAlign: "center",
-                    fontFamily: "Poppins-Bold",
+                    width: width * 0.85,
+                    backgroundColor: "olive",
+                    paddingHorizontal: 5,
+                    paddingVertical: 15,
+                    borderRadius: 7,
+                  }}
+                  onPress={handleEstimator}
+                >
+                  <Text
+                    style={{
+                      color: "white",
+                      textAlign: "center",
+                      fontFamily: "Poppins-Bold",
+                    }}
+                  >
+                    Create Estimate Here
+                  </Text>
+                </Pressable>
+              ) : (
+                <Pressable
+                  style={{
+                    width: width * 0.85,
+                    backgroundColor: "orange",
+                    paddingHorizontal: 5,
+                    paddingVertical: 15,
+                    borderRadius: 7,
                   }}
                 >
-                  Create Estimate Here
-                </Text>
-              </Pressable>
+                  <Text
+                    style={{
+                      color: "white",
+                      textAlign: "center",
+                      fontFamily: "Poppins-Bold",
+                    }}
+                  >
+                    Preview Estimate
+                  </Text>
+                </Pressable>
+              )}
             </Row>
           </View>
         </View>
