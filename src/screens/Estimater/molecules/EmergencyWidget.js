@@ -5,7 +5,7 @@ import { editEmergency, editStep } from "../../../store/actions/adviceAction";
 import { ColumnStart, Row } from "../../../styles/FlexView";
 import { EstimateBox } from "../../../styles/styledBoxes";
 import styles from "../styles";
-const {width} = Dimensions.get('window')
+const { width } = Dimensions.get("window");
 
 const EmergencyWidget = ({ advice, editStep, editEmergency }) => {
   return (
@@ -24,7 +24,12 @@ const EmergencyWidget = ({ advice, editStep, editEmergency }) => {
               },
             ]}
             onPress={() => {
-              editStep({ step: 6 });
+              if (advice.doctor) {
+                editStep({ step: 7 });
+              } else {
+                editStep({ step: 6 });
+              }
+
               editEmergency({ emergency: true });
             }}
           >
@@ -41,7 +46,11 @@ const EmergencyWidget = ({ advice, editStep, editEmergency }) => {
               },
             ]}
             onPress={() => {
-              editStep({ step: 6 });
+              if (advice.doctor) {
+                editStep({ step: 7 });
+              } else {
+                editStep({ step: 6 });
+              }
               editEmergency({ emergency: false });
             }}
           >
