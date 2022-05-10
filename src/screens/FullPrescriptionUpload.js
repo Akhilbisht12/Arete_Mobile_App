@@ -24,7 +24,6 @@ import MedicineMap from "./Estimater/molecules/MedicineMap";
 import CameraView from "../components/atoms/CameraView";
 import Icon from "react-native-vector-icons/Ionicons";
 import { Image } from "react-native-elements";
-import axios from "axios";
 
 const { width, height } = Dimensions.get("window");
 
@@ -100,22 +99,26 @@ const FullPrescriptionUpload = ({
     }
     console.log(formdata);
     try {
-      const uploadData = await axios({
-        method: "POST",
-        url: `${SERVER_URL}/api/v1/patient/newAppointment`,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        body: formdata,
+      const uploadData = await fetch(
+        `${SERVER_URL}/api/v1/patient/newAppointment`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          body: formdata,
+        }
+      ).then((response) => {
+        console.log(response.data);
+        if (response.status === 200) {
+          setLoading(false);
+          ToastAndroid.show(
+            "Prescription Uploaded Successfully",
+            ToastAndroid.SHORT
+          );
+          navigation.navigate("Find");
+        }
       });
-      if (uploadData.status === 200) {
-        setLoading(false);
-        ToastAndroid.show(
-          "Prescription Uploaded Successfully",
-          ToastAndroid.SHORT
-        );
-        navigation.navigate("Find");
-      }
     } catch (error) {
       setLoading(false);
       console.log(error);
