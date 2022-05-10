@@ -60,21 +60,32 @@ const FullPrescriptionUpload = ({
     const formdata = new FormData();
     const patientID = route.params.patientID;
     const admission = {
-      isPackage: advice.isIPDPackage,
-      bedType: advice.wardBedType,
-      lengthOfStay: {
-        ward: advice.ward,
-        icu: advice.icu,
+      isAdmission: selectAdmission,
+      ward_days: advice.ward,
+      icu_days: advice.icu,
+      packaged: advice.isIPDPackage,
+      stent: advice.stent,
+      blood: advice.blood,
+      oth: advice.oth,
+      investigation: {
+        total: advice.investigationTotal,
+        services: advice.investigations.map((item) => {
+          return { name: item.Service_Name, id: item.ServiceId };
+        }),
       },
-      package: advice.packages,
-      investigation: advice.investigations,
-      procedure: advice.procedures,
+      procedure: {
+        total: advice.procedureTotal,
+        services: advice.procedures.map((item) => {
+          return { name: item.Service_Name, id: item.ServiceId };
+        }),
+      },
     };
-
-    const diagnostic = advice.diagnostic;
-    const radiology = advice.radiology;
-    const medicine = "";
-
+    const diagnostics = advice.diagnostic.map((item) => {
+      return { name: item.Service_Name, id: item.ServiceId };
+    });
+    // const radiology = advice.radiology;
+    const medicines = [];
+    console.log(admission);
     formdata.append("prescription", {
       uri: `file://${photo}`,
       name: `${"Prescription" + "on" + Date.now()}`,
@@ -84,15 +95,10 @@ const FullPrescriptionUpload = ({
     formdata.append("advise", diseaseName);
     formdata.append("doctor", doctor);
     formdata.append("admission", JSON.stringify(admission));
-    formdata.append("diagnostic", JSON.stringify(diagnostic));
-    formdata.append("radiology", JSON.stringify(radiology));
-    formdata.append("medicine", medicine);
+    formdata.append("diagnostics", JSON.stringify(diagnostics));
+    formdata.append("medicines", medicines);
 
-    // for (var key of formdata.keys()) {
-    //   console.log(key, formdata.get(key));
-    // }
-
-    if (!(diseaseName && doctor && diagnostic)) {
+    if (!(diseaseName && doctor && diagnostics)) {
       ToastAndroid.show(
         "Capture Prescription, Select Doctor, Select Diagnostic, Enter Disease",
         ToastAndroid.SHORT
