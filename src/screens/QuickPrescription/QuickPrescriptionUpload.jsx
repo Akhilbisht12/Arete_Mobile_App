@@ -63,19 +63,16 @@ const QuickPrescriptionUpload = ({ route }) => {
         })
       );
       formdata.append("patientID", patientID);
-      formdata.append("prescription", {
-        uri: `file://${photo}`,
-        name: `${patientID + "on" + Date.now()}`,
-        type: "image/jpg",
-      });
-      for (var pair of formdata.getParts()) {
-        console.log(pair.fieldName + ", " + pair.string);
-      }
+      // formdata.append("prescription", {
+      //   uri: `file://${photo}`,
+      //   name: `${patientID + "on" + Date.now()}`,
+      //   type: "image/jpg",
+      // });
       const pres = await axios.post(
-        `${SERVER_URL}/api/v1/patient/createNewSession`,
+        `${SERVER_URL}/api/v1/patient/newAppointment`,
         formdata
       );
-      console.log(pres);
+      console.log(pres.statusText);
       if (pres.status === 200) {
         setLoading(false);
         ToastAndroid.show(

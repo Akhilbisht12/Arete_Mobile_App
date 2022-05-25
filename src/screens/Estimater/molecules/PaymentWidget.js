@@ -2,11 +2,15 @@ import { Picker } from "@react-native-picker/picker";
 import React from "react";
 import { View, Text, Dimensions } from "react-native";
 import { connect } from "react-redux";
-import { addPaymentCompany, addPaymentType, editStep } from "../../../store/actions/adviceAction";
+import {
+  addPaymentCompany,
+  addPaymentType,
+  editStep,
+} from "../../../store/actions/adviceAction";
 import { ColumnStart } from "../../../styles/FlexView";
 import { EstimateBox } from "../../../styles/styledBoxes";
-import styles from "../styles"; 
-const {width} = Dimensions.get('window')
+import styles from "../styles";
+const { width } = Dimensions.get("window");
 
 const PaymentWidget = ({
   advice,
@@ -59,9 +63,26 @@ const PaymentWidget = ({
               }}
             >
               <Picker.Item value="" label="Select Insurance Company" />
-              <Picker.Item value="Insurance_1" label="Insurance_1" />
-              <Picker.Item value="Insurance_2" label="Insurance_1" />
-              <Picker.Item value="Inusrance_3" label="Insurance_1" />
+              <Picker.Item
+                value="IFFCO Tokio General Insurance"
+                label="IFFCO Tokio General Insurance"
+              />
+              <Picker.Item
+                value="Care Health Insurance"
+                label="Care Health Insurance"
+              />
+              <Picker.Item
+                value="Magma HDI Insurance"
+                label="Magma HDI Insurance"
+              />
+              <Picker.Item
+                value="The Oriental Insurance Company"
+                label="The Oriental Insurance Company"
+              />
+              <Picker.Item
+                value="New India General Insurance"
+                label="New India General Insurance"
+              />
             </Picker>
           </View>
         </ColumnStart>

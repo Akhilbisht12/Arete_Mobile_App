@@ -59,21 +59,32 @@ const FullPrescriptionUpload = ({
     const formdata = new FormData();
     const patientID = route.params.patientID;
     const admission = {
-      isPackage: advice.isIPDPackage,
-      bedType: advice.wardBedType,
-      lengthOfStay: {
-        ward: advice.ward,
-        icu: advice.icu,
+      isAdmission: selectAdmission,
+      ward_days: advice.ward,
+      icu_days: advice.icu,
+      packaged: advice.isIPDPackage,
+      stent: advice.stent,
+      blood: advice.blood,
+      oth: advice.othTotal,
+      investigation: {
+        total: advice.investigationTotal,
+        services: advice.investigations.map((item) => {
+          return { name: item.Service_Name, id: item.ServiceId };
+        }),
       },
-      package: advice.packages,
-      investigation: advice.investigations,
-      procedure: advice.procedures,
+      procedure: {
+        total: advice.procedureTotal,
+        services: advice.procedures.map((item) => {
+          return { name: item.Service_Name, id: item.ServiceId };
+        }),
+      },
     };
-
-    const diagnostic = advice.diagnostic;
-    const radiology = advice.radiology;
-    const medicine = "";
-
+    const diagnostics = advice.diagnostic.map((item) => {
+      return { name: item.Service_Name, id: item.ServiceId };
+    });
+    // const radiology = advice.radiology;
+    const medicines = [];
+    console.log(admission);
     formdata.append("prescription", {
       uri: `file://${photo}`,
       name: `${"Prescription" + "on" + Date.now()}`,
@@ -83,15 +94,10 @@ const FullPrescriptionUpload = ({
     formdata.append("advise", diseaseName);
     formdata.append("doctor", doctor);
     formdata.append("admission", JSON.stringify(admission));
-    formdata.append("diagnostic", JSON.stringify(diagnostic));
-    formdata.append("radiology", JSON.stringify(radiology));
-    formdata.append("medicine", medicine);
+    formdata.append("diagnostics", JSON.stringify(diagnostics));
+    formdata.append("medicines", JSON.stringify(medicines));
 
-    // for (var key of formdata.keys()) {
-    //   console.log(key, formdata.get(key));
-    // }
-
-    if (!(diseaseName && doctor && diagnostic)) {
+    if (!(diseaseName && doctor && diagnostics)) {
       ToastAndroid.show(
         "Capture Prescription, Select Doctor, Select Diagnostic, Enter Disease",
         ToastAndroid.SHORT
@@ -134,9 +140,11 @@ const FullPrescriptionUpload = ({
     <View>
       <ScrollView style={{ height: height * 0.82 }}>
         <View style={styles.card}>
-          <Text>PatientId : {route.params.patientID}</Text>
+          <Text style={{ fontFamily: "Poppins-Bold", margin: 7 }}>
+            Enter Disease Name
+          </Text>
           <TextInput
-            placeholder="Enter Disease Name"
+            placeholder="Disease Name (Press Enter)"
             style={{ padding: 10, backgroundColor: "#f5f5f5", borderRadius: 5 }}
             onSubmitEditing={(e) => {
               setDiseaseName(e.nativeEvent.text);
@@ -145,7 +153,7 @@ const FullPrescriptionUpload = ({
           ></TextInput>
           <Row>
             <Text style={{ fontFamily: "Poppins-Bold", margin: 7 }}>
-              Treatment For: {diseaseName}
+              Treatment For: <Text style={{ color: "red" }}>{diseaseName}</Text>
             </Text>
           </Row>
           <Picker
@@ -339,7 +347,7 @@ const FullPrescriptionUpload = ({
             <DiagnosticsMap />
           </View>
         </View>
-        <View
+        {/* <View
           style={[
             styles.card,
             { display: `${selectAdmission == undefined ? "none" : "flex"}` },
@@ -402,7 +410,7 @@ const FullPrescriptionUpload = ({
           >
             <RadiologyMap />
           </View>
-        </View>
+        </View> */}
         <View style={styles.card}>
           <RowEven>
             <Text style={{ fontFamily: "Poppins-Bold" }}>
