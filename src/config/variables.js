@@ -1,6 +1,5 @@
-
 exports.SERVER_URL =
-  "https://4c06-2401-4900-1c63-751c-6509-3e8e-e986-847e.ngrok.io";
+  "https://be83-2401-4900-1c64-ff52-40dc-73d6-f0a-a0f3.ngrok.io";
 exports.colors = {
   primary: "#2d3e50",
   seconday: "#E4DFDA",
