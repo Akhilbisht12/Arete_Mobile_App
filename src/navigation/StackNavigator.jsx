@@ -17,6 +17,7 @@ import RegisterPatient from "../screens/RegisterPatient";
 import BottomNavigator from "./BottomNavigator";
 import OnboardingScreen from "../screens/OnboardingScreen";
 import FullPrescriptionUpload from "../screens/FullPrescriptionUpload";
+import QuerySupervisor from "../screens/QuerySupervisor";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -61,6 +62,7 @@ const StackNavigator = () => {
         name="QuickPrescriptionUpload"
         component={QuickPrescriptionUpload}
       />
+      <Stack.Screen name="Supervisor Query" component={QuerySupervisor} />
       <Stack.Screen name="CreateEstimate" component={CreateEstimate} />
       <Stack.Screen name="EstimatePreview" component={EstimatePreview} />
       <Stack.Screen name="EstimateOutput" component={EstimateOutput} />

@@ -65,7 +65,7 @@ const FullPrescriptionUpload = ({
       packaged: advice.isIPDPackage,
       stent: advice.stent,
       blood: advice.blood,
-      oth: advice.oth,
+      oth: advice.othTotal,
       investigation: {
         total: advice.investigationTotal,
         services: advice.investigations.map((item) => {
@@ -95,7 +95,7 @@ const FullPrescriptionUpload = ({
     formdata.append("doctor", doctor);
     formdata.append("admission", JSON.stringify(admission));
     formdata.append("diagnostics", JSON.stringify(diagnostics));
-    formdata.append("medicines", medicines);
+    formdata.append("medicines", JSON.stringify(medicines));
 
     if (!(diseaseName && doctor && diagnostics)) {
       ToastAndroid.show(
@@ -140,9 +140,11 @@ const FullPrescriptionUpload = ({
     <View>
       <ScrollView style={{ height: height * 0.82 }}>
         <View style={styles.card}>
-          <Text>PatientId : {route.params.patientID}</Text>
+          <Text style={{ fontFamily: "Poppins-Bold", margin: 7 }}>
+            Enter Disease Name
+          </Text>
           <TextInput
-            placeholder="Enter Disease Name"
+            placeholder="Disease Name (Press Enter)"
             style={{ padding: 10, backgroundColor: "#f5f5f5", borderRadius: 5 }}
             onSubmitEditing={(e) => {
               setDiseaseName(e.nativeEvent.text);
@@ -151,7 +153,7 @@ const FullPrescriptionUpload = ({
           ></TextInput>
           <Row>
             <Text style={{ fontFamily: "Poppins-Bold", margin: 7 }}>
-              Treatment For: {diseaseName}
+              Treatment For: <Text style={{ color: "red" }}>{diseaseName}</Text>
             </Text>
           </Row>
           <Picker
@@ -345,7 +347,7 @@ const FullPrescriptionUpload = ({
             <DiagnosticsMap />
           </View>
         </View>
-        <View
+        {/* <View
           style={[
             styles.card,
             { display: `${selectAdmission == undefined ? "none" : "flex"}` },
@@ -408,7 +410,7 @@ const FullPrescriptionUpload = ({
           >
             <RadiologyMap />
           </View>
-        </View>
+        </View> */}
         <View style={styles.card}>
           <RowEven>
             <Text style={{ fontFamily: "Poppins-Bold" }}>
